@@ -393,9 +393,7 @@
             <i data-lucide="file-text" class="w-3.5 h-3.5 text-neutral-500"></i>
             <span>Mô Tả Sản Phẩm & Chất Liệu:</span>
           </span>
-          <p id="detailProductDescription" class="text-xs text-neutral-600 leading-relaxed whitespace-pre-line">
-            <!-- Render mô tả sản phẩm tại đây -->
-          </p>
+          <p id="detailProductDescription" class="text-xs text-neutral-600 leading-relaxed whitespace-pre-line"></p>
         </div>
 
         <!-- Tư vấn trực tiếp qua FB -->
@@ -728,6 +726,7 @@
                     <th class="p-3">Ảnh</th>
                     <th class="p-3">Tên Sản Phẩm</th>
                     <th class="p-3">Danh Mục</th>
+                    <th class="p-3">Mô Tả</th>
                     <th class="p-3">Giá Gốc</th>
                     <th class="p-3">Giảm Giá</th>
                     <th class="p-3">Giá Bán</th>
@@ -1400,12 +1399,9 @@
       const descElem = document.getElementById('detailProductDescription');
       const descBox = document.getElementById('detailProductDescBox');
       if (descElem && descBox) {
-        if (p.description && p.description.trim()) {
-          descElem.innerText = p.description.trim();
-          descBox.classList.remove('hidden');
-        } else {
-          descElem.innerText = 'Chưa có mô tả chi tiết cho sản phẩm này.';
-        }
+        const descContent = (p.description && p.description.trim()) ? p.description.trim() : 'Sản phẩm phong cách thiết kế Hàn Quốc, chất vải cao cấp thoáng mát và đứng phom.';
+        descElem.innerText = descContent;
+        descBox.classList.remove('hidden');
       }
 
       document.getElementById('productDetailModal').classList.remove('hidden');
@@ -1867,6 +1863,7 @@
         const hasSale = priceInfo.discountPercent > 0;
         const mainImg = (p.images && p.images.length > 0) ? p.images[0] : (p.imageUrl || '');
         const totalImgs = (p.images && p.images.length > 0) ? p.images.length : (p.imageUrl ? 1 : 0);
+        const descPreview = p.description ? (p.description.length > 35 ? p.description.substring(0, 35) + '...' : p.description) : '<span class="text-neutral-400 italic">Chưa có</span>';
 
         return `
           <tr class="hover:bg-neutral-50">
@@ -1878,6 +1875,7 @@
             </td>
             <td class="p-3 font-semibold text-neutral-900">${p.name}</td>
             <td class="p-3 text-neutral-500">${p.category}</td>
+            <td class="p-3 text-neutral-500 max-w-[150px] truncate">${descPreview}</td>
             <td class="p-3 font-mono">₩${new Intl.NumberFormat('ko-KR').format(p.priceKrw)}</td>
             <td class="p-3">
               ${hasSale ? `<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">-${priceInfo.discountPercent}%</span>` : '<span class="text-neutral-400">Không</span>'}
