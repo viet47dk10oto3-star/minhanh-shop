@@ -1098,16 +1098,27 @@
         const response = await fetch(`${firebaseUrl}products.json`);
         if (response.ok) {
           const data = await response.json();
-          if (data && Array.isArray(data) && data.length > 0) {
+          // Kiểm tra xem đã từng khởi tạo hay chưa để KHÔNG bao giờ tự nạp lại sản phẩm đã xóa
+          const hasInitializedBefore = localStorage.getItem('minhanh_cloud_initialized') === 'true';
+
+          if (data && Array.isArray(data)) {
+            // Đã có dữ liệu thật trên Firebase (kể cả mảng rỗng do bạn xóa hết)
             products = data;
             localStorage.setItem('minhanh_products', JSON.stringify(products));
+            localStorage.setItem('minhanh_cloud_initialized', 'true');
             if (showToast) showCustomToast(`Đã đồng bộ ${products.length} mẫu quần áo từ đám mây!`, '☁️');
-          } else {
-            // Nếu Firebase đang là null (trống), tự động bắn danh sách mặc định lên
+          } else if (!hasInitializedBefore && (data === null || data === undefined)) {
+            // Chỉ nạp dữ liệu mẫu ĐÚNG 1 LẦN DUY NHẤT khi tạo shop mới tinh
             await pushProductsToFirebase(DEFAULT_PRODUCTS);
             products = [...DEFAULT_PRODUCTS];
             localStorage.setItem('minhanh_products', JSON.stringify(products));
-            if (showToast) showCustomToast('Đã khởi tạo kho hàng lên Đám Mây Singapore!', '🚀');
+            localStorage.setItem('minhanh_cloud_initialized', 'true');
+            if (showToast) showCustomToast('Đã khởi tạo kho hàng ban đầu lên Đám Mây!', '🚀');
+          } else {
+            // Trường hợp bạn đã chủ động xóa hết sạch sản phẩm trên kho
+            products = [];
+            localStorage.setItem('minhanh_products', JSON.stringify(products));
+            if (showToast) showCustomToast('Kho hàng hiện đang trống!', '📦');
           }
         } else {
           fallbackLocalProducts();
@@ -1125,9 +1136,9 @@
     function fallbackLocalProducts() {
       const cached = localStorage.getItem('minhanh_products');
       if (cached) {
-        try { products = JSON.parse(cached); } catch(e) { products = [...DEFAULT_PRODUCTS]; }
+        try { products = JSON.parse(cached); } catch(e) { products = []; }
       } else {
-        products = [...DEFAULT_PRODUCTS];
+        products = [];
       }
     }
 
@@ -1137,7 +1148,7 @@
         await fetch(`${firebaseUrl}products.json`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(productList)
+          body: JSON.stringify(productList || [])
         });
       } catch (e) {
         console.error('Không thể đẩy dữ liệu lên Firebase:', e);
@@ -2023,13 +2034,27 @@
     }
 
     async function deleteProduct(id) {
-      if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return;
-      products = products.filter(p => p.id !== id);
+      const p = products.find(item => item.id === id);
+      const name = p ? `"${p.name}"` : 'sản phẩm này';
+
+      if (!confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN ${name} khỏi kho hàng và máy chủ đám mây không?`)) {
+        return;
+      }
+
+      // 1. Loại bỏ sản phẩm khỏi danh sách hiện tại
+      products = products.filter(item => item.id !== id);
+
+      // 2. Cập nhật ngay vào bộ nhớ máy tính/điện thoại
       localStorage.setItem('minhanh_products', JSON.stringify(products));
+      localStorage.setItem('minhanh_cloud_initialized', 'true');
+
+      // 3. Đồng bộ xóa vĩnh viễn trực tiếp trên Firebase Singapore
       await pushProductsToFirebase(products);
+
+      // 4. Vẽ lại bảng quản trị và trang chủ
       renderAdminProductTable();
       renderProducts();
-      showCustomToast('Đã xóa sản phẩm khỏi kho!', '🗑️');
+      showCustomToast(`Đã xóa vĩnh viễn ${name} khỏi đám mây!`, '🗑️');
     }
 
     /* ================= 12. QUẢN LÝ ĐƠN HÀNG TRONG ADMIN ================= */
