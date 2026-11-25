@@ -387,6 +387,17 @@
           <div id="detailSizeOptions" class="flex flex-wrap gap-2"></div>
         </div>
 
+        <!-- MÔ TẢ CHI TIẾT SẢN PHẨM -->
+        <div id="detailProductDescBox" class="bg-neutral-50 rounded-2xl p-3.5 border border-neutral-200/80 space-y-1.5">
+          <span class="text-xs font-bold text-neutral-800 flex items-center space-x-1.5">
+            <i data-lucide="file-text" class="w-3.5 h-3.5 text-neutral-500"></i>
+            <span>Mô Tả Sản Phẩm & Chất Liệu:</span>
+          </span>
+          <p id="detailProductDescription" class="text-xs text-neutral-600 leading-relaxed whitespace-pre-line">
+            <!-- Render mô tả sản phẩm tại đây -->
+          </p>
+        </div>
+
         <!-- Tư vấn trực tiếp qua FB -->
         <div class="bg-neutral-50 rounded-xl p-3 border border-neutral-200 text-xs flex items-center justify-between">
           <span class="text-neutral-600">Cần tư vấn chuẩn chiều cao / cân nặng?</span>
@@ -950,6 +961,12 @@
           </div>
         </div>
 
+        <!-- Ô NHẬP MÔ TẢ SẢN PHẨM -->
+        <div>
+          <label class="font-semibold text-neutral-700 block mb-1">Mô Tả Chi Tiết (Chất vải, phom dáng, cách phối đồ, giặt ủi):</label>
+          <textarea id="editProductDescription" rows="3" placeholder="Ví dụ: Chất vải cotton nỉ chần bông 380gsm dày dặn, phom rộng phong cách đường phố Seoul..." class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-neutral-900"></textarea>
+        </div>
+
         <div class="pt-2 border-t border-neutral-200 flex justify-end space-x-2">
           <button type="button" onclick="closeProductEditModal()" class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl font-semibold">Hủy</button>
           <button type="submit" class="px-5 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-bold shadow">Lưu Sản Phẩm</button>
@@ -978,7 +995,8 @@
         discountPercent: 10,
         imageUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=600&auto=format&fit=crop",
         colors: ["Đen Xước", "Xám Khói", "Be Cát"],
-        sizes: ["M", "L", "XL"]
+        sizes: ["M", "L", "XL"],
+        description: "Chất liệu nỉ bông Hàn Quốc 100% Cotton định lượng 400gsm dày dặn đứng phom. Khóa kéo zip kim loại 2 chiều trơn tru, phom rộng Drop-shoulder cá tính."
       },
       {
         id: "sp-02",
@@ -988,7 +1006,8 @@
         discountPercent: 0,
         imageUrl: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop",
         colors: ["Xanh Retro", "Đen Tuyền"],
-        sizes: ["S", "M", "L", "XL"]
+        sizes: ["S", "M", "L", "XL"],
+        description: "Chất liệu denim cotton wash mềm cao cấp, hạn chế phai màu. Thiết kế ống suông rộng che khuyết điểm chân, chi tiết rách gối nhẹ bụi bặm."
       },
       {
         id: "sp-03",
@@ -998,7 +1017,8 @@
         discountPercent: 15,
         imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
         colors: ["Xám Tiêu", "Nâu Chocolate"],
-        sizes: ["Free Size (< 75kg)"]
+        sizes: ["Free Size (< 75kg)"],
+        description: "Set gồm áo nỉ cổ tròn và quần suông bo gấu. Chất nỉ bông giữ ấm cực tốt, thích hợp mặc dạo phố hay mặc nhà mùa đông Hàn Quốc."
       },
       {
         id: "sp-04",
@@ -1008,7 +1028,8 @@
         discountPercent: 0,
         imageUrl: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600&auto=format&fit=crop",
         colors: ["Trắng Sữa", "Đen", "Xanh Rêu"],
-        sizes: ["S", "M", "L"]
+        sizes: ["S", "M", "L"],
+        description: "Vải 100% Cotton 2 chiều định lượng 250gsm, thấm hút mồ hôi tốt. Bo cổ dệt dày không lo bai nhão sau khi giặt máy."
       }
     ];
 
@@ -1374,6 +1395,18 @@
           ${s}
         </button>
       `).join('');
+
+      // Mô tả sản phẩm
+      const descElem = document.getElementById('detailProductDescription');
+      const descBox = document.getElementById('detailProductDescBox');
+      if (descElem && descBox) {
+        if (p.description && p.description.trim()) {
+          descElem.innerText = p.description.trim();
+          descBox.classList.remove('hidden');
+        } else {
+          descElem.innerText = 'Chưa có mô tả chi tiết cho sản phẩm này.';
+        }
+      }
 
       document.getElementById('productDetailModal').classList.remove('hidden');
       lucide.createIcons();
@@ -1878,6 +1911,7 @@
       const discountInput = document.getElementById('editProductDiscountPercent');
       const colorsInput = document.getElementById('editProductColors');
       const sizesInput = document.getElementById('editProductSizes');
+      const descInput = document.getElementById('editProductDescription');
 
       currentEditProductImages = [];
 
@@ -1892,6 +1926,7 @@
         discountInput.value = p.discountPercent || 0;
         colorsInput.value = p.colors ? p.colors.join(', ') : '';
         sizesInput.value = p.sizes ? p.sizes.join(', ') : '';
+        if (descInput) descInput.value = p.description || '';
         
         // Nạp danh sách ảnh đã có
         if (p.images && Array.isArray(p.images) && p.images.length > 0) {
@@ -1907,6 +1942,7 @@
         discountInput.value = '0';
         colorsInput.value = 'Đen, Xám, Trắng';
         sizesInput.value = 'S, M, L, XL';
+        if (descInput) descInput.value = '';
       }
 
       renderEditImagesGallery();
@@ -1983,6 +2019,7 @@
       const discountPercent = Number(document.getElementById('editProductDiscountPercent').value) || 0;
       const colors = document.getElementById('editProductColors').value.split(',').map(s => s.trim()).filter(Boolean);
       const sizes = document.getElementById('editProductSizes').value.split(',').map(s => s.trim()).filter(Boolean);
+      const description = document.getElementById('editProductDescription') ? document.getElementById('editProductDescription').value.trim() : '';
 
       if (currentEditProductImages.length === 0) {
         showCustomToast('Vui lòng chọn ít nhất 1 ảnh sản phẩm!', '⚠️');
@@ -2005,7 +2042,8 @@
             imageUrl: mainImageUrl, 
             images: allImages,
             colors, 
-            sizes 
+            sizes,
+            description
           };
         }
       } else {
@@ -2019,7 +2057,8 @@
           imageUrl: mainImageUrl, 
           images: allImages,
           colors, 
-          sizes
+          sizes,
+          description
         };
         products.unshift(newProduct);
       }
