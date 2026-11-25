@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MINH ANH | Quản Trị & Cửa Hàng Thời Trang</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #c5bdb4; border-radius: 9999px; }
+    .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .drawer-open { transform: translateX(0%); }
+    .drawer-closed { transform: translateX(100%); }
+  </style>
+</head>
+<body class="bg-[#faf9f6] text-neutral-800 font-sans antialiased selection:bg-neutral-900 selection:text-white">
+
+  <!-- TOP ROLE BAR & ANNOUNCEMENT -->
+  <div class="bg-neutral-900 text-white text-xs px-4 sm:px-8 py-2.5 flex items-center justify-between border-b border-neutral-800">
+    <div class="hidden sm:flex items-center gap-2 tracking-wider">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="topAnnouncementText" class="font-medium text-neutral-300 uppercase tracking-widest text-[11px]">HỆ THỐNG QUẢN LÝ TN CLOTHING V2.4</span>
+      <!-- LIVE EXCHANGE RATES BADGE -->
+      <span class="hidden lg:inline-flex items-center gap-1.5 ml-3 bg-neutral-800/80 px-2 py-0.5 rounded text-[10px] text-neutral-300 border border-neutral-700/60 font-mono">
+        <i data-lucide="activity" class="w-3 h-3 text-emerald-400 animate-pulse"></i>
+        <span id="liveRateBadgeText">Tỷ giá Live: 1 KRW ≈ 18.52 VND | 1 USD ≈ 1,350 KRW</span>
+        <button onclick="fetchLiveExchangeRates(true)" title="Cập nhật tỷ giá ngay" class="hover:text-white transition ml-0.5">
+          <i data-lucide="refresh-cw" class="w-2.5 h-2.5"></i>
+        </button>
+      </span>
+    </div>
+
+    <!-- Toggle Mode Switcher (Storefront vs Admin Dashboard) -->
+    <div class="flex items-center gap-2 mx-auto sm:mx-0">
+      <span class="text-neutral-400 text-[11px] font-medium mr-1">Chế độ xem:</span>
+      <div class="bg-neutral-800 p-1 rounded-full flex items-center gap-1 border border-neutral-700">
+        <button 
+          id="btnModeStore" 
+          onclick="switchViewMode('store')" 
+          class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-neutral-900 shadow-sm transition-all"
+        >
+          <i data-lucide="store" class="w-3.5 h-3.5"></i>
+          <span>Cửa hàng (Khách xem)</span>
+        </button>
+        <button 
+          id="btnModeAdmin" 
+          onclick="switchViewMode('admin')" 
+          class="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-neutral-400 hover:text-white transition-all relative"
+        >
+          <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+          <span>Trang Quản Trị</span>
+          <span id="adminPendingBadge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-[9px] font-extrabold w-4 h-4 rounded-full items-center justify-center">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 1. GIAO DIỆN CỬA HÀNG (STOREFRONT VIEW)     -->
+  <!-- ========================================== -->
+  <div id="storefrontContainer" class="block transition-all">
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+        
+        <!-- Logo -->
+        <a href="javascript:void(0)" onclick="filterCategory('all')" class="flex flex-col">
+          <span id="storeBrandLogo" class="text-2xl font-extrabold tracking-tight font-serif text-neutral-900">TN STUDIO</span>
+          <span id="storeBrandSlogan" class="text-[9px] uppercase tracking-[0.25em] text-neutral-500 font-medium -mt-1">Modern Wardrobe</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+          <button onclick="filterCategory('all')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-900 font-semibold">Tất cả sản phẩm</button>
+          <button onclick="filterCategory('ao')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Áo & Hoodie</button>
+          <button onclick="filterCategory('quan')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Quần & Denim</button>
+          <button onclick="filterCategory('set')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Set thiết kế</button>
+        </nav>
+
+        <!-- Right Tools -->
+        <div class="flex items-center space-x-4">
+          <!-- Currency quick selector -->
+          <div class="relative">
+            <select 
+              id="headerCurrencySelector" 
+              onchange="changeActiveCurrency(this.value)" 
+              class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold rounded-full px-3 py-1.5 border border-neutral-200 outline-none cursor-pointer transition appearance-none pr-7"
+            >
+              <option value="KRW">₩ KRW (Won)</option>
+              <option value="VND">₫ VND (Việt Nam)</option>
+              <option value="USD">$ USD (PayPal)</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500"></i>
+          </div>
+
+          <div class="relative hidden sm:block w-48 lg:w-64">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
+            <input 
+              type="text" 
+              id="searchInput"
+              placeholder="Tìm áo, quần jean..." 
+              oninput="handleSearch(this.value)"
+              class="w-full bg-neutral-100 rounded-full pl-9 pr-4 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-neutral-800 transition"
+            >
+          </div>
+
+          <!-- Cart Icon -->
+          <button 
+            onclick="toggleCart(true)"
+            class="relative p-2.5 rounded-full hover:bg-neutral-100 transition-colors text-neutral-800 flex items-center gap-2 group"
+          >
+            <i data-lucide="shopping-bag" class="w-5 h-5 group-hover:scale-105 transition-transform"></i>
+            <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-neutral-900 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden bg-white border-b border-neutral-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 grid lg:grid-cols-2 gap-10 items-center">
+        <div class="space-y-6 max-w-xl">
+          <div class="inline-flex items-center gap-2 bg-neutral-100 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase text-neutral-700">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Bộ Sưu Tập Mới • S/S 2026
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-serif font-bold text-neutral-900 leading-[1.2] tracking-tight">
+            Nâng tầm gu ăn mặc với phong cách <span class="italic font-normal">Modern Chic</span>
+          </h1>
+          <p class="text-neutral-600 text-sm sm:text-base leading-relaxed">
+            Tối giản trong phom dáng, tự do trong phối đồ. Giao hàng nội địa Hàn Quốc, hỗ trợ thanh toán 3 loại tiền tệ (KRW, VND, USD) và gửi bill trực tiếp vào Telegram shop.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#catalog" class="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-white font-medium px-6 py-3 rounded-full text-sm transition shadow-sm">
+              <span>Xem bộ sưu tập</span>
+              <i data-lucide="arrow-down" class="w-4 h-4"></i>
+            </a>
+            <button onclick="switchViewMode('admin')" class="inline-flex items-center gap-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-medium px-5 py-3 rounded-full text-sm transition">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+              <span>Vào trang quản trị</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-2xl overflow-hidden shadow-sm aspect-[3/4] bg-neutral-100">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80" alt="Look 1" class="w-full h-full object-cover">
+          </div>
+          <div class="rounded-2xl overflow-hidden shadow-sm aspect-[3/4] bg-neutral-100 mt-6">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=700&q=80" alt="Look 2" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOG MAIN -->
+    <main id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <!-- Filter Chips & Info -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8 border-b border-neutral-200 mb-8">
+        <div>
+          <h2 class="text-2xl font-serif font-bold text-neutral-900">Danh Mục Sản Phẩm</h2>
+          <p class="text-xs text-neutral-500 mt-1">Đang hiển thị <span id="catalogCount" class="font-bold text-neutral-800">0</span> sản phẩm có sẵn</p>
+        </div>
+        
+        <!-- Category Pill Buttons -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0" id="categoryPills">
+          <button onclick="filterCategory('all')" data-cat="all" class="cat-pill active px-4 py-2 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition">Tất cả</button>
+          <button onclick="filterCategory('ao')" data-cat="ao" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 whitespace-nowrap transition">Áo & Hoodie</button>
+          <button onclick="filterCategory('quan')" data-cat="quan" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 whitespace-nowrap transition">Quần Jeans</button>
+          <button onclick="filterCategory('set')" data-cat="set" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 whitespace-nowrap transition">Set phối sẵn</button>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyCatalog" class="hidden text-center py-20 space-y-3">
+        <div class="w-16 h-16 mx-auto rounded-full bg-neutral-100 flex items-center justify-center text-neutral-400">
+          <i data-lucide="package-search" class="w-8 h-8"></i>
+        </div>
+        <p class="text-neutral-600 font-medium text-sm">Không tìm thấy sản phẩm nào phù hợp</p>
+        <button onclick="filterCategory('all')" class="text-xs font-semibold text-neutral-900 underline">Quay lại tất cả sản phẩm</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. GIAO DIỆN QUẢN TRỊ ADMIN (ADMIN VIEW)   -->
+  <!-- ========================================== -->
+  <div id="adminContainer" class="hidden min-h-screen bg-neutral-100 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      
+      <!-- Admin Sub Header & Actions -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-neutral-200">
+        <div>
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 text-[11px] font-bold tracking-wider uppercase mb-2 border border-amber-200">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            Admin Workspace • Quản Trị Hệ Thống
+          </div>
+          <h2 class="text-2xl font-serif font-bold text-neutral-900">Bảng Quản Trị Cửa Hàng & Đơn Hàng</h2>
+          <p class="text-xs text-neutral-500 mt-1">Quản lý sản phẩm, đối soát bill chuyển khoản ngân hàng và kiểm tra thông báo Telegram.</p>
+        </div>
+        
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button 
+            onclick="openSettingsModal()" 
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
+          >
+            <i data-lucide="sliders-horizontal" class="w-4 h-4 text-neutral-500"></i>
+            <span>Cài đặt & Telegram</span>
+          </button>
+          
+          <button 
+            onclick="resetToDefaults()" 
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-neutral-200 text-xs font-semibold text-neutral-600 hover:bg-neutral-50 transition"
+            title="Khôi phục lại dữ liệu sản phẩm mặc định"
+          >
+            <i data-lucide="rotate-ccw" class="w-4 h-4 text-neutral-400"></i>
+            <span>Khôi phục mẫu</span>
+          </button>
+
+          <button 
+            onclick="openProductModal()" 
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-bold transition shadow-sm"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>+ Thêm Sản Phẩm Mới</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs: Products vs Orders -->
+      <div class="flex items-center gap-3 border-b border-neutral-200 pb-2">
+        <button 
+          id="tabBtnProducts" 
+          onclick="switchAdminTab('products')" 
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition"
+        >
+          <i data-lucide="package" class="w-4 h-4"></i>
+          <span>Quản Lý Sản Phẩm (<span id="adminTabProductCount">0</span>)</span>
+        </button>
+        <button 
+          id="tabBtnOrders" 
+          onclick="switchAdminTab('orders')" 
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-neutral-600 hover:bg-neutral-200 transition border border-neutral-200 relative"
+        >
+          <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+          <span>Đơn Hàng & Đối Soát Bill</span>
+          <span id="adminTabOrderCountBadge" class="bg-rose-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">0</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: PRODUCT MANAGEMENT -->
+      <div id="adminTabProductsSection" class="space-y-6">
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-neutral-200">
+            <div class="flex items-center justify-between text-neutral-500 mb-2">
+              <span class="text-xs font-medium">Tổng số sản phẩm</span>
+              <i data-lucide="tag" class="w-4 h-4"></i>
+            </div>
+            <div id="statTotalItems" class="text-2xl font-bold font-serif text-neutral-900">0</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-neutral-200">
+            <div class="flex items-center justify-between text-neutral-500 mb-2">
+              <span class="text-xs font-medium">Giá trị trung bình kho</span>
+              <i data-lucide="circle-dollar-sign" class="w-4 h-4"></i>
+            </div>
+            <div id="statTotalValue" class="text-2xl font-bold font-serif text-neutral-900">₩0</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl shadow-sm border border-neutral-200">
+            <div class="flex items-center justify-between text-neutral-500 mb-2">
+              <span class="text-xs font-medium">Danh mục sản phẩm</span>
+              <i data-lucide="layers" class="w-4 h-4"></i>
+            </div>
+            <div id="statTotalCategories" class="text-2xl font-bold font-serif text-neutral-900">3</div>
+          </div>
+        </div>
+
+        <!-- Product Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
+          <div class="p-4 border-b border-neutral-200 flex items-center justify-between gap-4">
+            <div class="relative w-64">
+              <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
+              <input 
+                type="text" 
+                placeholder="Tìm sản phẩm trong kho..." 
+                oninput="handleAdminSearch(this.value)"
+                class="w-full bg-neutral-100 rounded-lg pl-9 pr-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-neutral-800"
+              >
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-neutral-600">
+              <thead class="bg-neutral-50 uppercase tracking-wider text-[11px] text-neutral-500 border-b border-neutral-200">
+                <tr>
+                  <th class="py-3 px-4">Ảnh & Sản Phẩm</th>
+                  <th class="py-3 px-4">Danh mục</th>
+                  <th class="py-3 px-4">Giá bán (KRW)</th>
+                  <th class="py-3 px-4">Màu sắc & Size</th>
+                  <th class="py-3 px-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody" class="divide-y divide-neutral-100">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: ORDER MANAGEMENT & BILL RECEIPT -->
+      <div id="adminTabOrdersSection" class="hidden space-y-6">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-lg font-bold text-neutral-900">Danh Sách Đơn Hàng & Biên Lai Chuyển Khoản</h3>
+            <p class="text-xs text-neutral-500 mt-0.5">Khách sau khi đặt hàng chuyển khoản sẽ gửi bill vào đây và tự động báo qua Telegram Bot.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="renderAdminOrders()" class="p-2 border border-neutral-200 rounded-lg text-neutral-600 hover:bg-neutral-50">
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            </button>
+            <button onclick="clearAllDemoOrders()" class="text-xs text-rose-600 hover:underline px-2 py-1">Xóa lịch sử đơn thử</button>
+          </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-neutral-600">
+              <thead class="bg-neutral-50 uppercase tracking-wider text-[11px] text-neutral-500 border-b border-neutral-200">
+                <tr>
+                  <th class="py-3 px-4">Mã đơn & Thời gian</th>
+                  <th class="py-3 px-4">Khách hàng & SĐT</th>
+                  <th class="py-3 px-4">Địa chỉ giao hàng (Hàn Quốc)</th>
+                  <th class="py-3 px-4">Tổng tiền & Tiền tệ</th>
+                  <th class="py-3 px-4 text-center">Biên lai / Bill</th>
+                  <th class="py-3 px-4">Trạng thái</th>
+                  <th class="py-3 px-4 text-right">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersTableBody" class="divide-y divide-neutral-100">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div id="adminOrdersEmptyState" class="hidden text-center py-16 space-y-2">
+            <div class="w-12 h-12 mx-auto rounded-full bg-neutral-100 flex items-center justify-center text-neutral-400">
+              <i data-lucide="inbox" class="w-6 h-6"></i>
+            </div>
+            <p class="text-xs text-neutral-500">Chưa có đơn hàng nào được ghi nhận.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 3. MODAL: XEM ẢNH BILL CHI TIẾT (ADMIN)     -->
+  <!-- ========================================== -->
+  <div id="billViewerModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-200">
+        <div>
+          <h4 class="font-bold text-sm text-neutral-900" id="billModalOrderCode">Biên Lai Chuyển Khoản</h4>
+          <p class="text-[11px] text-neutral-500" id="billModalCustomerInfo">Khách hàng: ...</p>
+        </div>
+        <button onclick="closeBillModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <div class="max-h-[60vh] overflow-auto rounded-xl bg-neutral-50 border border-neutral-200 p-2 flex items-center justify-center">
+        <img id="billModalImage" src="" alt="Biên lai thanh toán" class="max-w-full h-auto rounded-lg object-contain shadow-sm">
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-xs text-emerald-600 font-semibold" id="billModalPaidAmount">Đã thanh toán: ...</span>
+        <button onclick="closeBillModal()" class="px-4 py-2 bg-neutral-900 text-white text-xs font-bold rounded-xl hover:bg-neutral-800">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 4. MODAL: CÀI ĐẶT THƯƠNG HIỆU & TELEGRAM   -->
+  <!-- ========================================== -->
+  <div id="storeSettingsModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-200">
+        <div class="flex items-center gap-2">
+          <i data-lucide="sliders-horizontal" class="w-5 h-5 text-neutral-800"></i>
+          <h3 class="font-serif font-bold text-lg text-neutral-900">Cấu Hình Cửa Hàng & Telegram Bot</h3>
+        </div>
+        <button onclick="closeSettingsModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="storeSettingsForm" onsubmit="saveStoreSettings(event)" class="space-y-4 text-xs">
+        <!-- Brand Info -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-neutral-700 mb-1">Tên thương hiệu (Logo)</label>
+            <input type="text" id="settingBrandName" required class="w-full border border-neutral-300 rounded-lg p-2.5 font-bold">
+          </div>
+          <div>
+            <label class="block font-semibold text-neutral-700 mb-1">Khẩu hiệu (Slogan)</label>
+            <input type="text" id="settingBrandSlogan" class="w-full border border-neutral-300 rounded-lg p-2.5">
+          </div>
+        </div>
+
+        <!-- TELEGRAM BOT CONFIGURATION (NEW) -->
+        <div class="bg-sky-50 border border-sky-200 p-3.5 rounded-xl space-y-3">
+          <div class="flex items-center gap-2 text-sky-900 font-bold text-xs">
+            <i data-lucide="send" class="w-4 h-4 text-sky-600"></i>
+            <span>Tích Hợp Nhận Thông Báo & Bill Qua Telegram</span>
+          </div>
+          <p class="text-[11px] text-sky-700 leading-relaxed">
+            Mỗi khi khách đặt hàng và tải ảnh bill, hệ thống sẽ tự động gửi thẳng thông báo + ảnh bill về Telegram của bạn.
+          </p>
+
+          <div class="space-y-2">
+            <div>
+              <label class="block font-semibold text-sky-900 mb-0.5">Telegram Bot Token (Từ @BotFather)</label>
+              <input type="text" id="settingTelegramToken" placeholder="Ví dụ: 123456789:ABCdefGhIJKlmNoPQRstuVWXyz" class="w-full border border-sky-300 rounded-lg p-2 bg-white font-mono text-[11px]">
+            </div>
+            <div>
+              <label class="block font-semibold text-sky-900 mb-0.5">Telegram Chat ID (Từ @userinfobot hoặc Chat ID Group)</label>
+              <input type="text" id="settingTelegramChatId" placeholder="Ví dụ: 987654321" class="w-full border border-sky-300 rounded-lg p-2 bg-white font-mono text-[11px]">
+            </div>
+          </div>
+          <button type="button" onclick="testTelegramNotification()" class="text-[11px] font-bold text-sky-700 bg-sky-100 hover:bg-sky-200 px-3 py-1.5 rounded-lg border border-sky-300 transition">
+            Bấm thử gửi tin nhắn test đến Telegram
+          </button>
+        </div>
+
+        <!-- Payment Info Settings -->
+        <div class="space-y-3 pt-2 border-t border-neutral-200">
+          <p class="font-bold text-neutral-800">Thông tin nhận tiền chuyển khoản:</p>
+          
+          <div class="p-3 bg-neutral-50 rounded-xl space-y-2 border border-neutral-200">
+            <span class="font-bold text-neutral-700">1. Tài khoản Ngân hàng Hàn Quốc (KRW):</span>
+            <div class="grid grid-cols-3 gap-2">
+              <input type="text" id="settingKrwBank" placeholder="Tên NH (KB Bank)" class="border border-neutral-300 rounded-lg p-2">
+              <input type="text" id="settingKrwAccount" placeholder="Số tài khoản" class="border border-neutral-300 rounded-lg p-2 font-mono">
+              <input type="text" id="settingKrwHolder" placeholder="Tên chủ thẻ" class="border border-neutral-300 rounded-lg p-2">
+            </div>
+          </div>
+
+          <div class="p-3 bg-neutral-50 rounded-xl space-y-2 border border-neutral-200">
+            <span class="font-bold text-neutral-700">2. Tài khoản Ngân hàng Việt Nam (VND VietQR):</span>
+            <div class="grid grid-cols-3 gap-2">
+              <input type="text" id="settingVndBank" placeholder="Tên NH (MB, VCB)" class="border border-neutral-300 rounded-lg p-2">
+              <input type="text" id="settingVndAccount" placeholder="Số tài khoản" class="border border-neutral-300 rounded-lg p-2 font-mono">
+              <input type="text" id="settingVndHolder" placeholder="Tên chủ thẻ" class="border border-neutral-300 rounded-lg p-2">
+            </div>
+          </div>
+
+          <div class="p-3 bg-neutral-50 rounded-xl space-y-2 border border-neutral-200">
+            <span class="font-bold text-neutral-700">3. Tài khoản PayPal (USD):</span>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="email" id="settingPaypalEmail" placeholder="Email nhận PayPal" class="border border-neutral-300 rounded-lg p-2 font-mono">
+              <input type="text" id="settingPaypalName" placeholder="Tên hiển thị PayPal" class="border border-neutral-300 rounded-lg p-2">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-neutral-200">
+          <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 border border-neutral-300 rounded-xl text-neutral-600 hover:bg-neutral-100">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-neutral-900 text-white font-bold rounded-xl hover:bg-neutral-800">Lưu Cấu Hình</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 5. MODAL: THÊM / SỬA SẢN PHẨM (ADMIN)      -->
+  <!-- ========================================== -->
+  <div id="productFormModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-200">
+        <h3 id="productModalTitle" class="font-serif font-bold text-lg text-neutral-900">Thêm Sản Phẩm Mới</h3>
+        <button onclick="closeProductModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="productCrudForm" onsubmit="handleSaveProduct(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="formProductId">
+        
+        <div>
+          <label class="block font-semibold text-neutral-700 mb-1">Tên sản phẩm *</label>
+          <input type="text" id="formTitle" required placeholder="Ví dụ: Áo Thun Washed Y2K Layered" class="w-full border border-neutral-300 rounded-lg p-2.5 focus:ring-1 focus:ring-neutral-800">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-neutral-700 mb-1">Danh mục *</label>
+            <select id="formCategory" class="w-full border border-neutral-300 rounded-lg p-2.5">
+              <option value="ao">Áo & Hoodie</option>
+              <option value="quan">Quần Jeans & Pants</option>
+              <option value="set">Set thiết kế phối sẵn</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-neutral-700 mb-1">Giá bán gốc (₩ KRW) *</label>
+            <input type="number" id="formPrice" required placeholder="24000" class="w-full border border-neutral-300 rounded-lg p-2.5 font-bold">
+          </div>
+        </div>
+
+        <!-- Image Gallery input -->
+        <div class="space-y-2">
+          <label class="block font-semibold text-neutral-700">Hình ảnh minh họa sản phẩm</label>
+          <div class="flex gap-2">
+            <input type="url" id="formNewImageUrl" placeholder="Dán link ảnh https://images.unsplash..." class="flex-1 border border-neutral-300 rounded-lg p-2">
+            <button type="button" onclick="addImageToFormList()" class="px-3 py-2 bg-neutral-900 text-white font-bold rounded-lg hover:bg-neutral-800">Thêm ảnh</button>
+          </div>
+          <div id="formImageThumbnails" class="grid grid-cols-4 gap-2 pt-2">
+            <!-- Dynamic Form Images Thumbnails -->
+          </div>
+        </div>
+
+        <!-- Sizes & Colors -->
+        <div>
+          <label class="block font-semibold text-neutral-700 mb-1.5">Kích thước có sẵn (chọn nhiều)</label>
+          <div class="flex flex-wrap gap-2" id="formSizeCheckboxes">
+            <!-- Generated checkboxes -->
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-neutral-700 mb-1.5">Bảng màu khả dụng (chọn nhiều)</label>
+          <div class="flex flex-wrap gap-2" id="formColorCheckboxes">
+            <!-- Generated checkboxes -->
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-neutral-200">
+          <button type="button" onclick="closeProductModal()" class="px-4 py-2 border border-neutral-300 rounded-xl text-neutral-600 hover:bg-neutral-100">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-neutral-900 text-white font-bold rounded-xl hover:bg-neutral-800">Lưu Sản Phẩm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 6. QUICK VIEW MODAL (XEM NHANH SẢN PHẨM)   -->
+  <!-- ========================================== -->
+  <div id="quickViewModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl relative grid md:grid-cols-2">
+      <button onclick="closeQuickView()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 hover:bg-white shadow text-neutral-800">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Images Slider -->
+      <div class="bg-neutral-100 p-4 flex flex-col justify-between">
+        <div class="aspect-[3/4] rounded-2xl overflow-hidden bg-neutral-200 mb-3 shadow-inner">
+          <img id="qvMainImage" src="" alt="Main Preview" class="w-full h-full object-cover transition-all duration-300">
+        </div>
+        <div id="qvThumbnails" class="flex gap-2 overflow-x-auto pb-1">
+          <!-- Thumbnails by JS -->
+        </div>
+      </div>
+
+      <!-- Detail Form -->
+      <div class="p-6 md:p-8 flex flex-col justify-between space-y-6">
+        <div>
+          <span id="qvCategory" class="text-[10px] uppercase font-bold tracking-widest text-neutral-500">Danh Mục</span>
+          <h3 id="qvTitle" class="text-2xl font-serif font-bold text-neutral-900 mt-1">Tên Sản Phẩm</h3>
+          <div class="mt-2 flex items-baseline gap-3">
+            <span id="qvPrice" class="text-2xl font-bold font-serif text-neutral-900">₩0</span>
+            <span id="qvPriceAlt" class="text-xs text-neutral-400 font-mono"></span>
+          </div>
+
+          <!-- Color options -->
+          <div class="mt-6">
+            <span class="text-xs font-semibold text-neutral-800 block mb-2">Màu sắc: <span id="qvSelectedColorName" class="font-normal text-neutral-500"></span></span>
+            <div id="qvColors" class="flex items-center gap-2"></div>
+          </div>
+
+          <!-- Size options -->
+          <div class="mt-5">
+            <span class="text-xs font-semibold text-neutral-800 block mb-2">Kích thước: <span id="qvSelectedSizeName" class="font-normal text-neutral-500"></span></span>
+            <div id="qvSizes" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+
+        <button 
+          id="qvAddToCartBtn"
+          onclick="addCurrentQuickViewToCart()"
+          class="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-3.5 rounded-full text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg"
+        >
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>Thêm Vào Giỏ Hàng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 7. CART DRAWER (GIỎ HÀNG TRƯỢT)           -->
+  <!-- ========================================== -->
+  <div id="cartBackdrop" onclick="toggleCart(false)" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <div id="cartDrawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl flex flex-col drawer-closed transition-transform duration-300 ease-in-out">
+    <!-- Header -->
+    <div class="p-5 border-b border-neutral-200 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-neutral-800"></i>
+        <h3 class="font-serif font-bold text-lg text-neutral-900">Giỏ Hàng Của Bạn</h3>
+      </div>
+      <button onclick="toggleCart(false)" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Free Ship Notification Bar -->
+    <div class="px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-xs text-neutral-600">
+      <div class="flex items-center justify-between mb-1.5 font-medium">
+        <span id="freeshipNoticeText">Freeship nội địa Hàn từ ₩50,000</span>
+        <span id="freeshipPercentText" class="font-bold text-neutral-900">0%</span>
+      </div>
+      <div class="w-full bg-neutral-200 h-1.5 rounded-full overflow-hidden">
+        <div id="freeshipProgressBar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+      </div>
+    </div>
+
+    <!-- Cart items list -->
+    <div id="cartItemList" class="flex-1 overflow-y-auto p-5 space-y-4 divide-y divide-neutral-100">
+      <!-- Items generated by JS -->
+    </div>
+
+    <!-- Cart Footer & Checkout Action -->
+    <div class="p-5 border-t border-neutral-200 bg-neutral-50 space-y-3">
+      <div class="flex items-center justify-between text-xs text-neutral-500">
+        <span>Tạm tính hàng hóa:</span>
+        <span id="cartSubtotal" class="font-bold text-neutral-900 text-sm">₩0</span>
+      </div>
+      <div class="flex items-center justify-between text-xs text-neutral-500">
+        <span>Phí giao hàng nội địa:</span>
+        <span id="cartShippingFee" class="font-medium text-neutral-800">₩3,000</span>
+      </div>
+      <div class="flex items-center justify-between text-sm font-bold text-neutral-900 pt-2 border-t border-neutral-200">
+        <span>Tổng cộng:</span>
+        <span id="cartFinalTotal" class="text-lg font-serif text-neutral-900">₩0</span>
+      </div>
+
+      <button 
+        id="btnProceedCheckout"
+        onclick="openCheckoutModal()"
+        class="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-3.5 rounded-full text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-md mt-2"
+      >
+        <span>Tiến Hành Đặt Hàng & Thanh Toán</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 8. MODAL CHECKOUT & TẢI ẢNH BILL CHUYỂN KHOẢN -->
+  <!-- ========================================== -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto space-y-5">
+      <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 p-1 rounded-full text-neutral-400 hover:text-neutral-900">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Thanh toán bảo mật</span>
+        <h3 class="text-2xl font-serif font-bold text-neutral-900">Thông Tin Đơn Hàng & Thanh Toán</h3>
+        <p class="text-xs text-neutral-500 mt-1">Chỉ nhận giao hàng tận nơi tại Hàn Quốc. Hỗ trợ thanh toán đa tiền tệ.</p>
+      </div>
+
+      <!-- STEP 1: SELECT CURRENCY -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-neutral-700">1. Chọn loại tiền tệ thanh toán:</label>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" onclick="selectCheckoutCurrency('KRW')" id="currBtnKRW" class="py-2.5 px-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 border-neutral-900 bg-neutral-900 text-white transition">
+            <span>₩ KRW</span>
+            <span class="text-[9px] font-normal opacity-80">Nội địa Hàn</span>
+          </button>
+          <button type="button" onclick="selectCheckoutCurrency('VND')" id="currBtnVND" class="py-2.5 px-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 border-neutral-200 text-neutral-700 hover:bg-neutral-50 transition">
+            <span>₫ VND</span>
+            <span class="text-[9px] font-normal opacity-80">VietQR Mobile</span>
+          </button>
+          <button type="button" onclick="selectCheckoutCurrency('USD')" id="currBtnUSD" class="py-2.5 px-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 border-neutral-200 text-neutral-700 hover:bg-neutral-50 transition">
+            <span>$ USD</span>
+            <span class="text-[9px] font-normal opacity-80">PayPal Global</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- FORM FIELDS -->
+      <form id="orderSubmitForm" onsubmit="handlePlaceOrder(event)" class="space-y-4 text-xs">
+        
+        <div class="p-3 bg-neutral-50 rounded-xl space-y-3 border border-neutral-200">
+          <span class="font-bold text-neutral-800 block text-xs">2. Địa chỉ nhận hàng tại Hàn Quốc (대한민국 배송지):</span>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-semibold text-neutral-600 mb-0.5">Tên người nhận *</label>
+              <input type="text" id="orderCustName" required placeholder="Hong Gil Dong" class="w-full border border-neutral-300 rounded-lg p-2.5">
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-neutral-600 mb-0.5">Số điện thoại tại Hàn *</label>
+              <input type="tel" id="orderCustPhone" required placeholder="010-XXXX-XXXX" class="w-full border border-neutral-300 rounded-lg p-2.5 font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-semibold text-neutral-600 mb-0.5">Mã bưu chính 5 số (우편번호) *</label>
+              <input type="text" id="orderCustPostal" required placeholder="16419" maxlength="5" class="w-full border border-neutral-300 rounded-lg p-2.5 font-mono">
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-neutral-600 mb-0.5">Tỉnh / Thành phố *</label>
+              <select id="orderCustProvince" class="w-full border border-neutral-300 rounded-lg p-2.5 bg-white">
+                <option value="Seoul">Seoul (서울특별시)</option>
+                <option value="Gyeonggi-do" selected>Gyeonggi-do (경기도)</option>
+                <option value="Incheon">Incheon (인천광역시)</option>
+                <option value="Busan">Busan (부산광역시)</option>
+                <option value="Daegu">Daegu (대구광역시)</option>
+                <option value="Daejeon">Daejeon (대전광역시)</option>
+                <option value="Gwangju">Gwangju (광주광역시)</option>
+                <option value="Ulsan">Ulsan (울산광역시)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-neutral-600 mb-0.5">Địa chỉ chi tiết (Tòa nhà, số phòng) *</label>
+            <input type="text" id="orderCustAddress" required placeholder="Ví dụ: Yeongtong-gu, Suwon-si, Room 302..." class="w-full border border-neutral-300 rounded-lg p-2.5">
+          </div>
+        </div>
+
+        <!-- PAYMENT DETAILS DISPLAY BOX -->
+        <div id="paymentInstructionsBox" class="p-4 rounded-xl border space-y-3 bg-neutral-50 border-neutral-200">
+          <!-- Dynamic Bank & Payment Info inserted by JS -->
+        </div>
+
+        <!-- BILL UPLOAD SECTION (NEW & CRITICAL) -->
+        <div class="p-3.5 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-950 flex items-center gap-1.5">
+              <i data-lucide="receipt" class="w-4 h-4 text-amber-600"></i>
+              3. Tải ảnh chụp Bill chuyển khoản để xác nhận đơn:
+            </span>
+            <span class="text-[10px] text-amber-700 font-semibold bg-amber-100 px-2 py-0.5 rounded-full">Bắt buộc</span>
+          </div>
+          <p class="text-[11px] text-amber-800">
+            Sau khi chuyển tiền, vui lòng chụp ảnh màn hình giao dịch thành công và tải lên đây để đơn hàng được duyệt tức thì:
+          </p>
+          
+          <div class="flex items-center gap-2">
+            <label class="cursor-pointer inline-flex items-center gap-1.5 bg-white border border-amber-300 hover:bg-amber-100 text-amber-900 px-3.5 py-2 rounded-lg font-bold text-xs shadow-sm transition">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <span>Chọn ảnh từ điện thoại / máy tính</span>
+              <input type="file" id="orderBillFileInput" accept="image/*" onchange="handleBillFileUpload(event)" class="hidden">
+            </label>
+            <span id="billFileNameDisplay" class="text-[11px] text-neutral-500 italic truncate max-w-[180px]">Chưa chọn file ảnh</span>
+          </div>
+
+          <!-- Bill Preview Container -->
+          <div id="billPreviewContainer" class="hidden relative rounded-lg border border-amber-300 bg-white p-2 mt-2">
+            <img id="billPreviewImage" src="" alt="Bill preview" class="max-h-36 mx-auto rounded object-contain">
+            <button type="button" onclick="removeBillUpload()" class="absolute top-2 right-2 bg-rose-500 text-white rounded-full p-1 shadow hover:bg-rose-600">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary & Submit -->
+        <div class="pt-2 border-t border-neutral-200 flex items-center justify-between">
+          <div>
+            <span class="text-[11px] text-neutral-500 block">Số tiền cần thanh toán:</span>
+            <span id="checkoutAmountDisplay" class="text-xl font-bold font-serif text-neutral-900">₩0</span>
+          </div>
+
+          <button 
+            type="submit" 
+            id="btnConfirmOrderSubmit" 
+            class="px-6 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-bold text-xs rounded-full shadow-lg transition flex items-center gap-2"
+          >
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+            <span>Hoàn Tất & Gửi Đơn Hàng</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 9. SUCCESS SCREEN MODAL                     -->
+  <!-- ========================================== -->
+  <div id="orderSuccessModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl text-center space-y-4">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
+        <i data-lucide="check" class="w-8 h-8"></i>
+      </div>
+      <div>
+        <h3 class="text-2xl font-serif font-bold text-neutral-900">Đặt Hàng Thành Công!</h3>
+        <p class="text-xs text-neutral-600 mt-1">
+          Mã đơn hàng: <span id="successOrderCode" class="font-bold font-mono text-neutral-900">#TN-0001</span>
+        </p>
+      </div>
+
+      <div class="bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-left text-xs space-y-2">
+        <div class="flex justify-between text-neutral-600">
+          <span>Người nhận:</span>
+          <span id="successCustName" class="font-bold text-neutral-800"></span>
+        </div>
+        <div class="flex justify-between text-neutral-600">
+          <span>Giao tới:</span>
+          <span id="successAddress" class="font-medium text-neutral-800 truncate max-w-[200px]"></span>
+        </div>
+        <div class="flex justify-between text-neutral-600">
+          <span>Thanh toán:</span>
+          <span id="successPaidAmount" class="font-bold text-emerald-600"></span>
+        </div>
+        <div class="flex justify-between text-neutral-600 items-center pt-1 border-t border-neutral-200">
+          <span>Biên lai xác nhận:</span>
+          <span id="successBillStatus" class="font-bold text-emerald-600 flex items-center gap-1">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Đã nhận ảnh bill
+          </span>
+        </div>
+      </div>
+
+      <div id="successTelegramAlertNotice" class="text-[11px] p-2.5 bg-sky-50 text-sky-800 border border-sky-200 rounded-xl flex items-center gap-2 justify-center">
+        <i data-lucide="send" class="w-4 h-4 text-sky-600"></i>
+        <span>Đã tự động gửi thông báo & bill đến Telegram Admin!</span>
+      </div>
+
+      <button onclick="closeSuccessModal()" class="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-3 rounded-full text-xs uppercase tracking-wider transition">
+        Tiếp Tục Mua Sắm
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC                           -->
+  <!-- ========================================== -->
+  <script>
+    // ---------------------------------------------
+    // DỮ LIỆU BAN ĐẦU & LOCAL STORAGE KEYS
+    // ---------------------------------------------
+    const STORAGE_KEY_PRODUCTS = 'tn_studio_products_v3';
+    const STORAGE_KEY_CONFIG   = 'tn_studio_config_v3';
+    const STORAGE_KEY_ORDERS   = 'tn_studio_orders_v3';
+
+    // Bảng màu mặc định
+    const MASTER_COLOR_PALETTE = [
+      { name: 'Đen Noir', hex: '#111111' },
+      { name: 'Trắng Kem', hex: '#f4f1ea' },
+      { name: 'Xám Khói', hex: '#71717a' },
+      { name: 'Đỏ Burgundy', hex: '#631d27' },
+      { name: 'Vàng Butter', hex: '#fef08a' },
+      { name: 'Nâu Choco', hex: '#451a03' },
+      { name: 'Xanh Denim', hex: '#2563eb' }
+    ];
+
+    const MASTER_SIZES = ['Freesize', 'S', 'M', 'L', 'XL'];
+
+    // Dữ liệu sản phẩm mẫu ban đầu (Giá gốc KRW)
+    const DEFAULT_PRODUCTS = [
+      {
+        id: 'TN-01',
+        title: 'Áo Thun Washed Y2K Double-Layered',
+        category: 'ao',
+        price: 24000,
+        images: [
+          'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80',
+          'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=700&q=80',
+          'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=700&q=80'
+        ],
+        colors: [
+          { name: 'Đen Noir', hex: '#111111' },
+          { name: 'Trắng Kem', hex: '#f4f1ea' },
+          { name: 'Đỏ Burgundy', hex: '#631d27' },
+          { name: 'Vàng Butter', hex: '#fef08a' }
+        ],
+        sizes: ['Freesize', 'M', 'L']
+      },
+      {
+        id: 'TN-02',
+        title: 'Zip Hoodie Nỉ Dày Phom Rộng Gothic',
+        category: 'ao',
+        price: 49000,
+        images: [
+          'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=700&q=80',
+          'https://images.unsplash.com/photo-1578768079052-aa76e520036c?auto=format&fit=crop&w=700&q=80'
+        ],
+        colors: [
+          { name: 'Đen Noir', hex: '#111111' },
+          { name: 'Xám Khói', hex: '#71717a' },
+          { name: 'Nâu Choco', hex: '#451a03' }
+        ],
+        sizes: ['S', 'M', 'L', 'XL']
+      },
+      {
+        id: 'TN-03',
+        title: 'Quần Baggy Jeans Rách Gối Unisex',
+        category: 'quan',
+        price: 42000,
+        images: [
+          'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=700&q=80',
+          'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=700&q=80'
+        ],
+        colors: [
+          { name: 'Xanh Denim', hex: '#2563eb' },
+          { name: 'Đen Noir', hex: '#111111' }
+        ],
+        sizes: ['S', 'M', 'L']
+      },
+      {
+        id: 'TN-04',
+        title: 'Set Áo Corset Phối Sơ Mi Trắng Form Rộng',
+        category: 'set',
+        price: 58000,
+        images: [
+          'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80',
+          'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=700&q=80'
+        ],
+        colors: [
+          { name: 'Trắng Kem', hex: '#f4f1ea' },
+          { name: 'Đen Noir', hex: '#111111' }
+        ],
+        sizes: ['Freesize', 'S', 'M']
+      }
+    ];
+
+    // Cấu hình cửa hàng mặc định
+    const DEFAULT_CONFIG = {
+      brandName: 'TN STUDIO',
+      brandSlogan: 'Modern Wardrobe & Streetwear',
+      orderPrefix: 'TN-',
+      hotline: '010-8888-9999',
+      currency: 'KRW',
+      // Tỷ giá thời gian thực mặc định
+      exchangeRates: {
+        KRW_VND: 18.52,
+        USD_KRW: 1350.0
+      },
+      // Cấu hình Telegram Bot để nhận bill
+      telegram: {
+        botToken: '',
+        chatId: ''
+      },
+      // Thông tin thanh toán
+      bankKRW: {
+        bankName: 'KB Kookmin Bank (국민은행)',
+        accountNumber: '924501-04-189204',
+        accountHolder: 'TN CLOTHING STUDIO'
+      },
+      bankVND: {
+        bankName: 'MB Bank Quân Đội',
+        accountNumber: '0988889999',
+        accountHolder: 'NGUYEN VAN ADMIN'
+      },
+      paypal: {
+        email: 'billing@tnstudio.com',
+        name: 'TN STUDIO GLOBAL'
+      }
+    };
+
+    // State Variables
+    let products = [];
+    let storeConfig = { ...DEFAULT_CONFIG };
+    let cart = [];
+    let orders = [];
+    let currentCategory = 'all';
+    let searchQuery = '';
+    let adminSearchQuery = '';
+    let activeCheckoutCurrency = 'KRW';
+    let currentUploadedBillBase64 = null; // Lưu ảnh bill chuyển khoản
+
+    // Temp Form State
+    let formImages = [];
+    let activeQuickViewProduct = null;
+    let selectedQvColor = null;
+    let selectedQvSize = null;
+
+    // ---------------------------------------------
+    // KHỞI TẠO HỆ THỐNG
+    // ---------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStorageData();
+      renderCatalog();
+      renderAdminTable();
+      renderAdminOrders();
+      applyStoreConfigUI();
+      fetchLiveExchangeRates(false);
+      lucide.createIcons();
+    });
+
+    function loadStorageData() {
+      // 1. Products
+      const localProducts = localStorage.getItem(STORAGE_KEY_PRODUCTS);
+      if (localProducts) {
+        try { products = JSON.parse(localProducts); } catch (e) { products = DEFAULT_PRODUCTS; }
+      } else {
+        products = [...DEFAULT_PRODUCTS];
+        localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(products));
+      }
+
+      // 2. Config
+      const localConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
+      if (localConfig) {
+        try { storeConfig = { ...DEFAULT_CONFIG, ...JSON.parse(localConfig) }; } catch (e) { storeConfig = { ...DEFAULT_CONFIG }; }
+      } else {
+        storeConfig = { ...DEFAULT_CONFIG };
+        localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
+      }
+
+      // 3. Orders
+      const localOrders = localStorage.getItem(STORAGE_KEY_ORDERS);
+      if (localOrders) {
+        try { orders = JSON.parse(localOrders); } catch (e) { orders = []; }
+      } else {
+        orders = [];
+      }
+      updatePendingBadge();
+    }
+
+    function saveProductsToStorage() {
+      localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(products));
+      renderCatalog();
+      renderAdminTable();
+    }
+
+    function saveOrdersToStorage() {
+      localStorage.setItem(STORAGE_KEY_ORDERS, JSON.stringify(orders));
+      renderAdminOrders();
+      updatePendingBadge();
+    }
+
+    function updatePendingBadge() {
+      const pendingCount = orders.filter(o => o.status === 'pending').length;
+      const badge = document.getElementById('adminPendingBadge');
+      const tabBadge = document.getElementById('adminTabOrderCountBadge');
+      
+      if (badge && tabBadge) {
+        tabBadge.innerText = orders.length;
+        if (pendingCount > 0) {
+          badge.innerText = pendingCount;
+          badge.classList.remove('hidden');
+          badge.classList.add('flex');
+        } else {
+          badge.classList.add('hidden');
+          badge.classList.remove('flex');
+        }
+      }
+    }
+
+    // ---------------------------------------------
+    // CHUYỂN ĐỔI TIỀN TỆ & TỶ GIÁ THỜI GIAN THỰC
+    // ---------------------------------------------
+    async function fetchLiveExchangeRates(showNotice = false) {
+      const badgeText = document.getElementById('liveRateBadgeText');
+      if (badgeText) badgeText.innerText = 'Đang đồng bộ tỷ giá...';
+
+      try {
+        const response = await fetch('https://open.er-api.com/v6/latest/KRW');
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.rates) {
+            const krwToVnd = data.rates.VND || 18.52;
+            const krwToUsd = data.rates.USD || (1 / 1350);
+            const usdToKrw = Math.round(1 / krwToUsd);
+
+            storeConfig.exchangeRates = {
+              KRW_VND: Number(krwToVnd.toFixed(2)),
+              USD_KRW: usdToKrw
+            };
+
+            const now = new Date();
+            const timeStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+            if (badgeText) {
+              badgeText.innerText = `1 KRW ≈ ${storeConfig.exchangeRates.KRW_VND} VND | 1 USD ≈ ${storeConfig.exchangeRates.USD_KRW} KRW (${timeStr})`;
+            }
+
+            if (showNotice) alert(`Đã cập nhật tỷ giá trực tiếp thành công!\n1 KRW ≈ ${storeConfig.exchangeRates.KRW_VND} VND\n1 USD ≈ ${storeConfig.exchangeRates.USD_KRW} KRW`);
+          }
+        }
+      } catch (err) {
+        if (badgeText) badgeText.innerText = `1 KRW ≈ 18.52 VND | 1 USD ≈ 1,350 KRW (Dự phòng)`;
+      }
+
+      renderCatalog();
+      updateCartUI();
+    }
+
+    function formatCurrency(krwValue, targetCurrency = null) {
+      const curr = targetCurrency || storeConfig.currency || 'KRW';
+      const vndRate = storeConfig.exchangeRates?.KRW_VND || 18.52;
+      const usdRate = storeConfig.exchangeRates?.USD_KRW || 1350;
+
+      if (curr === 'VND') {
+        const vndVal = Math.round(krwValue * vndRate);
+        return new Intl.NumberFormat('vi-VN').format(vndVal) + ' ₫';
+      } else if (curr === 'USD') {
+        const usdVal = (krwValue / usdRate).toFixed(2);
+        return '$' + usdVal;
+      } else {
+        return '₩' + new Intl.NumberFormat('ko-KR').format(krwValue);
+      }
+    }
+
+    function changeActiveCurrency(newCurr) {
+      storeConfig.currency = newCurr;
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
+      const sel = document.getElementById('headerCurrencySelector');
+      if (sel) sel.value = newCurr;
+      renderCatalog();
+      updateCartUI();
+    }
+
+    // ---------------------------------------------
+    // CHẾ ĐỘ XEM (STOREFRONT VS ADMIN)
+    // ---------------------------------------------
+    function switchViewMode(mode) {
+      const storeView = document.getElementById('storefrontContainer');
+      const adminView = document.getElementById('adminContainer');
+      const btnStore  = document.getElementById('btnModeStore');
+      const btnAdmin  = document.getElementById('btnModeAdmin');
+
+      if (mode === 'admin') {
+        storeView.classList.add('hidden');
+        adminView.classList.remove('hidden');
+
+        btnAdmin.className = 'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-neutral-900 shadow-sm transition-all relative';
+        btnStore.className = 'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-neutral-400 hover:text-white transition-all';
+        renderAdminTable();
+        renderAdminOrders();
+      } else {
+        adminView.classList.add('hidden');
+        storeView.classList.remove('hidden');
+
+        btnStore.className = 'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white text-neutral-900 shadow-sm transition-all';
+        btnAdmin.className = 'flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-neutral-400 hover:text-white transition-all relative';
+        renderCatalog();
+      }
+      lucide.createIcons();
+    }
+
+    function switchAdminTab(tabName) {
+      const tabProducts = document.getElementById('adminTabProductsSection');
+      const tabOrders   = document.getElementById('adminTabOrdersSection');
+      const btnProducts = document.getElementById('tabBtnProducts');
+      const btnOrders   = document.getElementById('tabBtnOrders');
+
+      if (tabName === 'orders') {
+        tabProducts.classList.add('hidden');
+        tabOrders.classList.remove('hidden');
+        btnOrders.className = 'flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition';
+        btnProducts.className = 'flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-neutral-600 hover:bg-neutral-200 transition border border-neutral-200';
+        renderAdminOrders();
+      } else {
+        tabOrders.classList.add('hidden');
+        tabProducts.classList.remove('hidden');
+        btnProducts.className = 'flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition';
+        btnOrders.className = 'flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-white text-neutral-600 hover:bg-neutral-200 transition border border-neutral-200 relative';
+        renderAdminTable();
+      }
+      lucide.createIcons();
+    }
+
+    // ---------------------------------------------
+    // RENDER STOREFRONT CATALOG
+    // ---------------------------------------------
+    function renderCatalog() {
+      const grid = document.getElementById('productGrid');
+      const countEl = document.getElementById('catalogCount');
+      const emptyEl = document.getElementById('emptyCatalog');
+      if (!grid) return;
+
+      const filtered = products.filter(p => {
+        const matchCat = (currentCategory === 'all' || p.category === currentCategory);
+        const matchSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchCat && matchSearch;
+      });
+
+      if (countEl) countEl.innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        if (emptyEl) emptyEl.classList.remove('hidden');
+        return;
+      }
+      if (emptyEl) emptyEl.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(product => {
+        const img1 = product.images?.[0] || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80';
+        const img2 = product.images?.[1] || img1;
+        const countImages = product.images?.length || 1;
+
+        return `
+          <div class="group relative flex flex-col cursor-pointer" onclick="openQuickView('${product.id}')">
+            <div class="relative w-full aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden mb-3">
+              <img src="${img1}" alt="${product.title}" class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0">
+              <img src="${img2}" alt="${product.title}" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:scale-105">
+              
+              <div class="absolute top-2.5 right-2.5 bg-black/60 backdrop-blur-sm text-white text-[10px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1">
+                <i data-lucide="camera" class="w-2.5 h-2.5"></i>
+                <span>${countImages}</span>
+              </div>
+
+              <!-- Quick View overlay button -->
+              <div class="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <button class="w-full py-2.5 bg-white/95 backdrop-blur-sm hover:bg-white text-neutral-900 font-bold rounded-xl text-xs shadow-md flex items-center justify-center gap-1.5 transition">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  <span>Xem nhanh & Đặt</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Meta info -->
+            <div class="flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-1 mb-1">
+                  ${product.colors.map(c => `
+                    <span class="w-2.5 h-2.5 rounded-full border border-neutral-300" style="background-color: ${c.hex};" title="${c.name}"></span>
+                  `).join('')}
+                </div>
+                <h3 class="text-xs font-semibold text-neutral-800 line-clamp-1 group-hover:text-neutral-900 transition-colors">${product.title}</h3>
+              </div>
+              <div class="mt-1 flex items-baseline justify-between">
+                <span class="text-sm font-bold font-serif text-neutral-900">${formatCurrency(product.price)}</span>
+                <span class="text-[10px] text-neutral-400 uppercase font-mono">${product.sizes.join('/')}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      const pills = document.querySelectorAll('.cat-pill');
+      pills.forEach(p => {
+        if (p.getAttribute('data-cat') === cat) {
+          p.className = 'cat-pill active px-4 py-2 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition';
+        } else {
+          p.className = 'cat-pill px-4 py-2 rounded-full text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 whitespace-nowrap transition';
+        }
+      });
+      renderCatalog();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      renderCatalog();
+    }
+
+    // ---------------------------------------------
+    // QUICK VIEW MODAL
+    // ---------------------------------------------
+    function openQuickView(productId) {
+      const prod = products.find(p => p.id === productId);
+      if (!prod) return;
+      activeQuickViewProduct = prod;
+
+      selectedQvColor = prod.colors?.[0] || null;
+      selectedQvSize  = prod.sizes?.[0] || null;
+
+      document.getElementById('qvCategory').innerText = getCategoryName(prod.category);
+      document.getElementById('qvTitle').innerText = prod.title;
+      document.getElementById('qvPrice').innerText = formatCurrency(prod.price);
+      document.getElementById('qvPriceAlt').innerText = `(${formatCurrency(prod.price, 'KRW')} • ${formatCurrency(prod.price, 'VND')})`;
+
+      // Main image & thumbs
+      const mainImg = document.getElementById('qvMainImage');
+      const thumbsContainer = document.getElementById('qvThumbnails');
+      const imgList = prod.images && prod.images.length > 0 ? prod.images : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80'];
+      mainImg.src = imgList[0];
+
+      thumbsContainer.innerHTML = imgList.map((imgUrl, idx) => `
+        <button onclick="setQuickViewMainImage('${imgUrl}')" class="w-12 h-14 rounded-lg overflow-hidden border-2 ${idx === 0 ? 'border-neutral-900' : 'border-transparent'} hover:border-neutral-400 flex-shrink-0 transition">
+          <img src="${imgUrl}" class="w-full h-full object-cover">
+        </button>
+      `).join('');
+
+      // Colors
+      const colorsEl = document.getElementById('qvColors');
+      document.getElementById('qvSelectedColorName').innerText = selectedQvColor?.name || '';
+      colorsEl.innerHTML = prod.colors.map(col => `
+        <button 
+          onclick="selectQvColor('${col.name}')" 
+          class="w-7 h-7 rounded-full border-2 flex items-center justify-center transition ${col.name === selectedQvColor?.name ? 'border-neutral-900 scale-110 shadow-sm' : 'border-neutral-300'}"
+          style="background-color: ${col.hex}"
+          title="${col.name}"
+        ></button>
+      `).join('');
+
+      // Sizes
+      const sizesEl = document.getElementById('qvSizes');
+      document.getElementById('qvSelectedSizeName').innerText = selectedQvSize || '';
+      sizesEl.innerHTML = prod.sizes.map(sz => `
+        <button 
+          onclick="selectQvSize('${sz}')"
+          class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition ${sz === selectedQvSize ? 'bg-neutral-900 text-white border-neutral-900' : 'bg-white text-neutral-700 border-neutral-200 hover:border-neutral-400'}"
+        >
+          ${sz}
+        </button>
+      `).join('');
+
+      document.getElementById('quickViewModal').classList.remove('hidden');
+      document.getElementById('quickViewModal').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function setQuickViewMainImage(url) {
+      document.getElementById('qvMainImage').src = url;
+    }
+
+    function selectQvColor(colName) {
+      if (!activeQuickViewProduct) return;
+      selectedQvColor = activeQuickViewProduct.colors.find(c => c.name === colName);
+      document.getElementById('qvSelectedColorName').innerText = selectedQvColor?.name || '';
+      openQuickView(activeQuickViewProduct.id);
+    }
+
+    function selectQvSize(sizeName) {
+      selectedQvSize = sizeName;
+      document.getElementById('qvSelectedSizeName').innerText = selectedQvSize || '';
+      if (activeQuickViewProduct) openQuickView(activeQuickViewProduct.id);
+    }
+
+    function closeQuickView() {
+      document.getElementById('quickViewModal').classList.add('hidden');
+      document.getElementById('quickViewModal').classList.remove('flex');
+    }
+
+    function addCurrentQuickViewToCart() {
+      if (!activeQuickViewProduct) return;
+      addToCart(activeQuickViewProduct, selectedQvColor?.name || 'Mặc định', selectedQvSize || 'Freesize');
+      closeQuickView();
+      toggleCart(true);
+    }
+
+    // ---------------------------------------------
+    // GIỎ HÀNG (SHOPPING CART)
+    // ---------------------------------------------
+    function toggleCart(open) {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartBackdrop');
+
+      if (open) {
+        drawer.classList.remove('drawer-closed');
+        drawer.classList.add('drawer-open');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        drawer.classList.remove('drawer-open');
+        drawer.classList.add('drawer-closed');
+        backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function addToCart(product, colorName, sizeName) {
+      const existing = cart.find(item => item.id === product.id && item.color === colorName && item.size === sizeName);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.images?.[0] || '',
+          color: colorName,
+          size: sizeName,
+          quantity: 1
+        });
+      }
+      updateCartUI();
+    }
+
+    function updateCartQuantity(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCartUI();
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const countBadge = document.getElementById('cartCountBadge');
+      const listEl = document.getElementById('cartItemList');
+      const subtotalEl = document.getElementById('cartSubtotal');
+      const finalTotalEl = document.getElementById('cartFinalTotal');
+      const shippingFeeEl = document.getElementById('cartShippingFee');
+      const btnCheckout = document.getElementById('btnProceedCheckout');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (countBadge) countBadge.innerText = totalItems;
+
+      if (!listEl) return;
+
+      if (cart.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-20 space-y-3">
+            <div class="w-14 h-14 bg-neutral-100 rounded-full flex items-center justify-center mx-auto text-neutral-400">
+              <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+            </div>
+            <p class="text-xs text-neutral-500 font-medium">Giỏ hàng của bạn đang trống</p>
+          </div>
+        `;
+        if (subtotalEl) subtotalEl.innerText = formatCurrency(0);
+        if (finalTotalEl) finalTotalEl.innerText = formatCurrency(0);
+        if (btnCheckout) btnCheckout.disabled = true;
+        updateFreeshipProgress(0);
+        lucide.createIcons();
+        return;
+      }
+
+      if (btnCheckout) btnCheckout.disabled = false;
+
+      // Tính tiền KRW gốc
+      const subtotalKrw = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const isFreeShip = subtotalKrw >= 50000;
+      const shippingKrw = isFreeShip ? 0 : 3000;
+      const totalKrw = subtotalKrw + shippingKrw;
+
+      updateFreeshipProgress(subtotalKrw);
+
+      if (subtotalEl) subtotalEl.innerText = formatCurrency(subtotalKrw);
+      if (shippingFeeEl) shippingFeeEl.innerText = isFreeShip ? 'Miễn phí (무료배송)' : formatCurrency(shippingKrw);
+      if (finalTotalEl) finalTotalEl.innerText = formatCurrency(totalKrw);
+
+      listEl.innerHTML = cart.map((item, idx) => `
+        <div class="flex items-center gap-3 pt-4 first:pt-0">
+          <img src="${item.image}" alt="${item.title}" class="w-16 h-20 object-cover rounded-xl bg-neutral-100 flex-shrink-0">
+          <div class="flex-1">
+            <h4 class="text-xs font-semibold text-neutral-900 line-clamp-1">${item.title}</h4>
+            <div class="text-[10px] text-neutral-400 mt-0.5">Phân loại: ${item.color} / Size ${item.size}</div>
+            <div class="text-xs font-bold font-serif text-neutral-900 mt-1">${formatCurrency(item.price)}</div>
+            
+            <div class="flex items-center gap-2 mt-2">
+              <button onclick="updateCartQuantity(${idx}, -1)" class="w-6 h-6 rounded-md bg-neutral-100 flex items-center justify-center text-xs font-bold hover:bg-neutral-200">-</button>
+              <span class="text-xs font-mono font-bold w-4 text-center">${item.quantity}</span>
+              <button onclick="updateCartQuantity(${idx}, 1)" class="w-6 h-6 rounded-md bg-neutral-100 flex items-center justify-center text-xs font-bold hover:bg-neutral-200">+</button>
+            </div>
+          </div>
+          <button onclick="removeCartItem(${idx})" class="p-2 text-neutral-400 hover:text-rose-500 transition">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function updateFreeshipProgress(subtotalKrw) {
+      const bar = document.getElementById('freeshipProgressBar');
+      const text = document.getElementById('freeshipNoticeText');
+      const percentEl = document.getElementById('freeshipPercentText');
+      if (!bar) return;
+
+      const freeThreshold = 50000;
+      const pct = Math.min(100, Math.round((subtotalKrw / freeThreshold) * 100));
+      bar.style.width = `${pct}%`;
+      if (percentEl) percentEl.innerText = `${pct}%`;
+
+      if (subtotalKrw >= freeThreshold) {
+        text.innerText = '🎉 Bạn đã được Miễn Phí Giao Hàng Hàn Quốc!';
+      } else {
+        const diff = freeThreshold - subtotalKrw;
+        text.innerText = `Mua thêm ${formatCurrency(diff, 'KRW')} để được Freeship nội địa`;
+      }
+    }
+
+    // ---------------------------------------------
+    // CHECKOUT MODAL & THANH TOÁN
+    // ---------------------------------------------
+    function openCheckoutModal() {
+      if (cart.length === 0) return;
+      toggleCart(false);
+      selectCheckoutCurrency(storeConfig.currency || 'KRW');
+      document.getElementById('checkoutModal').classList.remove('hidden');
+      document.getElementById('checkoutModal').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+      document.getElementById('checkoutModal').classList.remove('flex');
+    }
+
+    function selectCheckoutCurrency(curr) {
+      activeCheckoutCurrency = curr;
+
+      // Update button styling
+      ['KRW', 'VND', 'USD'].forEach(c => {
+        const btn = document.getElementById(`currBtn${c}`);
+        if (!btn) return;
+        if (c === curr) {
+          btn.className = 'py-2.5 px-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 border-neutral-900 bg-neutral-900 text-white transition';
+        } else {
+          btn.className = 'py-2.5 px-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 border-neutral-200 text-neutral-700 hover:bg-neutral-50 transition';
+        }
+      });
+
+      renderPaymentInstructions();
+    }
+
+    function renderPaymentInstructions() {
+      const box = document.getElementById('paymentInstructionsBox');
+      const displayTotal = document.getElementById('checkoutAmountDisplay');
+      if (!box) return;
+
+      const subtotalKrw = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const isFreeShip = subtotalKrw >= 50000;
+      const shippingKrw = isFreeShip ? 0 : 3000;
+      const totalKrw = subtotalKrw + shippingKrw;
+
+      displayTotal.innerText = formatCurrency(totalKrw, activeCheckoutCurrency);
+
+      if (activeCheckoutCurrency === 'KRW') {
+        box.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-neutral-800 text-xs">Chuyển khoản Ngân hàng Hàn Quốc (계좌이체 / 무통장입금)</span>
+              <span class="text-[10px] bg-neutral-200 text-neutral-800 font-mono px-2 py-0.5 rounded">KRW</span>
+            </div>
+            <div class="p-3 bg-white rounded-lg border border-neutral-200 space-y-1.5 font-mono text-[11px]">
+              <div><span class="text-neutral-400">Ngân hàng:</span> <strong class="text-neutral-800">${storeConfig.bankKRW.bankName}</strong></div>
+              <div><span class="text-neutral-400">Số tài khoản:</span> <strong class="text-neutral-900 text-xs tracking-wider">${storeConfig.bankKRW.accountNumber}</strong></div>
+              <div><span class="text-neutral-400">Chủ tài khoản:</span> <strong class="text-neutral-800">${storeConfig.bankKRW.accountHolder}</strong></div>
+              <div><span class="text-neutral-400">Số tiền:</span> <strong class="text-emerald-700 font-bold">${formatCurrency(totalKrw, 'KRW')}</strong></div>
+            </div>
+          </div>
+        `;
+      } else if (activeCheckoutCurrency === 'VND') {
+        const vndVal = Math.round(totalKrw * (storeConfig.exchangeRates?.KRW_VND || 18.52));
+        const qrUrl = `https://api.vietqr.io/image/970422-${storeConfig.bankVND.accountNumber}-compact2.jpg?amount=${vndVal}&addInfo=TNSTUDIO&accountName=${encodeURIComponent(storeConfig.bankVND.accountHolder)}`;
+
+        box.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-neutral-800 text-xs">Quét mã VietQR chuyển khoản (Việt Nam)</span>
+              <span class="text-[10px] bg-emerald-100 text-emerald-800 font-mono px-2 py-0.5 rounded font-bold">VND Mobile</span>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-3 items-center bg-white p-3 rounded-lg border border-neutral-200">
+              <div class="text-center">
+                <img src="${qrUrl}" alt="Mã VietQR" class="w-36 h-36 mx-auto object-contain rounded-lg border border-neutral-200">
+                <span class="text-[9px] text-neutral-400 mt-1 block">Quét bằng App Ngân Hàng bất kỳ</span>
+              </div>
+              <div class="space-y-1 font-mono text-[11px]">
+                <div><span class="text-neutral-400">NH:</span> <strong>${storeConfig.bankVND.bankName}</strong></div>
+                <div><span class="text-neutral-400">STK:</span> <strong class="text-neutral-900">${storeConfig.bankVND.accountNumber}</strong></div>
+                <div><span class="text-neutral-400">Chủ TK:</span> <strong>${storeConfig.bankVND.accountHolder}</strong></div>
+                <div><span class="text-neutral-400">Số tiền VND:</span> <strong class="text-emerald-600 font-bold">${new Intl.NumberFormat('vi-VN').format(vndVal)} ₫</strong></div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (activeCheckoutCurrency === 'USD') {
+        const usdVal = (totalKrw / (storeConfig.exchangeRates?.USD_KRW || 1350)).toFixed(2);
+        box.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-neutral-800 text-xs">Thanh toán qua PayPal Quốc tế (PayPal Checkout)</span>
+              <span class="text-[10px] bg-sky-100 text-sky-800 font-mono px-2 py-0.5 rounded font-bold">PayPal Global</span>
+            </div>
+            <div class="p-3 bg-white rounded-lg border border-neutral-200 space-y-1.5 font-mono text-[11px]">
+              <div><span class="text-neutral-400">Tài khoản PayPal:</span> <strong class="text-sky-800">${storeConfig.paypal.email}</strong></div>
+              <div><span class="text-neutral-400">Tên người nhận:</span> <strong>${storeConfig.paypal.name}</strong></div>
+              <div><span class="text-neutral-400">Số tiền USD:</span> <strong class="text-sky-600 font-bold">$${usdVal} USD</strong></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // ---------------------------------------------
+    // XỬ LÝ TẢI ẢNH BILL CHUYỂN KHOẢN (BASE64)
+    // ---------------------------------------------
+    function handleBillFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileNameDisplay = document.getElementById('billFileNameDisplay');
+      const previewContainer = document.getElementById('billPreviewContainer');
+      const previewImg = document.getElementById('billPreviewImage');
+
+      fileNameDisplay.innerText = file.name;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentUploadedBillBase64 = e.target.result;
+        previewImg.src = currentUploadedBillBase64;
+        previewContainer.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeBillUpload() {
+      currentUploadedBillBase64 = null;
+      document.getElementById('orderBillFileInput').value = '';
+      document.getElementById('billFileNameDisplay').innerText = 'Chưa chọn file ảnh';
+      document.getElementById('billPreviewContainer').classList.add('hidden');
+    }
+
+    // ---------------------------------------------
+    // GỬI THÔNG BÁO TỰ ĐỘNG VỀ TELEGRAM BOT
+    // ---------------------------------------------
+    async function sendTelegramOrderNotification(order) {
+      const botToken = storeConfig.telegram?.botToken?.trim();
+      const chatId   = storeConfig.telegram?.chatId?.trim();
+
+      if (!botToken || !chatId) {
+        console.warn('Chưa cấu hình Telegram Bot Token hoặc Chat ID.');
+        return false;
+      }
+
+      const orderTime = new Date().toLocaleString('vi-VN');
+      const caption = `🛍️ *ĐƠN HÀNG MỚI TỪ SHOP [${storeConfig.brandName}]* 🛍️\n\n` +
+        `🔖 *Mã đơn:* \`${order.id}\`\n` +
+        `👤 *Khách hàng:* ${order.customerName}\n` +
+        `📞 *Số điện thoại:* ${order.phone}\n` +
+        `📍 *Địa chỉ giao (Hàn):* ${order.address}, ${order.province} (${order.postal})\n` +
+        `💰 *Tổng tiền:* *${order.totalFormatted}* (${order.currency})\n` +
+        `💳 *Phương thức:* ${order.paymentMethod}\n` +
+        `📦 *Sản phẩm:* \n${order.items.map(i => `   • ${i.title} (x${i.quantity}) - Size: ${i.size}`).join('\n')}\n` +
+        `⏰ *Thời gian:* ${orderTime}\n\n` +
+        `🧾 *Biên lai chuyển khoản kèm theo bên dưới:*`;
+
+      try {
+        // Nếu có ảnh bill chuyển khoản (base64)
+        if (order.billImage && order.billImage.startsWith('data:image')) {
+          // Chuyển Base64 sang Blob để gửi qua Telegram SendPhoto API
+          const response = await fetch(order.billImage);
+          const blob = await response.blob();
+          const formData = new FormData();
+          formData.append('chat_id', chatId);
+          formData.append('photo', blob, `${order.id}-bill.jpg`);
+          formData.append('caption', caption);
+          formData.append('parse_mode', 'Markdown');
+
+          const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+            method: 'POST',
+            body: formData
+          });
+          return tgRes.ok;
+        } else {
+          // Gửi tin nhắn text thường nếu không có ảnh
+          const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: caption,
+              parse_mode: 'Markdown'
+            })
+          });
+          return tgRes.ok;
+        }
+      } catch (err) {
+        console.error('Lỗi khi gửi thông báo Telegram:', err);
+        return false;
+      }
+    }
+
+    // ---------------------------------------------
+    // HOÀN TẤT ĐẶT HÀNG (PLACE ORDER)
+    // ---------------------------------------------
+    async function handlePlaceOrder(e) {
+      e.preventDefault();
+
+      if (!currentUploadedBillBase64) {
+        alert('Vui lòng tải lên ảnh chụp màn hình Bill chuyển khoản để hoàn tất đặt hàng!');
+        return;
+      }
+
+      const name = document.getElementById('orderCustName').value.trim();
+      const phone = document.getElementById('orderCustPhone').value.trim();
+      const postal = document.getElementById('orderCustPostal').value.trim();
+      const province = document.getElementById('orderCustProvince').value;
+      const address = document.getElementById('orderCustAddress').value.trim();
+
+      const subtotalKrw = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const isFreeShip = subtotalKrw >= 50000;
+      const shippingKrw = isFreeShip ? 0 : 3000;
+      const totalKrw = subtotalKrw + shippingKrw;
+
+      const orderNumber = Math.floor(1000 + Math.random() * 9000);
+      const orderCode = `${storeConfig.orderPrefix || 'TN-'}${orderNumber}`;
+      const totalFormatted = formatCurrency(totalKrw, activeCheckoutCurrency);
+
+      const newOrder = {
+        id: orderCode,
+        createdAt: new Date().toISOString(),
+        customerName: name,
+        phone: phone,
+        postal: postal,
+        province: province,
+        address: address,
+        currency: activeCheckoutCurrency,
+        totalKrw: totalKrw,
+        totalFormatted: totalFormatted,
+        paymentMethod: activeCheckoutCurrency === 'KRW' ? 'Chuyển khoản KB Bank (KRW)' : (activeCheckoutCurrency === 'VND' ? 'VietQR MB Bank (VND)' : 'PayPal (USD)'),
+        billImage: currentUploadedBillBase64,
+        status: 'pending', // pending, confirmed, shipped
+        items: [...cart]
+      };
+
+      // Lưu đơn vào danh sách
+      orders.unshift(newOrder);
+      saveOrdersToStorage();
+
+      // Gửi thông báo đến Telegram Bot
+      sendTelegramOrderNotification(newOrder);
+
+      // Hiển thị popup thành công
+      document.getElementById('successOrderCode').innerText = orderCode;
+      document.getElementById('successCustName').innerText = name;
+      document.getElementById('successAddress').innerText = `${address}, ${province}`;
+      document.getElementById('successPaidAmount').innerText = totalFormatted;
+
+      // Xóa form & giỏ hàng
+      cart = [];
+      updateCartUI();
+      removeBillUpload();
+      closeCheckoutModal();
+
+      document.getElementById('orderSuccessModal').classList.remove('hidden');
+      document.getElementById('orderSuccessModal').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('orderSuccessModal').classList.add('hidden');
+      document.getElementById('orderSuccessModal').classList.remove('flex');
+    }
+
+    // ---------------------------------------------
+    // QUẢN LÝ ĐƠN HÀNG TRONG ADMIN & XEM ẢNH BILL
+    // ---------------------------------------------
+    function renderAdminOrders() {
+      const tbody = document.getElementById('adminOrdersTableBody');
+      const emptyEl = document.getElementById('adminOrdersEmptyState');
+      if (!tbody) return;
+
+      if (orders.length === 0) {
+        tbody.innerHTML = '';
+        if (emptyEl) emptyEl.classList.remove('hidden');
+        return;
+      }
+      if (emptyEl) emptyEl.classList.add('hidden');
+
+      tbody.innerHTML = orders.map(ord => {
+        const dateStr = new Date(ord.createdAt).toLocaleString('vi-VN');
+        let statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">Chờ duyệt bill</span>';
+        if (ord.status === 'confirmed') statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Đã nhận tiền</span>';
+        if (ord.status === 'shipped') statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-800">Đã gửi hàng</span>';
+
+        return `
+          <tr class="hover:bg-neutral-50/80 transition">
+            <td class="py-3 px-4">
+              <span class="font-bold font-mono text-neutral-900">${ord.id}</span>
+              <div class="text-[10px] text-neutral-400 mt-0.5">${dateStr}</div>
+            </td>
+            <td class="py-3 px-4">
+              <strong class="text-neutral-800">${ord.customerName}</strong>
+              <div class="font-mono text-neutral-500">${ord.phone}</div>
+            </td>
+            <td class="py-3 px-4">
+              <div class="line-clamp-1 text-neutral-700">${ord.address}</div>
+              <div class="text-[10px] text-neutral-400">${ord.province} (${ord.postal})</div>
+            </td>
+            <td class="py-3 px-4">
+              <div class="font-bold text-neutral-900">${ord.totalFormatted}</div>
+              <div class="text-[10px] text-neutral-400">${ord.paymentMethod}</div>
+            </td>
+            <td class="py-3 px-4 text-center">
+              ${ord.billImage ? `
+                <button onclick="viewOrderBill('${ord.id}')" class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-lg text-[11px] font-bold transition">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  <span>Xem Bill</span>
+                </button>
+              ` : '<span class="text-neutral-400 italic">Không có bill</span>'}
+            </td>
+            <td class="py-3 px-4">
+              ${statusBadge}
+            </td>
+            <td class="py-3 px-4 text-right space-x-1">
+              <button onclick="updateOrderStatus('${ord.id}', 'confirmed')" title="Xác nhận tiền về" class="p-1.5 rounded-md hover:bg-emerald-50 text-neutral-400 hover:text-emerald-600 transition">
+                <i data-lucide="check-check" class="w-4 h-4"></i>
+              </button>
+              <button onclick="deleteOrder('${ord.id}')" title="Xóa đơn" class="p-1.5 rounded-md hover:bg-rose-50 text-neutral-400 hover:text-rose-600 transition">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function viewOrderBill(orderId) {
+      const ord = orders.find(o => o.id === orderId);
+      if (!ord || !ord.billImage) return;
+
+      document.getElementById('billModalOrderCode').innerText = `Biên Lai Chuyển Khoản: ${ord.id}`;
+      document.getElementById('billModalCustomerInfo').innerText = `Khách hàng: ${ord.customerName} (${ord.phone})`;
+      document.getElementById('billModalPaidAmount').innerText = `Số tiền: ${ord.totalFormatted}`;
+      document.getElementById('billModalImage').src = ord.billImage;
+
+      document.getElementById('billViewerModal').classList.remove('hidden');
+      document.getElementById('billViewerModal').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeBillModal() {
+      document.getElementById('billViewerModal').classList.add('hidden');
+      document.getElementById('billViewerModal').classList.remove('flex');
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+      const ord = orders.find(o => o.id === orderId);
+      if (ord) {
+        ord.status = newStatus;
+        saveOrdersToStorage();
+      }
+    }
+
+    function deleteOrder(orderId) {
+      if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng ${orderId}?`)) {
+        orders = orders.filter(o => o.id !== orderId);
+        saveOrdersToStorage();
+      }
+    }
+
+    function clearAllDemoOrders() {
+      if (confirm('Xóa sạch toàn bộ lịch sử đơn hàng thử nghiệm?')) {
+        orders = [];
+        saveOrdersToStorage();
+      }
+    }
+
+    // ---------------------------------------------
+    // QUẢN LÝ SẢN PHẨM (ADMIN CRUD TABLE)
+    // ---------------------------------------------
+    function renderAdminTable() {
+      const tbody = document.getElementById('adminTableBody');
+      const statTotal = document.getElementById('statTotalItems');
+      const statVal = document.getElementById('statTotalValue');
+      const statCat = document.getElementById('statTotalCategories');
+      const tabBadge = document.getElementById('adminTabProductCount');
+
+      if (!tbody) return;
+
+      const filtered = products.filter(p => p.title.toLowerCase().includes(adminSearchQuery.toLowerCase()));
+      if (statTotal) statTotal.innerText = products.length;
+      if (tabBadge) tabBadge.innerText = products.length;
+
+      if (statVal) {
+        const avgPrice = products.length ? Math.round(products.reduce((a, b) => a + b.price, 0) / products.length) : 0;
+        statVal.innerText = formatCurrency(avgPrice, 'KRW');
+      }
+
+      if (statCat) {
+        const uniqueCats = new Set(products.map(p => p.category));
+        statCat.innerText = uniqueCats.size;
+      }
+
+      tbody.innerHTML = filtered.map(prod => {
+        const coverImg = prod.images?.[0] || '';
+        return `
+          <tr class="hover:bg-neutral-50/80 transition">
+            <td class="py-3 px-4 flex items-center gap-3">
+              <img src="${coverImg}" class="w-10 h-12 rounded-lg object-cover bg-neutral-100 flex-shrink-0">
+              <div>
+                <span class="font-bold text-neutral-800 line-clamp-1">${prod.title}</span>
+                <span class="text-[10px] text-neutral-400 font-mono">${prod.id} • ${prod.images?.length || 1} ảnh</span>
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-neutral-100 text-neutral-600">${getCategoryName(prod.category)}</span>
+            </td>
+            <td class="py-3 px-4 font-bold text-neutral-900">${formatCurrency(prod.price, 'KRW')}</td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-1 mb-1">
+                ${prod.colors.map(c => `<span class="w-2.5 h-2.5 rounded-full border border-neutral-300" style="background-color: ${c.hex}" title="${c.name}"></span>`).join('')}
+              </div>
+              <span class="text-[10px] text-neutral-400 font-mono">${prod.sizes.join(', ')}</span>
+            </td>
+            <td class="py-3 px-4 text-right space-x-1">
+              <button onclick="editProduct('${prod.id}')" class="p-1.5 rounded-md hover:bg-neutral-200 text-neutral-600 transition" title="Sửa">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+              <button onclick="deleteProduct('${prod.id}')" class="p-1.5 rounded-md hover:bg-rose-100 text-neutral-400 hover:text-rose-600 transition" title="Xóa">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function handleAdminSearch(val) {
+      adminSearchQuery = val;
+      renderAdminTable();
+    }
+
+    // Modal Product Form
+    function openProductModal(prod = null) {
+      const modal = document.getElementById('productFormModal');
+      const title = document.getElementById('productModalTitle');
+      formImages = [];
+
+      renderFormSizes(prod ? prod.sizes : ['Freesize']);
+      renderFormColors(prod ? prod.colors.map(c => c.name) : ['Đen Noir', 'Trắng Kem']);
+
+      if (prod) {
+        title.innerText = 'Chỉnh Sửa Sản Phẩm';
+        document.getElementById('formProductId').value = prod.id;
+        document.getElementById('formTitle').value = prod.title;
+        document.getElementById('formCategory').value = prod.category;
+        document.getElementById('formPrice').value = prod.price;
+        formImages = prod.images ? [...prod.images] : [];
+      } else {
+        title.innerText = 'Thêm Sản Phẩm Mới';
+        document.getElementById('formProductId').value = '';
+        document.getElementById('formTitle').value = '';
+        document.getElementById('formCategory').value = 'ao';
+        document.getElementById('formPrice').value = '';
+        formImages = ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80'];
+      }
+
+      renderFormImageThumbnails();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeProductModal() {
+      document.getElementById('productFormModal').classList.add('hidden');
+      document.getElementById('productFormModal').classList.remove('flex');
+    }
+
+    function addImageToFormList() {
+      const input = document.getElementById('formNewImageUrl');
+      const url = input.value.trim();
+      if (!url) return;
+      formImages.push(url);
+      input.value = '';
+      renderFormImageThumbnails();
+    }
+
+    function removeFormImage(idx) {
+      formImages.splice(idx, 1);
+      renderFormImageThumbnails();
+    }
+
+    function renderFormImageThumbnails() {
+      const box = document.getElementById('formImageThumbnails');
+      if (!box) return;
+      box.innerHTML = formImages.map((url, idx) => `
+        <div class="relative group aspect-square rounded-lg overflow-hidden border border-neutral-300">
+          <img src="${url}" class="w-full h-full object-cover">
+          <button type="button" onclick="removeFormImage(${idx})" class="absolute top-1 right-1 bg-rose-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition shadow">
+            <i data-lucide="x" class="w-3 h-3"></i>
+          </button>
+          ${idx === 0 ? '<span class="absolute bottom-1 left-1 bg-black/70 text-white text-[8px] font-bold px-1 rounded">Bìa</span>' : ''}
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderFormSizes(selected = []) {
+      const container = document.getElementById('formSizeCheckboxes');
+      container.innerHTML = MASTER_SIZES.map(sz => `
+        <label class="inline-flex items-center gap-1.5 px-3 py-1 bg-neutral-50 rounded-lg border border-neutral-200 cursor-pointer text-xs font-semibold">
+          <input type="checkbox" name="formSizes" value="${sz}" ${selected.includes(sz) ? 'checked' : ''} class="rounded text-neutral-900 focus:ring-0">
+          <span>${sz}</span>
+        </label>
+      `).join('');
+    }
+
+    function renderFormColors(selectedNames = []) {
+      const container = document.getElementById('formColorCheckboxes');
+      container.innerHTML = MASTER_COLOR_PALETTE.map(col => `
+        <label class="inline-flex items-center gap-1.5 px-3 py-1 bg-neutral-50 rounded-lg border border-neutral-200 cursor-pointer text-xs font-semibold">
+          <input type="checkbox" name="formColors" value="${col.name}" ${selectedNames.includes(col.name) ? 'checked' : ''} class="rounded text-neutral-900 focus:ring-0">
+          <span class="w-3 h-3 rounded-full border border-neutral-300" style="background-color: ${col.hex}"></span>
+          <span>${col.name}</span>
+        </label>
+      `).join('');
+    }
+
+    function handleSaveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('formProductId').value;
+      const title = document.getElementById('formTitle').value.trim();
+      const category = document.getElementById('formCategory').value;
+      const price = Number(document.getElementById('formPrice').value);
+
+      const checkedSizes = Array.from(document.querySelectorAll('input[name="formSizes"]:checked')).map(el => el.value);
+      const checkedColorNames = Array.from(document.querySelectorAll('input[name="formColors"]:checked')).map(el => el.value);
+
+      if (checkedSizes.length === 0) return alert('Vui lòng chọn ít nhất 1 kích cỡ!');
+      if (checkedColorNames.length === 0) return alert('Vui lòng chọn ít nhất 1 màu sắc!');
+
+      const finalColors = MASTER_COLOR_PALETTE.filter(c => checkedColorNames.includes(c.name));
+      const finalImages = formImages.length > 0 ? formImages : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80'];
+
+      if (id) {
+        // Cập nhật
+        const idx = products.findIndex(p => p.id === id);
+        if (idx !== -1) {
+          products[idx] = { ...products[idx], title, category, price, images: finalImages, sizes: checkedSizes, colors: finalColors };
+        }
+      } else {
+        // Thêm mới
+        const newId = `TN-${Math.floor(10 + Math.random() * 89)}`;
+        products.unshift({
+          id: newId,
+          title,
+          category,
+          price,
+          images: finalImages,
+          sizes: checkedSizes,
+          colors: finalColors
+        });
+      }
+
+      saveProductsToStorage();
+      closeProductModal();
+    }
+
+    function editProduct(id) {
+      const prod = products.find(p => p.id === id);
+      if (prod) openProductModal(prod);
+    }
+
+    function deleteProduct(id) {
+      if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+        products = products.filter(p => p.id !== id);
+        saveProductsToStorage();
+      }
+    }
+
+    function resetToDefaults() {
+      if (confirm('Khôi phục toàn bộ danh sách sản phẩm mẫu ban đầu?')) {
+        products = [...DEFAULT_PRODUCTS];
+        saveProductsToStorage();
+      }
+    }
+
+    // ---------------------------------------------
+    // CÀI ĐẶT THƯƠNG HIỆU & TELEGRAM BOT
+    // ---------------------------------------------
+    function openSettingsModal() {
+      document.getElementById('settingBrandName').value = storeConfig.brandName;
+      document.getElementById('settingBrandSlogan').value = storeConfig.brandSlogan;
+      document.getElementById('settingTelegramToken').value = storeConfig.telegram?.botToken || '';
+      document.getElementById('settingTelegramChatId').value = storeConfig.telegram?.chatId || '';
+
+      document.getElementById('settingKrwBank').value = storeConfig.bankKRW.bankName;
+      document.getElementById('settingKrwAccount').value = storeConfig.bankKRW.accountNumber;
+      document.getElementById('settingKrwHolder').value = storeConfig.bankKRW.accountHolder;
+
+      document.getElementById('settingVndBank').value = storeConfig.bankVND.bankName;
+      document.getElementById('settingVndAccount').value = storeConfig.bankVND.accountNumber;
+      document.getElementById('settingVndHolder').value = storeConfig.bankVND.accountHolder;
+
+      document.getElementById('settingPaypalEmail').value = storeConfig.paypal.email;
+      document.getElementById('settingPaypalName').value = storeConfig.paypal.name;
+
+      document.getElementById('storeSettingsModal').classList.remove('hidden');
+      document.getElementById('storeSettingsModal').classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('storeSettingsModal').classList.add('hidden');
+      document.getElementById('storeSettingsModal').classList.remove('flex');
+    }
+
+    function saveStoreSettings(e) {
+      e.preventDefault();
+
+      storeConfig.brandName   = document.getElementById('settingBrandName').value.trim() || 'TN STUDIO';
+      storeConfig.brandSlogan = document.getElementById('settingBrandSlogan').value.trim() || '';
+
+      storeConfig.telegram = {
+        botToken: document.getElementById('settingTelegramToken').value.trim(),
+        chatId: document.getElementById('settingTelegramChatId').value.trim()
+      };
+
+      storeConfig.bankKRW = {
+        bankName: document.getElementById('settingKrwBank').value.trim(),
+        accountNumber: document.getElementById('settingKrwAccount').value.trim(),
+        accountHolder: document.getElementById('settingKrwHolder').value.trim()
+      };
+
+      storeConfig.bankVND = {
+        bankName: document.getElementById('settingVndBank').value.trim(),
+        accountNumber: document.getElementById('settingVndAccount').value.trim(),
+        accountHolder: document.getElementById('settingVndHolder').value.trim()
+      };
+
+      storeConfig.paypal = {
+        email: document.getElementById('settingPaypalEmail').value.trim(),
+        name: document.getElementById('settingPaypalName').value.trim()
+      };
+
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
+      applyStoreConfigUI();
+      closeSettingsModal();
+      alert('Đã lưu cấu hình cửa hàng & cài đặt Telegram thành công!');
+    }
+
+    function applyStoreConfigUI() {
+      document.title = `${storeConfig.brandName} | Cửa Hàng & Quản Trị`;
+      const brandLogo = document.getElementById('storeBrandLogo');
+      const brandSlogan = document.getElementById('storeBrandSlogan');
+      const topAnnounce = document.getElementById('topAnnouncementText');
+
+      if (brandLogo) brandLogo.innerText = storeConfig.brandName;
+      if (brandSlogan) brandSlogan.innerText = storeConfig.brandSlogan;
+      if (topAnnounce) topAnnounce.innerText = `HỆ THỐNG ${storeConfig.brandName.toUpperCase()} • V2.4`;
+    }
+
+    async function testTelegramNotification() {
+      const token = document.getElementById('settingTelegramToken').value.trim();
+      const chatId = document.getElementById('settingTelegramChatId').value.trim();
+
+      if (!token || !chatId) {
+        alert('Vui lòng nhập cả Telegram Bot Token và Chat ID trước khi bấm thử!');
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: `🔔 *TEST KẾT NỐI THÀNH CÔNG!*\n\nWebsite thời trang *${storeConfig.brandName}* đã liên kết thành công với Telegram của bạn.\nMỗi khi có đơn hàng và bill chuyển khoản mới, hệ thống sẽ tự động báo vào đây!`,
+            parse_mode: 'Markdown'
+          })
+        });
+
+        if (res.ok) {
+          alert('Tuyệt vời! Tin nhắn kiểm tra đã được gửi tới Telegram của bạn thành công. Hãy mở Telegram kiểm tra nhé!');
+        } else {
+          alert('Không thể gửi tin nhắn. Vui lòng kiểm tra lại Token hoặc Chat ID (hoặc chắc chắn bạn đã bấm /start với bot).');
+        }
+      } catch (err) {
+        alert('Lỗi kết nối tới Telegram API: ' + err.message);
+      }
+    }
+
+    function getCategoryName(catKey) {
+      if (catKey === 'ao') return 'Áo & Hoodie';
+      if (catKey === 'quan') return 'Quần Jeans';
+      if (catKey === 'set') return 'Set thiết kế';
+      return 'Thời trang';
+    }
+  </script>
+</body>
+</html>
