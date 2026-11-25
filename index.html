@@ -59,10 +59,10 @@
     </div>
 
     <div class="flex items-center gap-3 flex-shrink-0 text-neutral-400 text-[10px]">
-      <span class="hidden sm:inline">Hỗ trợ giao hàng toàn Hàn Quốc</span>
+      <span class="hidden sm:inline" data-i18n="topShippingNotice">Hỗ trợ giao hàng toàn Hàn Quốc</span>
       <span class="inline-flex items-center gap-1 text-emerald-400 font-semibold">
         <i data-lucide="headphones" class="w-3 h-3"></i>
-        <span>Hỗ trợ 24/7</span>
+        <span data-i18n="topSupport247">Hỗ trợ 24/7</span>
       </span>
     </div>
   </div>
@@ -83,46 +83,61 @@
 
         <!-- Desktop Nav -->
         <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <button onclick="filterCategory('all')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-900 font-semibold">Tất cả</button>
-          <button onclick="filterCategory('ao')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Áo & Hoodie</button>
-          <button onclick="filterCategory('quan')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Quần & Denim</button>
-          <button onclick="filterCategory('set')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Set thiết kế</button>
+          <button onclick="filterCategory('all')" data-i18n="navAll" class="nav-item hover:text-neutral-900 transition-colors text-neutral-900 font-semibold">Tất cả</button>
+          <button onclick="filterCategory('ao')" data-i18n="navTops" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Áo & Hoodie</button>
+          <button onclick="filterCategory('quan')" data-i18n="navBottoms" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Quần & Denim</button>
+          <button onclick="filterCategory('set')" data-i18n="navSets" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Set thiết kế</button>
           <button onclick="toggleSupportDropdown()" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500 flex items-center gap-1">
-            <span>Tư vấn Size</span>
+            <span data-i18n="navConsult">Tư vấn Size</span>
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
           </button>
         </nav>
 
         <!-- Right Tools -->
-        <div class="flex items-center space-x-2 sm:space-x-4">
+        <div class="flex items-center space-x-1.5 sm:space-x-3">
+          <!-- BỘ CHỌN NGÔN NGỮ (VI / KO / EN) -->
+          <div class="relative">
+            <select 
+              id="headerLangSelector" 
+              onchange="changeLanguage(this.value)" 
+              class="bg-neutral-100 text-neutral-800 text-[10px] sm:text-xs font-bold rounded-full pl-2 pr-5 py-1.5 border border-neutral-200 outline-none cursor-pointer appearance-none"
+            >
+              <option value="vi">🇻🇳 VI</option>
+              <option value="ko">🇰🇷 한국어</option>
+              <option value="en">🇺🇸 EN</option>
+            </select>
+            <i data-lucide="globe" class="w-2.5 h-2.5 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500"></i>
+          </div>
+
           <!-- Currency selector -->
           <div class="relative">
             <select 
               id="headerCurrencySelector" 
               onchange="changeActiveCurrency(this.value)" 
-              class="bg-neutral-100 text-neutral-800 text-[11px] sm:text-xs font-bold rounded-full pl-2.5 pr-6 py-1.5 border border-neutral-200 outline-none cursor-pointer appearance-none"
+              class="bg-neutral-100 text-neutral-800 text-[10px] sm:text-xs font-bold rounded-full pl-2 sm:pl-2.5 pr-5 sm:pr-6 py-1.5 border border-neutral-200 outline-none cursor-pointer appearance-none"
             >
               <option value="KRW">₩ KRW</option>
               <option value="VND">₫ VND</option>
               <option value="USD">$ USD</option>
             </select>
-            <i data-lucide="chevron-down" class="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500"></i>
+            <i data-lucide="chevron-down" class="w-3 h-3 absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500"></i>
           </div>
 
           <!-- Nút tìm kiếm nhanh trên Mobile -->
           <button 
             onclick="toggleMobileSearch()"
-            class="sm:hidden p-2 rounded-full hover:bg-neutral-100 text-neutral-700 active:scale-95 transition"
+            class="sm:hidden p-1.5 rounded-full hover:bg-neutral-100 text-neutral-700 active:scale-95 transition"
             aria-label="Tìm kiếm"
           >
-            <i data-lucide="search" class="w-5 h-5"></i>
+            <i data-lucide="search" class="w-4 h-4"></i>
           </button>
 
           <!-- Search Bar Trên Desktop -->
-          <div class="relative hidden sm:block w-44 lg:w-64">
+          <div class="relative hidden sm:block w-40 lg:w-56">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
             <input 
               type="text" 
+              id="desktopSearchInput"
               placeholder="Tìm áo, quần jeans..." 
               oninput="handleSearch(this.value)"
               class="w-full bg-neutral-100 rounded-full pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-neutral-800 transition"
@@ -136,6 +151,16 @@
           >
             <i data-lucide="shopping-bag" class="w-5 h-5"></i>
             <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-neutral-900 text-white text-[10px] font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+
+          <!-- Nút Đăng Nhập Quản Trị Trực Tiếp (Tiện lợi, an toàn trên Mobile) -->
+          <button 
+            onclick="openPinLoginModal()" 
+            class="p-2 sm:p-2.5 rounded-full text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 active:scale-95 transition"
+            title="Quản trị viên"
+            aria-label="Admin Login"
+          >
+            <i data-lucide="lock" class="w-4 h-4 sm:w-4.5 sm:h-4.5"></i>
           </button>
         </div>
       </div>
@@ -162,18 +187,23 @@
       </div>
     </header>
 
+    <!-- BANNER KHUYẾN MÃI (NẾU CHỦ SHOP BẬT FLASH SALE) -->
+    <div id="saleBannerNotice" class="hidden bg-rose-600 text-white py-2 px-4 text-center text-xs font-bold tracking-wide shadow-inner">
+      <span id="saleBannerNoticeText">🔥 ƯU ĐÃI ĐẶC BIỆT: GIẢM 10% TOÀN BỘ SẢN PHẨM TRÊN WEB!</span>
+    </div>
+
     <!-- HERO SECTION -->
     <section class="relative bg-white border-b border-neutral-200 py-6 sm:py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         <div class="space-y-4">
           <div class="inline-flex items-center gap-1.5 bg-neutral-100 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase text-neutral-700">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            BST Hàn Quốc • S/S 2026
+            <span data-i18n="heroBadge">BST Hàn Quốc • S/S 2026</span>
           </div>
           <h1 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-neutral-900 leading-snug">
-            Phong cách hiện đại cùng <span class="italic font-normal">Minh Anh Clothing</span>
+            <span data-i18n="heroTitle">Phong cách hiện đại cùng</span> <span class="italic font-normal" id="heroBrandDisplay">Minh Anh Clothing</span>
           </h1>
-          <p class="text-neutral-600 text-xs sm:text-sm leading-relaxed">
+          <p class="text-neutral-600 text-xs sm:text-sm leading-relaxed" data-i18n="heroDesc">
             Tuyển chọn thời trang phong cách Hàn Quốc. Giao hàng toàn quốc nội địa Hàn, thanh toán đa tiền tệ và đối soát biên lai trực tiếp.
           </p>
 
@@ -181,11 +211,11 @@
           <div class="flex items-center gap-2 pt-1">
             <a id="heroFbLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-sm transition">
               <i data-lucide="message-circle" class="w-4 h-4"></i>
-              <span>Nhắn Facebook</span>
+              <span data-i18n="btnMsgFb">Nhắn Facebook</span>
             </a>
             <a id="heroTiktokLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-neutral-900 hover:bg-black text-white rounded-xl text-xs font-semibold shadow-sm transition">
               <i data-lucide="video" class="w-4 h-4 text-rose-400"></i>
-              <span>Video TikTok</span>
+              <span data-i18n="btnVideoTiktok">Video TikTok</span>
             </a>
           </div>
         </div>
@@ -206,16 +236,16 @@
       <!-- Filter Chips & Info -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-neutral-200 mb-6">
         <div>
-          <h2 class="text-xl sm:text-2xl font-serif font-bold text-neutral-900">Danh Mục Sản Phẩm</h2>
-          <p class="text-[11px] text-neutral-500 mt-0.5">Hiển thị <span id="catalogCount" class="font-bold text-neutral-800">0</span> sản phẩm</p>
+          <h2 class="text-xl sm:text-2xl font-serif font-bold text-neutral-900" data-i18n="catalogTitle">Danh Mục Sản Phẩm</h2>
+          <p class="text-[11px] text-neutral-500 mt-0.5"><span data-i18n="catalogShowing">Hiển thị</span> <span id="catalogCount" class="font-bold text-neutral-800">0</span> <span data-i18n="catalogProducts">sản phẩm</span></p>
         </div>
         
         <!-- Category Pill Buttons -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 smooth-scroll" id="categoryPills">
-          <button onclick="filterCategory('all')" data-cat="all" class="cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition">Tất cả</button>
-          <button onclick="filterCategory('ao')" data-cat="ao" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Áo & Hoodie</button>
-          <button onclick="filterCategory('quan')" data-cat="quan" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Quần Jeans</button>
-          <button onclick="filterCategory('set')" data-cat="set" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Set phối sẵn</button>
+          <button onclick="filterCategory('all')" data-cat="all" data-i18n="pillAll" class="cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition">Tất cả</button>
+          <button onclick="filterCategory('ao')" data-cat="ao" data-i18n="pillTops" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Áo & Hoodie</button>
+          <button onclick="filterCategory('quan')" data-cat="quan" data-i18n="pillBottoms" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Quần Jeans</button>
+          <button onclick="filterCategory('set')" data-cat="set" data-i18n="pillSets" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Set phối sẵn</button>
         </div>
       </div>
 
@@ -315,12 +345,58 @@
         <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px]">
           <p class="text-neutral-500">Giao hàng an toàn nội địa Hàn Quốc • Đảm bảo 100% hình thật hàng thật</p>
           <!-- Nút kích hoạt bí mật kín đáo dưới chân trang -->
-          <span onclick="promptAdminLogin()" class="cursor-default select-none text-neutral-400 hover:text-neutral-600 transition">
+          <span onclick="openPinLoginModal()" class="cursor-pointer select-none text-neutral-400 hover:text-neutral-700 transition">
             © 2026 Minh Anh Clothing. All rights reserved.
           </span>
         </div>
       </div>
     </footer>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL NHẬP MÃ PIN QUẢN TRỊ RIÊNG BIỆT      -->
+  <!-- ========================================== -->
+  <div id="pinLoginModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xs w-full p-6 shadow-2xl relative space-y-4 text-center">
+      <button onclick="closePinLoginModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-800 p-1">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="w-12 h-12 rounded-full bg-neutral-100 text-neutral-900 flex items-center justify-center mx-auto">
+        <i data-lucide="lock" class="w-6 h-6"></i>
+      </div>
+
+      <div>
+        <h3 class="text-base font-serif font-bold text-neutral-900">Xác Thực Quản Trị</h3>
+        <p class="text-xs text-neutral-500 mt-0.5">Nhập mã PIN Chủ Shop hoặc Nhân Viên</p>
+      </div>
+
+      <form onsubmit="handleCustomPinSubmit(event)" class="space-y-3">
+        <div>
+          <input 
+            type="password" 
+            id="customPinInput" 
+            inputmode="numeric" 
+            pattern="[0-9]*" 
+            maxlength="8" 
+            placeholder="••••" 
+            class="w-full text-center tracking-[0.5em] text-xl font-bold font-mono py-2.5 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-900 bg-neutral-50"
+            autocomplete="off"
+            required
+          >
+          <p id="pinErrorMessage" class="hidden text-[11px] text-rose-500 font-semibold mt-1">Mã PIN không chính xác!</p>
+        </div>
+
+        <div class="flex gap-2">
+          <button type="button" onclick="closePinLoginModal()" class="flex-1 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold text-neutral-600 active:bg-neutral-100">
+            Hủy
+          </button>
+          <button type="submit" class="flex-1 py-2.5 rounded-xl bg-neutral-900 text-white text-xs font-bold active:bg-neutral-800 shadow-md">
+            Mở Khóa
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- ========================================== -->
@@ -426,15 +502,7 @@
       
       <!-- Actions Bar Quản Trị -->
       <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <div id="roleBadgeContainer" class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-50 text-amber-800 text-[10px] font-bold tracking-wider uppercase border border-amber-200 mb-1">
-            <i data-lucide="shield-check" class="w-3 h-3"></i>
-            <span id="roleBadgeText">Chủ Shop</span>
-          </div>
-          <h2 class="text-lg sm:text-2xl font-serif font-bold text-neutral-900" id="adminWelcomeTitle">Quản Trị Đơn Hàng & Kho</h2>
-        </div>
-        
-        <!-- Nút thao tác nhanh -->
+        <!-- Right Actions in Admin Header -->
         <div class="flex items-center gap-2 pt-1 sm:pt-0">
           <button 
             id="adminBtnSettings"
@@ -445,6 +513,15 @@
             <span>Cài đặt & Bot & MXH</span>
           </button>
           
+          <button 
+            id="adminBtnDiscounts"
+            onclick="openDiscountModal()" 
+            class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-rose-300 text-xs font-semibold text-rose-700 bg-rose-50 active:bg-rose-100 transition shadow-sm"
+          >
+            <i data-lucide="tag" class="w-4 h-4 text-rose-600"></i>
+            <span>Quản Lý Giảm Giá</span>
+          </button>
+
           <button 
             id="adminBtnAddProduct"
             onclick="openProductModal()" 
@@ -566,33 +643,81 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 3. MODAL: ĐĂNG NHẬP MÃ PIN QUẢN TRỊ        -->
+  <!-- 4.1 MODAL: QUẢN LÝ GIẢM GIÁ & VOUCHER      -->
   <!-- ========================================== -->
-  <div id="adminLoginModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-xs w-full p-6 shadow-2xl space-y-4 text-center">
-      <div class="w-12 h-12 bg-neutral-100 text-neutral-900 rounded-full flex items-center justify-center mx-auto">
-        <i data-lucide="lock" class="w-5 h-5"></i>
-      </div>
-      <div>
-        <h3 class="text-base font-serif font-bold text-neutral-900">Xác Thực Truy Cập</h3>
-        <p class="text-[11px] text-neutral-500 mt-1">Vui lòng nhập mã PIN phân quyền:</p>
+  <div id="discountConfigModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center sm:p-4">
+    <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl relative max-h-[92vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-neutral-200 flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center">
+            <i data-lucide="percent" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-serif font-bold text-base text-neutral-900">Quản Lý Khuyến Mãi & Giảm Giá</h3>
+            <p class="text-[10px] text-neutral-500">Chỉ dành cho Chủ Shop điều chỉnh</p>
+          </div>
+        </div>
+        <button onclick="closeDiscountModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
-      <form onsubmit="handleAdminLoginSubmit(event)" class="space-y-3">
-        <input 
-          type="password" 
-          id="adminPasswordInput" 
-          inputmode="numeric"
-          pattern="[0-9]*"
-          maxlength="8"
-          required 
-          placeholder="••••" 
-          class="w-full text-center tracking-widest text-xl font-bold border border-neutral-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-neutral-900"
-        >
-        
-        <div class="flex items-center gap-2 pt-2">
-          <button type="button" onclick="closeAdminLoginModal()" class="w-1/2 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold text-neutral-600 active:bg-neutral-50">Hủy</button>
-          <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-neutral-900 text-white text-xs font-bold active:bg-neutral-800">Đăng Nhập</button>
+      <form onsubmit="handleSaveDiscounts(event)" class="space-y-4 text-xs overflow-y-auto smooth-scroll flex-1 py-3 pr-1">
+        <!-- 1. Flash Sale toàn sàn -->
+        <div class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-rose-950 flex items-center gap-1">
+              <i data-lucide="flame" class="w-4 h-4 text-rose-600"></i>
+              <span>Giảm Giá Toàn Sàn (Flash Sale)</span>
+            </span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="settingSaleActive" class="sr-only peer">
+              <div class="w-9 h-5 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-rose-600"></div>
+            </label>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <div>
+              <label class="block font-semibold text-rose-900 mb-0.5">% Giảm giá trực tiếp:</label>
+              <div class="relative">
+                <input type="number" id="settingSalePercent" min="0" max="90" placeholder="10" class="w-full border border-rose-300 rounded-lg p-2 font-bold text-rose-950 bg-white">
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-rose-600">%</span>
+              </div>
+            </div>
+            <div>
+              <label class="block font-semibold text-rose-900 mb-0.5">Tiêu đề Banner Sale:</label>
+              <input type="text" id="settingSaleBannerText" placeholder="GIẢM 10% TOÀN WEB" class="w-full border border-rose-300 rounded-lg p-2 bg-white text-neutral-800">
+            </div>
+          </div>
+          <p class="text-[10px] text-rose-700">Khi bật, giá trên toàn bộ sản phẩm sẽ hiển thị giá gạch ngang và giá sale màu đỏ!</p>
+        </div>
+
+        <!-- 2. Mã Voucher (Coupon Code) -->
+        <div class="p-3 bg-neutral-50 border border-neutral-200 rounded-xl space-y-2">
+          <span class="font-bold text-neutral-800 flex items-center gap-1.5">
+            <i data-lucide="ticket" class="w-4 h-4 text-neutral-700"></i>
+            <span>Mã Khuyến Mãi Nhập Khi Thanh Toán (Coupon):</span>
+          </span>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] text-neutral-500 mb-0.5">Mã Code (viết hoa):</label>
+              <input type="text" id="settingCouponCode" placeholder="MINHANH20" class="w-full border border-neutral-300 rounded-lg p-2 uppercase font-mono font-bold bg-white">
+            </div>
+            <div>
+              <label class="block text-[10px] text-neutral-500 mb-0.5">% Giảm khi nhập code:</label>
+              <div class="relative">
+                <input type="number" id="settingCouponPercent" min="0" max="90" placeholder="15" class="w-full border border-neutral-300 rounded-lg p-2 font-bold bg-white">
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-neutral-500">%</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-[10px] text-neutral-500">Khách gõ đúng mã này tại ô Giỏ Hàng/Thanh Toán sẽ được giảm thêm tiền!</p>
+        </div>
+
+        <div class="pt-3 border-t border-neutral-200 flex items-center justify-end gap-2 sticky bottom-0 bg-white">
+          <button type="button" onclick="closeDiscountModal()" class="px-4 py-2 border border-neutral-300 rounded-xl text-neutral-600 font-semibold active:bg-neutral-100">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-rose-600 active:bg-rose-700 text-white font-bold rounded-xl shadow-md">Lưu Cài Đặt Giảm Giá</button>
         </div>
       </form>
     </div>
@@ -897,21 +1022,48 @@
       </div>
     </div>
 
+    <!-- Nhập Mã Voucher / Coupon -->
+    <div class="p-3 bg-neutral-50/80 border-b border-neutral-200">
+      <div class="flex gap-1.5">
+        <input 
+          type="text" 
+          id="cartCouponInput" 
+          placeholder="Nhập mã voucher (nếu có)..." 
+          class="flex-1 uppercase font-mono text-xs border border-neutral-300 rounded-lg px-2.5 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-neutral-800"
+        >
+        <button 
+          onclick="applyCartCoupon()" 
+          class="px-3 py-1.5 bg-neutral-900 text-white font-bold rounded-lg text-xs active:bg-neutral-800 flex-shrink-0"
+        >
+          Áp dụng
+        </button>
+      </div>
+      <div id="couponAppliedMessage" class="hidden text-[10px] font-bold text-emerald-600 mt-1 flex items-center gap-1">
+        <i data-lucide="check" class="w-3 h-3"></i>
+        <span id="couponAppliedText">Đã áp dụng mã giảm giá!</span>
+        <button onclick="removeCartCoupon()" class="text-rose-500 underline ml-1 font-normal">Hủy</button>
+      </div>
+    </div>
+
     <!-- Danh sách sản phẩm trong giỏ -->
     <div id="cartItemList" class="flex-1 overflow-y-auto p-4 space-y-3 divide-y divide-neutral-100 smooth-scroll"></div>
 
     <!-- Tổng tiền & Đặt hàng -->
     <div class="p-4 border-t border-neutral-200 bg-neutral-50 space-y-2">
       <div class="flex items-center justify-between text-xs text-neutral-500">
-        <span>Tiền hàng:</span>
+        <span data-i18n="cartSubtotalLabel">Tiền hàng:</span>
         <span id="cartSubtotal" class="font-bold text-neutral-900">₩0</span>
       </div>
+      <div id="cartDiscountRow" class="hidden flex items-center justify-between text-xs text-rose-600">
+        <span>Voucher giảm giá:</span>
+        <span id="cartDiscountAmount" class="font-bold">-₩0</span>
+      </div>
       <div class="flex items-center justify-between text-xs text-neutral-500">
-        <span>Phí ship Hàn Quốc:</span>
+        <span data-i18n="cartShippingLabel">Phí ship Hàn Quốc:</span>
         <span id="cartShippingFee" class="font-medium text-neutral-800">₩3,000</span>
       </div>
       <div class="flex items-center justify-between text-sm font-bold text-neutral-900 pt-1 border-t border-neutral-200">
-        <span>Tổng cộng:</span>
+        <span data-i18n="cartTotalLabel">Tổng cộng:</span>
         <span id="cartFinalTotal" class="text-base font-serif text-neutral-900">₩0</span>
       </div>
 
@@ -920,7 +1072,7 @@
         onclick="openCheckoutModal()"
         class="w-full bg-neutral-900 active:bg-neutral-800 text-white font-bold py-3 rounded-full text-xs uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-md mt-1"
       >
-        <span>Tiến Hành Thanh Toán</span>
+        <span data-i18n="btnCheckout">Tiến Hành Thanh Toán</span>
         <i data-lucide="arrow-right" class="w-4 h-4"></i>
       </button>
     </div>
@@ -1082,6 +1234,94 @@
     const STORAGE_KEY_CONFIG   = 'minhanh_config_v4';
     const STORAGE_KEY_ORDERS   = 'minhanh_orders_v4';
 
+    // BỘ TỪ ĐIỂN ĐA NGÔN NGỮ (VI / KO / EN)
+    const I18N_DICTIONARY = {
+      vi: {
+        topShippingNotice: "Hỗ trợ giao hàng toàn Hàn Quốc",
+        topSupport247: "Hỗ trợ 24/7",
+        navAll: "Tất cả",
+        navTops: "Áo & Hoodie",
+        navBottoms: "Quần & Denim",
+        navSets: "Set thiết kế",
+        navConsult: "Tư vấn Size",
+        heroBadge: "BST Hàn Quốc • S/S 2026",
+        heroTitle: "Phong cách hiện đại cùng",
+        heroDesc: "Tuyển chọn thời trang phong cách Hàn Quốc. Giao hàng toàn quốc nội địa Hàn, thanh toán đa tiền tệ và đối soát biên lai trực tiếp.",
+        btnMsgFb: "Nhắn Facebook",
+        btnVideoTiktok: "Video TikTok",
+        catalogTitle: "Danh Mục Sản Phẩm",
+        catalogShowing: "Hiển thị",
+        catalogProducts: "sản phẩm",
+        pillAll: "Tất cả",
+        pillTops: "Áo & Hoodie",
+        pillBottoms: "Quần Jeans",
+        pillSets: "Set phối sẵn",
+        searchPlaceholder: "Tìm mẫu áo, quần jeans...",
+        cartSubtotalLabel: "Tiền hàng:",
+        cartShippingLabel: "Phí ship Hàn Quốc:",
+        cartTotalLabel: "Tổng cộng:",
+        btnCheckout: "Tiến Hành Thanh Toán",
+        btnAddToCart: "Thêm Vào Giỏ Hàng",
+        freeshipText: "Freeship từ ₩50,000"
+      },
+      ko: {
+        topShippingNotice: "한국 전지역 우체국/CJ 배송",
+        topSupport247: "연중무휴 고객지원",
+        navAll: "전체상품",
+        navTops: "상의 & 후드",
+        navBottoms: "팬츠 & 데님",
+        navSets: "세트 상품",
+        navConsult: "사이즈 문의",
+        heroBadge: "코리안 트렌드 컬렉션 • S/S 2026",
+        heroTitle: "모던 시크 스타일",
+        heroDesc: "한국 트렌드 셀렉트 패션 샵. 전지역 빠른 배송, 다국어 및 간편 입금 영수증 자동 확인 시스템.",
+        btnMsgFb: "페이스북 문의",
+        btnVideoTiktok: "틱톡 영상",
+        catalogTitle: "상품 카탈로그",
+        catalogShowing: "총",
+        catalogProducts: "개 상품",
+        pillAll: "전체",
+        pillTops: "상의 & 후드",
+        pillBottoms: "청바지/팬츠",
+        pillSets: "세트/코디",
+        searchPlaceholder: "원하는 상품명을 검색하세요...",
+        cartSubtotalLabel: "상품금액:",
+        cartShippingLabel: "국내 배송비:",
+        cartTotalLabel: "총 결제금액:",
+        btnCheckout: "주문서 작성하기",
+        btnAddToCart: "장바구니 담기",
+        freeshipText: "50,000원 이상 무료배송"
+      },
+      en: {
+        topShippingNotice: "Nationwide Shipping in South Korea",
+        topSupport247: "24/7 Support",
+        navAll: "All Collections",
+        navTops: "Tops & Hoodies",
+        navBottoms: "Pants & Denim",
+        navSets: "Outfits & Sets",
+        navConsult: "Size Guide",
+        heroBadge: "Korean Trend • S/S 2026",
+        heroTitle: "Modern Chic With",
+        heroDesc: "Curated modern streetwear tailored for Korea. Nationwide delivery, multi-currency support, and verified bank receipts.",
+        btnMsgFb: "Chat Facebook",
+        btnVideoTiktok: "TikTok Clips",
+        catalogTitle: "Product Catalog",
+        catalogShowing: "Showing",
+        catalogProducts: "items",
+        pillAll: "All",
+        pillTops: "Tops & Hoodies",
+        pillBottoms: "Jeans & Denim",
+        pillSets: "Co-ord Sets",
+        searchPlaceholder: "Search hoodies, jeans...",
+        cartSubtotalLabel: "Subtotal:",
+        cartShippingLabel: "Korea Shipping:",
+        cartTotalLabel: "Total:",
+        btnCheckout: "Proceed To Checkout",
+        btnAddToCart: "Add To Cart",
+        freeshipText: "Free shipping over ₩50,000"
+      }
+    };
+
     const MASTER_COLOR_PALETTE = [
       { name: 'Đen Noir', hex: '#111111' },
       { name: 'Trắng Kem', hex: '#f4f1ea' },
@@ -1157,6 +1397,7 @@
       brandSlogan: 'Modern Wardrobe & Streetwear',
       orderPrefix: 'MA-',
       currency: 'KRW',
+      language: 'vi',
       adminPin: '8888',
       staffPin: '1111',
       exchangeRates: { KRW_VND: 18.52, USD_KRW: 1350.0 },
@@ -1166,6 +1407,13 @@
         tiktokUrl: 'https://tiktok.com',
         kakaoId: 'minhanh_kr',
         hotline: '010-8888-9999'
+      },
+      discounts: {
+        flashSaleActive: false,
+        flashSalePercent: 10,
+        flashSaleBannerText: '🔥 FLASH SALE: GIẢM 10% TOÀN BỘ SẢN PHẨM TRÊN WEB!',
+        couponCode: 'MINHANH',
+        couponPercent: 15
       },
       bankKRW: {
         bankName: 'KB Kookmin Bank (국민은행)',
@@ -1193,13 +1441,13 @@
     let activeCheckoutCurrency = 'KRW';
     let currentUploadedBillBase64 = null;
     let currentAuthRole = null; // 'owner' | 'staff' | null
+    let currentCouponApplied = false;
 
     let formImages = [];
     let activeQuickViewProduct = null;
     let selectedQvColor = null;
     let selectedQvSize = null;
 
-    // Cơ chế gõ bí mật để mở Đăng nhập (Bấm nhanh 3 lần vào logo)
     let logoClickCount = 0;
     let logoClickTimer = null;
 
@@ -1208,7 +1456,7 @@
       clearTimeout(logoClickTimer);
       if (logoClickCount >= 3) {
         logoClickCount = 0;
-        promptAdminLogin();
+        openPinLoginModal();
       } else {
         logoClickTimer = setTimeout(() => {
           logoClickCount = 0;
@@ -1216,12 +1464,60 @@
       }
     }
 
-    // Toggle menu hỗ trợ khách hàng
+    // Modal nhập mã PIN tùy biến (thay thế prompt() bị Safari chặn)
+    function openPinLoginModal() {
+      const modal = document.getElementById('pinLoginModal');
+      const input = document.getElementById('customPinInput');
+      const err = document.getElementById('pinErrorMessage');
+      if (err) err.classList.add('hidden');
+      if (input) {
+        input.value = '';
+      }
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => input?.focus(), 150);
+      }
+      lucide.createIcons();
+    }
+
+    function closePinLoginModal() {
+      const modal = document.getElementById('pinLoginModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function handleCustomPinSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('customPinInput');
+      const err = document.getElementById('pinErrorMessage');
+      const pinVal = input ? input.value.trim() : '';
+
+      const adminPin = storeConfig.adminPin || '8888';
+      const staffPin = storeConfig.staffPin || '1111';
+
+      if (pinVal === adminPin) {
+        currentAuthRole = 'owner';
+        closePinLoginModal();
+        openAdminDashboard();
+      } else if (pinVal === staffPin) {
+        currentAuthRole = 'staff';
+        closePinLoginModal();
+        openAdminDashboard();
+      } else {
+        if (err) err.classList.remove('hidden');
+        if (input) {
+          input.value = '';
+          input.focus();
+        }
+      }
+    }
+
     function toggleSupportDropdown() {
       const menu = document.getElementById('supportDropdownMenu');
-      if (menu) {
-        menu.classList.toggle('hidden');
-      }
+      if (menu) menu.classList.toggle('hidden');
     }
 
     function copyKakaoIdAlert() {
@@ -1233,12 +1529,242 @@
       });
     }
 
+    // Tự động tải tỷ giá hối đoái trực tiếp hoặc dùng tỷ giá dự phòng
+    async function fetchLiveExchangeRates() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/KRW');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.rates) {
+            const krwVnd = data.rates.VND || 18.52;
+            const usdKrw = data.rates.USD ? (1 / data.rates.USD) : 1350.0;
+            storeConfig.exchangeRates = {
+              KRW_VND: Number(krwVnd.toFixed(2)),
+              USD_KRW: Math.round(usdKrw)
+            };
+          }
+        }
+      } catch (err) {
+        // Dự phòng tỷ giá ổn định nếu ngoại tuyến hoặc lỗi mạng
+        if (!storeConfig.exchangeRates) {
+          storeConfig.exchangeRates = { KRW_VND: 18.52, USD_KRW: 1350.0 };
+        }
+      }
+    }
+
+    // Xử lý đăng nhập quản trị bí mật bằng mã PIN
+    function promptAdminLogin() {
+      const inputPin = prompt('Nhập mã PIN bảo mật:');
+      if (!inputPin) return;
+
+      const trimmedPin = inputPin.trim();
+      const adminPin = storeConfig.adminPin || '8888';
+      const staffPin = storeConfig.staffPin || '1111';
+
+      if (trimmedPin === adminPin) {
+        currentAuthRole = 'owner';
+        openAdminDashboard();
+      } else if (trimmedPin === staffPin) {
+        currentAuthRole = 'staff';
+        openAdminDashboard();
+      } else {
+        alert('Mã PIN không chính xác!');
+      }
+    }
+
+    function openAdminDashboard() {
+      const storeContainer = document.getElementById('storefrontContainer');
+      const adminContainer = document.getElementById('adminContainer');
+      const roleDot = document.getElementById('roleIndicatorDot');
+      const roleTitle = document.getElementById('roleIndicatorTitle');
+      const btnSettings = document.getElementById('adminBtnSettings');
+      const btnDiscounts = document.getElementById('adminBtnDiscounts');
+      const btnAddProd = document.getElementById('adminBtnAddProduct');
+      const btnClearOrders = document.getElementById('adminBtnClearOrders');
+      const statTotalValBox = document.getElementById('statTotalValueBox');
+
+      if (storeContainer) storeContainer.classList.add('hidden');
+      if (adminContainer) adminContainer.classList.remove('hidden');
+
+      if (currentAuthRole === 'owner') {
+        if (roleDot) roleDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 flex-shrink-0';
+        if (roleTitle) roleTitle.innerText = 'QUẢN TRỊ • CHỦ SHOP (OWNER)';
+        if (btnSettings) btnSettings.classList.remove('hidden');
+        if (btnDiscounts) btnDiscounts.classList.remove('hidden');
+        if (btnAddProd) btnAddProd.classList.remove('hidden');
+        if (btnClearOrders) btnClearOrders.classList.remove('hidden');
+        if (statTotalValBox) statTotalValBox.classList.remove('hidden');
+      } else {
+        if (roleDot) roleDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 flex-shrink-0';
+        if (roleTitle) roleTitle.innerText = 'KHÔNG GIAN LÀM VIỆC • NHÂN VIÊN (STAFF)';
+        if (btnSettings) btnSettings.classList.add('hidden');
+        if (btnDiscounts) btnDiscounts.classList.add('hidden');
+        if (btnAddProd) btnAddProd.classList.add('hidden');
+        if (btnClearOrders) btnClearOrders.classList.add('hidden');
+        if (statTotalValBox) statTotalValBox.classList.add('hidden');
+      }
+
+      switchAdminTab('orders');
+      renderAdminOrders();
+      renderAdminTable();
+      lucide.createIcons();
+    }
+
+    function exitAdminMode() {
+      const storeContainer = document.getElementById('storefrontContainer');
+      const adminContainer = document.getElementById('adminContainer');
+      if (adminContainer) adminContainer.classList.add('hidden');
+      if (storeContainer) storeContainer.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function logoutAdmin() {
+      currentAuthRole = null;
+      exitAdminMode();
+      alert('Đã khóa trang quản trị an toàn!');
+    }
+
+    function switchAdminTab(tabName) {
+      const tabOrders = document.getElementById('adminTabOrdersSection');
+      const tabProducts = document.getElementById('adminTabProductsSection');
+      const btnOrders = document.getElementById('tabBtnOrders');
+      const btnProducts = document.getElementById('tabBtnProducts');
+
+      if (tabName === 'orders') {
+        if (tabOrders) tabOrders.classList.remove('hidden');
+        if (tabProducts) tabProducts.classList.add('hidden');
+        if (btnOrders) {
+          btnOrders.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition whitespace-nowrap';
+        }
+        if (btnProducts) {
+          btnProducts.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white text-neutral-600 border border-neutral-200 transition whitespace-nowrap';
+        }
+      } else {
+        if (tabOrders) tabOrders.classList.add('hidden');
+        if (tabProducts) tabProducts.classList.remove('hidden');
+        if (btnProducts) {
+          btnProducts.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition whitespace-nowrap';
+        }
+        if (btnOrders) {
+          btnOrders.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white text-neutral-600 border border-neutral-200 transition whitespace-nowrap';
+        }
+      }
+      lucide.createIcons();
+    }
+
+    function toggleMobileSearch() {
+      const wrapper = document.getElementById('mobileSearchWrapper');
+      if (wrapper) {
+        wrapper.classList.toggle('hidden');
+        const input = document.getElementById('mobileSearchInput');
+        if (input && !wrapper.classList.contains('hidden')) {
+          input.focus();
+        }
+      }
+    }
+
+    function clearSearchMobile() {
+      const input = document.getElementById('mobileSearchInput');
+      if (input) input.value = '';
+      handleSearch('');
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      const clearBtn = document.getElementById('clearMobileSearchBtn');
+      if (clearBtn) {
+        if (val.trim()) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      renderCatalog();
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('#categoryPills .cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.className = 'cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition';
+        } else {
+          btn.className = 'cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition';
+        }
+      });
+      renderCatalog();
+    }
+
+    function toggleCart(open) {
+      const drawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('cartBackdrop');
+      if (!drawer || !backdrop) return;
+
+      if (open) {
+        drawer.classList.remove('drawer-closed');
+        drawer.classList.add('drawer-open');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        drawer.classList.remove('drawer-open');
+        drawer.classList.add('drawer-closed');
+        backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function closeQuickView() {
+      const modal = document.getElementById('quickViewModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function setQuickViewMainImage(url) {
+      const mainImg = document.getElementById('qvMainImage');
+      if (mainImg) mainImg.src = url;
+    }
+
+    function selectQvColor(colorName) {
+      if (!activeQuickViewProduct) return;
+      selectedQvColor = activeQuickViewProduct.colors.find(c => c.name === colorName) || null;
+      const label = document.getElementById('qvSelectedColorName');
+      if (label) label.innerText = selectedQvColor?.name || '';
+      
+      const colorsEl = document.getElementById('qvColors');
+      if (colorsEl) {
+        Array.from(colorsEl.children).forEach((btn, idx) => {
+          const col = activeQuickViewProduct.colors[idx];
+          if (col && col.name === colorName) {
+            btn.className = 'w-7 h-7 rounded-full border-2 flex items-center justify-center transition border-neutral-900 scale-110 shadow';
+          } else {
+            btn.className = 'w-7 h-7 rounded-full border-2 flex items-center justify-center transition border-neutral-300';
+          }
+        });
+      }
+    }
+
+    function selectQvSize(sizeName) {
+      selectedQvSize = sizeName;
+      const label = document.getElementById('qvSelectedSizeName');
+      if (label) label.innerText = sizeName;
+
+      const sizesEl = document.getElementById('qvSizes');
+      if (sizesEl) {
+        Array.from(sizesEl.children).forEach(btn => {
+          if (btn.innerText.trim() === sizeName) {
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-neutral-900 text-white border-neutral-900';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold border transition bg-white text-neutral-700 border-neutral-200';
+          }
+        });
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       loadStorageData();
       renderCatalog();
       renderAdminTable();
       renderAdminOrders();
       applyStoreConfigUI();
+      applyLanguage(storeConfig.language || 'vi');
       fetchLiveExchangeRates();
       lucide.createIcons();
     });
@@ -1259,7 +1785,8 @@
           storeConfig = { 
             ...DEFAULT_CONFIG, 
             ...parsed,
-            socials: { ...DEFAULT_CONFIG.socials, ...(parsed.socials || {}) }
+            socials: { ...DEFAULT_CONFIG.socials, ...(parsed.socials || {}) },
+            discounts: { ...DEFAULT_CONFIG.discounts, ...(parsed.discounts || {}) }
           }; 
         } catch (e) { 
           storeConfig = { ...DEFAULT_CONFIG }; 
@@ -1289,172 +1816,119 @@
     }
 
     // ---------------------------------------------
-    // TÌM KIẾM CHO MOBILE
+    // ĐA NGÔN NGỮ (VI / KO / EN)
     // ---------------------------------------------
-    function toggleMobileSearch() {
-      const wrapper = document.getElementById('mobileSearchWrapper');
-      const input = document.getElementById('mobileSearchInput');
-      if (wrapper.classList.contains('hidden')) {
-        wrapper.classList.remove('hidden');
-        input.focus();
-      } else {
-        input.focus();
-      }
+    function changeLanguage(langKey) {
+      storeConfig.language = langKey;
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
+      applyLanguage(langKey);
     }
 
-    function clearSearchMobile() {
-      const input = document.getElementById('mobileSearchInput');
-      input.value = '';
-      searchQuery = '';
-      document.getElementById('clearMobileSearchBtn').classList.add('hidden');
-      renderCatalog();
-    }
+    function applyLanguage(langKey) {
+      const dict = I18N_DICTIONARY[langKey] || I18N_DICTIONARY.vi;
+      const langSel = document.getElementById('headerLangSelector');
+      if (langSel) langSel.value = langKey;
 
-    function handleSearch(val) {
-      searchQuery = val;
-      const clearBtn = document.getElementById('clearMobileSearchBtn');
-      if (clearBtn) {
-        if (val.length > 0) clearBtn.classList.remove('hidden');
-        else clearBtn.classList.add('hidden');
-      }
-      renderCatalog();
-    }
-
-    // ---------------------------------------------
-    // ĐĂNG NHẬP ADMIN / NHÂN VIÊN
-    // ---------------------------------------------
-    function promptAdminLogin() {
-      if (currentAuthRole) {
-        enterAdminView();
-      } else {
-        document.getElementById('adminPasswordInput').value = '';
-        document.getElementById('adminLoginModal').classList.remove('hidden');
-        document.getElementById('adminLoginModal').classList.add('flex');
-        setTimeout(() => document.getElementById('adminPasswordInput').focus(), 150);
-      }
-    }
-
-    function closeAdminLoginModal() {
-      document.getElementById('adminLoginModal').classList.add('hidden');
-      document.getElementById('adminLoginModal').classList.remove('flex');
-    }
-
-    function handleAdminLoginSubmit(e) {
-      e.preventDefault();
-      const enteredPin = document.getElementById('adminPasswordInput').value.trim();
-      const ownerPin = storeConfig.adminPin || '8888';
-      const staffPin = storeConfig.staffPin || '1111';
-
-      if (enteredPin === ownerPin) {
-        currentAuthRole = 'owner';
-        closeAdminLoginModal();
-        enterAdminView();
-      } else if (enteredPin === staffPin) {
-        currentAuthRole = 'staff';
-        closeAdminLoginModal();
-        enterAdminView();
-      } else {
-        alert('Mã PIN không đúng!');
-        document.getElementById('adminPasswordInput').value = '';
-      }
-    }
-
-    function enterAdminView() {
-      document.getElementById('storefrontContainer').classList.add('hidden');
-      document.getElementById('adminContainer').classList.remove('hidden');
-
-      const isOwner = currentAuthRole === 'owner';
-      const roleDot = document.getElementById('roleIndicatorDot');
-      const roleTitle = document.getElementById('roleIndicatorTitle');
-      const roleBadge = document.getElementById('roleBadgeContainer');
-      const roleText = document.getElementById('roleBadgeText');
-      const btnSettings = document.getElementById('adminBtnSettings');
-      const btnAddProduct = document.getElementById('adminBtnAddProduct');
-      const btnClearOrders = document.getElementById('adminBtnClearOrders');
-      const statTotalValBox = document.getElementById('statTotalValueBox');
-
-      if (isOwner) {
-        roleDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 flex-shrink-0';
-        roleTitle.innerText = 'BẢNG QUẢN TRỊ • CHỦ SHOP';
-        roleBadge.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-50 text-amber-800 text-[10px] font-bold tracking-wider uppercase border border-amber-200 mb-1';
-        roleText.innerText = 'Chủ Shop (Full)';
-
-        if (btnSettings) btnSettings.classList.remove('hidden');
-        if (btnAddProduct) btnAddProduct.classList.remove('hidden');
-        if (btnClearOrders) btnClearOrders.classList.remove('hidden');
-        if (statTotalValBox) statTotalValBox.classList.remove('hidden');
-      } else {
-        roleDot.className = 'w-2.5 h-2.5 rounded-full bg-sky-400 flex-shrink-0';
-        roleTitle.innerText = 'NHÂN VIÊN TRỰC ĐƠN';
-        roleBadge.className = 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 text-sky-800 text-[10px] font-bold tracking-wider uppercase border border-sky-200 mb-1';
-        roleText.innerText = 'Nhân Viên';
-
-        if (btnSettings) btnSettings.classList.add('hidden');
-        if (btnAddProduct) btnAddProduct.classList.add('hidden');
-        if (btnClearOrders) btnClearOrders.classList.add('hidden');
-        if (statTotalValBox) statTotalValBox.classList.add('hidden');
-      }
-
-      switchAdminTab('orders');
-      renderAdminOrders();
-      renderAdminTable();
-      lucide.createIcons();
-      window.scrollTo(0, 0);
-    }
-
-    function exitAdminMode() {
-      document.getElementById('adminContainer').classList.add('hidden');
-      document.getElementById('storefrontContainer').classList.remove('hidden');
-      renderCatalog();
-      lucide.createIcons();
-      window.scrollTo(0, 0);
-    }
-
-    function logoutAdmin() {
-      currentAuthRole = null;
-      exitAdminMode();
-      alert('Đã khóa trang quản trị!');
-    }
-
-    function switchAdminTab(tabName) {
-      const tabProducts = document.getElementById('adminTabProductsSection');
-      const tabOrders   = document.getElementById('adminTabOrdersSection');
-      const btnProducts = document.getElementById('tabBtnProducts');
-      const btnOrders   = document.getElementById('tabBtnOrders');
-
-      if (tabName === 'orders') {
-        tabProducts.classList.add('hidden');
-        tabOrders.classList.remove('hidden');
-        btnOrders.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition whitespace-nowrap';
-        btnProducts.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white text-neutral-600 border border-neutral-200 transition whitespace-nowrap';
-        renderAdminOrders();
-      } else {
-        tabOrders.classList.add('hidden');
-        tabProducts.classList.remove('hidden');
-        btnProducts.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-neutral-900 text-white shadow-sm transition whitespace-nowrap';
-        btnOrders.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-white text-neutral-600 border border-neutral-200 transition whitespace-nowrap';
-        renderAdminTable();
-      }
-      lucide.createIcons();
-    }
-
-    // ---------------------------------------------
-    // FORMAT TIỀN TỆ & TỶ GIÁ
-    // ---------------------------------------------
-    async function fetchLiveExchangeRates() {
-      try {
-        const response = await fetch('https://open.er-api.com/v6/latest/KRW');
-        if (response.ok) {
-          const data = await response.json();
-          if (data && data.rates) {
-            storeConfig.exchangeRates = {
-              KRW_VND: Number((data.rates.VND || 18.52).toFixed(2)),
-              USD_KRW: Math.round(1 / (data.rates.USD || (1 / 1350)))
-            };
-          }
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerText = dict[key];
         }
-      } catch (err) {}
+      });
+
+      const deskInput = document.getElementById('desktopSearchInput');
+      const mobInput = document.getElementById('mobileSearchInput');
+      if (deskInput) deskInput.placeholder = dict.searchPlaceholder;
+      if (mobInput) mobInput.placeholder = dict.searchPlaceholder;
+
       renderCatalog();
+      updateCartUI();
+    }
+
+    // ---------------------------------------------
+    // TÍNH GIÁ ĐÃ GIẢM (DISCOUNT HELPER)
+    // ---------------------------------------------
+    function getDiscountedPrice(originalPrice) {
+      if (storeConfig.discounts && storeConfig.discounts.flashSaleActive && storeConfig.discounts.flashSalePercent > 0) {
+        const pct = storeConfig.discounts.flashSalePercent;
+        return Math.round(originalPrice * (100 - pct) / 100);
+      }
+      return originalPrice;
+    }
+
+    // ---------------------------------------------
+    // QUẢN LÝ GIẢM GIÁ (OWNER MODAL)
+    // ---------------------------------------------
+    function openDiscountModal() {
+      if (currentAuthRole !== 'owner') {
+        alert('Chỉ Chủ Shop mới có quyền điều chỉnh giảm giá!');
+        return;
+      }
+      const d = storeConfig.discounts || DEFAULT_CONFIG.discounts;
+      document.getElementById('settingSaleActive').checked = d.flashSaleActive;
+      document.getElementById('settingSalePercent').value = d.flashSalePercent;
+      document.getElementById('settingSaleBannerText').value = d.flashSaleBannerText;
+      document.getElementById('settingCouponCode').value = d.couponCode;
+      document.getElementById('settingCouponPercent').value = d.couponPercent;
+
+      const modal = document.getElementById('discountConfigModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeDiscountModal() {
+      const modal = document.getElementById('discountConfigModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleSaveDiscounts(e) {
+      e.preventDefault();
+      if (currentAuthRole !== 'owner') return;
+
+      storeConfig.discounts = {
+        flashSaleActive: document.getElementById('settingSaleActive').checked,
+        flashSalePercent: Number(document.getElementById('settingSalePercent').value) || 0,
+        flashSaleBannerText: document.getElementById('settingSaleBannerText').value.trim() || '🔥 GIẢM GIÁ ĐẶC BIỆT!',
+        couponCode: document.getElementById('settingCouponCode').value.trim().toUpperCase() || 'MINHANH',
+        couponPercent: Number(document.getElementById('settingCouponPercent').value) || 0
+      };
+
+      localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
+      applyStoreConfigUI();
+      renderCatalog();
+      updateCartUI();
+      closeDiscountModal();
+      alert('Đã cập nhật chương trình giảm giá thành công!');
+    }
+
+    // Áp dụng mã Voucher trong giỏ hàng
+    function applyCartCoupon() {
+      const input = document.getElementById('cartCouponInput');
+      const code = input ? input.value.trim().toUpperCase() : '';
+      const validCode = (storeConfig.discounts?.couponCode || 'MINHANH').toUpperCase();
+
+      if (!code) return alert('Vui lòng nhập mã voucher!');
+
+      if (code === validCode) {
+        currentCouponApplied = true;
+        const msg = document.getElementById('couponAppliedMessage');
+        const txt = document.getElementById('couponAppliedText');
+        if (msg) msg.classList.remove('hidden');
+        if (txt) txt.innerText = `Đã áp dụng mã: Giảm thêm ${storeConfig.discounts.couponPercent}%!`;
+        updateCartUI();
+      } else {
+        alert(`Mã giảm giá "${code}" không tồn tại hoặc đã hết hạn!`);
+      }
+    }
+
+    function removeCartCoupon() {
+      currentCouponApplied = false;
+      const msg = document.getElementById('couponAppliedMessage');
+      const input = document.getElementById('cartCouponInput');
+      if (msg) msg.classList.add('hidden');
+      if (input) input.value = '';
       updateCartUI();
     }
 
@@ -1505,12 +1979,22 @@
       }
       if (emptyEl) emptyEl.classList.add('hidden');
 
+      const isSaleActive = storeConfig.discounts?.flashSaleActive;
+      const salePercent = storeConfig.discounts?.flashSalePercent || 0;
+
       grid.innerHTML = filtered.map(product => {
         const img1 = product.images?.[0] || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80';
+        const finalPrice = getDiscountedPrice(product.price);
+
         return `
           <div class="group relative flex flex-col cursor-pointer active:opacity-80 transition" onclick="openQuickView('${product.id}')">
             <div class="relative w-full aspect-[3/4] bg-neutral-100 rounded-xl sm:rounded-2xl overflow-hidden mb-2 shadow-sm">
               <img src="${img1}" alt="${product.title}" class="w-full h-full object-cover">
+              ${isSaleActive && salePercent > 0 ? `
+                <div class="absolute top-2 left-2 bg-rose-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full shadow-md animate-pulse">
+                  -${salePercent}%
+                </div>
+              ` : ''}
             </div>
 
             <div class="flex-1 flex flex-col justify-between">
@@ -1523,7 +2007,12 @@
                 <h3 class="text-xs font-semibold text-neutral-800 line-clamp-1">${product.title}</h3>
               </div>
               <div class="mt-1 flex items-baseline justify-between">
-                <span class="text-xs sm:text-sm font-bold font-serif text-neutral-900">${formatCurrency(product.price)}</span>
+                <div>
+                  <span class="text-xs sm:text-sm font-bold font-serif ${isSaleActive ? 'text-rose-600' : 'text-neutral-900'}">${formatCurrency(finalPrice)}</span>
+                  ${isSaleActive ? `
+                    <span class="text-[10px] text-neutral-400 line-through ml-1">${formatCurrency(product.price)}</span>
+                  ` : ''}
+                </div>
                 <span class="text-[9px] text-neutral-400 font-mono">${product.sizes.join('/')}</span>
               </div>
             </div>
@@ -1534,22 +2023,7 @@
       lucide.createIcons();
     }
 
-    function filterCategory(cat) {
-      currentCategory = cat;
-      const pills = document.querySelectorAll('.cat-pill');
-      pills.forEach(p => {
-        if (p.getAttribute('data-cat') === cat) {
-          p.className = 'cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition';
-        } else {
-          p.className = 'cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition';
-        }
-      });
-      renderCatalog();
-    }
-
-    // ---------------------------------------------
-    // QUICK VIEW
-    // ---------------------------------------------
+    // Cập nhật giá trong QuickView
     function openQuickView(productId) {
       const prod = products.find(p => p.id === productId);
       if (!prod) return;
@@ -1558,15 +2032,24 @@
       selectedQvColor = prod.colors?.[0] || null;
       selectedQvSize  = prod.sizes?.[0] || null;
 
+      const finalPrice = getDiscountedPrice(prod.price);
+      const isSale = storeConfig.discounts?.flashSaleActive;
+
       document.getElementById('qvCategory').innerText = getCategoryName(prod.category);
       document.getElementById('qvTitle').innerText = prod.title;
-      document.getElementById('qvPrice').innerText = formatCurrency(prod.price);
-
-      // Cập nhật link tư vấn Facebook kèm tên sản phẩm
-      const consultLink = document.getElementById('qvConsultLink');
-      if (consultLink) {
-        consultLink.href = storeConfig.socials?.facebookUrl || '#';
+      
+      const qvPriceEl = document.getElementById('qvPrice');
+      if (isSale) {
+        qvPriceEl.innerHTML = `
+          <span class="text-rose-600">${formatCurrency(finalPrice)}</span>
+          <span class="text-xs line-through text-neutral-400 font-normal ml-2">${formatCurrency(prod.price)}</span>
+        `;
+      } else {
+        qvPriceEl.innerText = formatCurrency(prod.price);
       }
+
+      const consultLink = document.getElementById('qvConsultLink');
+      if (consultLink) consultLink.href = storeConfig.socials?.facebookUrl || '#';
 
       const mainImg = document.getElementById('qvMainImage');
       const thumbsContainer = document.getElementById('qvThumbnails');
@@ -1605,28 +2088,6 @@
       lucide.createIcons();
     }
 
-    function setQuickViewMainImage(url) {
-      document.getElementById('qvMainImage').src = url;
-    }
-
-    function selectQvColor(colName) {
-      if (!activeQuickViewProduct) return;
-      selectedQvColor = activeQuickViewProduct.colors.find(c => c.name === colName);
-      document.getElementById('qvSelectedColorName').innerText = selectedQvColor?.name || '';
-      openQuickView(activeQuickViewProduct.id);
-    }
-
-    function selectQvSize(sizeName) {
-      selectedQvSize = sizeName;
-      document.getElementById('qvSelectedSizeName').innerText = selectedQvSize || '';
-      if (activeQuickViewProduct) openQuickView(activeQuickViewProduct.id);
-    }
-
-    function closeQuickView() {
-      document.getElementById('quickViewModal').classList.add('hidden');
-      document.getElementById('quickViewModal').classList.remove('flex');
-    }
-
     function addCurrentQuickViewToCart() {
       if (!activeQuickViewProduct) return;
       addToCart(activeQuickViewProduct, selectedQvColor?.name || 'Mặc định', selectedQvSize || 'Freesize');
@@ -1634,27 +2095,8 @@
       toggleCart(true);
     }
 
-    // ---------------------------------------------
-    // CART & CHECKOUT
-    // ---------------------------------------------
-    function toggleCart(open) {
-      const drawer = document.getElementById('cartDrawer');
-      const backdrop = document.getElementById('cartBackdrop');
-
-      if (open) {
-        drawer.classList.remove('drawer-closed');
-        drawer.classList.add('drawer-open');
-        backdrop.classList.remove('opacity-0', 'pointer-events-none');
-        backdrop.classList.add('opacity-100', 'pointer-events-auto');
-      } else {
-        drawer.classList.remove('drawer-open');
-        drawer.classList.add('drawer-closed');
-        backdrop.classList.remove('opacity-100', 'pointer-events-auto');
-        backdrop.classList.add('opacity-0', 'pointer-events-none');
-      }
-    }
-
     function addToCart(product, colorName, sizeName) {
+      const finalPrice = getDiscountedPrice(product.price);
       const existing = cart.find(item => item.id === product.id && item.color === colorName && item.size === sizeName);
       if (existing) {
         existing.quantity += 1;
@@ -1662,7 +2104,8 @@
         cart.push({
           id: product.id,
           title: product.title,
-          price: product.price,
+          price: finalPrice,
+          originalPrice: product.price,
           image: product.images?.[0] || '',
           color: colorName,
           size: sizeName,
@@ -1687,6 +2130,8 @@
       const countBadge = document.getElementById('cartCountBadge');
       const listEl = document.getElementById('cartItemList');
       const subtotalEl = document.getElementById('cartSubtotal');
+      const discountRow = document.getElementById('cartDiscountRow');
+      const discountAmountEl = document.getElementById('cartDiscountAmount');
       const finalTotalEl = document.getElementById('cartFinalTotal');
       const shippingFeeEl = document.getElementById('cartShippingFee');
       const btnCheckout = document.getElementById('btnProceedCheckout');
@@ -1704,6 +2149,7 @@
         `;
         if (subtotalEl) subtotalEl.innerText = formatCurrency(0);
         if (finalTotalEl) finalTotalEl.innerText = formatCurrency(0);
+        if (discountRow) discountRow.classList.add('hidden');
         if (btnCheckout) btnCheckout.disabled = true;
         updateFreeshipProgress(0);
         lucide.createIcons();
@@ -1713,11 +2159,23 @@
       if (btnCheckout) btnCheckout.disabled = false;
 
       const subtotalKrw = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      const isFreeShip = subtotalKrw >= 50000;
-      const shippingKrw = isFreeShip ? 0 : 3000;
-      const totalKrw = subtotalKrw + shippingKrw;
+      
+      // Tính giảm giá thêm từ voucher coupon nếu khách nhập
+      let discountKrw = 0;
+      if (currentCouponApplied && storeConfig.discounts?.couponPercent > 0) {
+        discountKrw = Math.round(subtotalKrw * storeConfig.discounts.couponPercent / 100);
+        if (discountRow) discountRow.classList.remove('hidden');
+        if (discountAmountEl) discountAmountEl.innerText = `-${formatCurrency(discountKrw, 'KRW')}`;
+      } else {
+        if (discountRow) discountRow.classList.add('hidden');
+      }
 
-      updateFreeshipProgress(subtotalKrw);
+      const discountedSubtotal = Math.max(0, subtotalKrw - discountKrw);
+      const isFreeShip = discountedSubtotal >= 50000;
+      const shippingKrw = isFreeShip ? 0 : 3000;
+      const totalKrw = discountedSubtotal + shippingKrw;
+
+      updateFreeshipProgress(discountedSubtotal);
 
       if (subtotalEl) subtotalEl.innerText = formatCurrency(subtotalKrw);
       if (shippingFeeEl) shippingFeeEl.innerText = isFreeShip ? 'Freeship' : formatCurrency(shippingKrw);
@@ -2360,8 +2818,23 @@
       document.title = `${storeConfig.brandName} | Thời Trang Hàn Quốc`;
       const brandLogo = document.getElementById('storeBrandLogo');
       const brandSlogan = document.getElementById('storeBrandSlogan');
+      const heroBrand = document.getElementById('heroBrandDisplay');
+
       if (brandLogo) brandLogo.innerText = storeConfig.brandName;
       if (brandSlogan) brandSlogan.innerText = storeConfig.brandSlogan;
+      if (heroBrand) heroBrand.innerText = storeConfig.brandName;
+
+      // Banner Flash Sale
+      const saleBanner = document.getElementById('saleBannerNotice');
+      const saleBannerText = document.getElementById('saleBannerNoticeText');
+      if (saleBanner && saleBannerText) {
+        if (storeConfig.discounts?.flashSaleActive) {
+          saleBanner.classList.remove('hidden');
+          saleBannerText.innerText = storeConfig.discounts.flashSaleBannerText || '🔥 FLASH SALE: GIẢM GIÁ ĐẶC BIỆT!';
+        } else {
+          saleBanner.classList.add('hidden');
+        }
+      }
 
       // Cập nhật link MXH vào các vị trí trên website
       const fbUrl = storeConfig.socials?.facebookUrl || 'https://facebook.com';
@@ -2369,13 +2842,11 @@
       const kakaoId = storeConfig.socials?.kakaoId || 'minhanh_kr';
       const hotline = storeConfig.socials?.hotline || '010-8888-9999';
 
-      // Hero
       const heroFb = document.getElementById('heroFbLink');
       const heroTiktok = document.getElementById('heroTiktokLink');
       if (heroFb) heroFb.href = fbUrl;
       if (heroTiktok) heroTiktok.href = tiktokUrl;
 
-      // Footer
       const footerFb = document.getElementById('footerFbLink');
       const footerTiktok = document.getElementById('footerTiktokLink');
       const footerKakaoText = document.getElementById('footerKakaoText');
@@ -2389,7 +2860,6 @@
         footerHotline.innerText = hotline;
       }
 
-      // Nút hỗ trợ nổi (Floating)
       const floatFb = document.getElementById('floatFbLink');
       const floatTiktok = document.getElementById('floatTiktokLink');
       const floatKakaoSub = document.getElementById('floatKakaoSubText');
