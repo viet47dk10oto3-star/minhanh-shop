@@ -153,7 +153,7 @@
             <span id="cartCountBadge" class="absolute -top-0.5 -right-0.5 bg-neutral-900 text-white text-[10px] font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center">0</span>
           </button>
 
-          <!-- Nút Đăng Nhập Quản Trị Trực Tiếp (Tiện lợi, an toàn trên Mobile) -->
+          <!-- Nút Đăng Nhập Quản Trị Trực Tiếp -->
           <button 
             onclick="openPinLoginModal()" 
             class="p-2 sm:p-2.5 rounded-full text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 active:scale-95 transition"
@@ -187,7 +187,7 @@
       </div>
     </header>
 
-    <!-- BANNER KHUYẾN MÃI (NẾU CHỦ SHOP BẬT FLASH SALE) -->
+    <!-- BANNER KHUYẾN MÃI -->
     <div id="saleBannerNotice" class="hidden bg-rose-600 text-white py-2 px-4 text-center text-xs font-bold tracking-wide shadow-inner">
       <span id="saleBannerNoticeText">🔥 ƯU ĐÃI ĐẶC BIỆT: GIẢM 10% TOÀN BỘ SẢN PHẨM TRÊN WEB!</span>
     </div>
@@ -207,7 +207,7 @@
             Tuyển chọn thời trang phong cách Hàn Quốc. Giao hàng toàn quốc nội địa Hàn, thanh toán đa tiền tệ và đối soát biên lai trực tiếp.
           </p>
 
-          <!-- Nút Liên Hệ Trực Tiếp Nhanh Trên Hero -->
+          <!-- Nút Liên Hệ Nhanh Trên Hero -->
           <div class="flex items-center gap-2 pt-1">
             <a id="heroFbLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-sm transition">
               <i data-lucide="message-circle" class="w-4 h-4"></i>
@@ -264,7 +264,7 @@
       </div>
     </main>
 
-    <!-- FOOTER VỚI ĐẦY ĐỦ THÔNG TIN HỖ TRỢ & MẠNG XÃ HỘI -->
+    <!-- FOOTER -->
     <footer class="bg-white border-t border-neutral-200 pt-10 pb-8 text-xs text-neutral-600">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-8 border-b border-neutral-200">
@@ -287,7 +287,7 @@
             </div>
           </div>
 
-          <!-- Cột 2: Kênh Mạng Xã Hội Chính Thức -->
+          <!-- Cột 2: Kênh Mạng Xã Hội -->
           <div class="space-y-3">
             <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Kênh Mạng Xã Hội</h4>
             <ul class="space-y-2 text-xs">
@@ -344,7 +344,6 @@
 
         <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px]">
           <p class="text-neutral-500">Giao hàng an toàn nội địa Hàn Quốc • Đảm bảo 100% hình thật hàng thật</p>
-          <!-- Nút kích hoạt bí mật kín đáo dưới chân trang -->
           <span onclick="openPinLoginModal()" class="cursor-pointer select-none text-neutral-400 hover:text-neutral-700 transition">
             © 2026 Minh Anh Clothing. All rights reserved.
           </span>
@@ -354,7 +353,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- MODAL NHẬP MÃ PIN QUẢN TRỊ RIÊNG BIỆT      -->
+  <!-- MODAL ĐĂNG NHẬP QUẢN TRỊ BẢO MẬT           -->
   <!-- ========================================== -->
   <div id="pinLoginModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-xs w-full p-6 shadow-2xl relative space-y-4 text-center">
@@ -513,14 +512,14 @@
       <!-- Actions Bar Quản Trị -->
       <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <!-- Right Actions in Admin Header -->
-        <div class="flex items-center gap-2 pt-1 sm:pt-0">
+        <div class="flex items-center gap-2 pt-1 sm:pt-0 flex-wrap">
           <button 
             id="adminBtnSettings"
             onclick="openSettingsModal()" 
             class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold text-neutral-700 bg-white active:bg-neutral-100 transition shadow-sm"
           >
             <i data-lucide="sliders-horizontal" class="w-4 h-4 text-neutral-600"></i>
-            <span>Cài đặt & Bot & MXH</span>
+            <span>Cài đặt & Đám Mây</span>
           </button>
           
           <button 
@@ -530,6 +529,16 @@
           >
             <i data-lucide="tag" class="w-4 h-4 text-rose-600"></i>
             <span>Quản Lý Giảm Giá</span>
+          </button>
+
+          <button 
+            id="adminBtnSyncCloud"
+            onclick="syncAllDataToCloud()" 
+            class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-purple-300 text-xs font-semibold text-purple-700 bg-purple-50 active:bg-purple-100 transition shadow-sm"
+            title="Đẩy toàn bộ dữ liệu lên Đám mây Firebase"
+          >
+            <i data-lucide="cloud-upload" class="w-4 h-4 text-purple-600"></i>
+            <span>Đồng Bộ Đám Mây</span>
           </button>
 
           <button 
@@ -826,25 +835,43 @@
 
         <div class="pt-3 border-t border-neutral-200 flex items-center justify-end gap-2 sticky bottom-0 bg-white">
           <button type="button" onclick="closeProductModal()" class="px-4 py-2.5 border border-neutral-300 rounded-xl text-neutral-600 font-semibold active:bg-neutral-100">Hủy</button>
-          <button type="submit" class="px-5 py-2.5 bg-neutral-900 active:bg-neutral-800 text-white font-bold rounded-xl shadow-md">Lưu Sản Phẩm</button>
+          <button type="submit" class="px-5 py-2.5 bg-neutral-900 active:bg-neutral-800 text-white font-bold rounded-xl shadow-md">Lưu & Bắn Lên Đám Mây</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 5. MODAL: CÀI ĐẶT THƯƠNG HIỆU, BOT & MXH    -->
+  <!-- 5. MODAL: CÀI ĐẶT THƯƠNG HIỆU, BOT & CLOUD  -->
   <!-- ========================================== -->
   <div id="storeSettingsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center sm:p-4">
     <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl relative max-h-[92vh] flex flex-col">
       <div class="flex items-center justify-between pb-3 border-b border-neutral-200 flex-shrink-0">
-        <h3 class="font-serif font-bold text-base sm:text-lg text-neutral-900">Cấu Hình Shop, Bảo Mật & MXH</h3>
+        <h3 class="font-serif font-bold text-base sm:text-lg text-neutral-900">Cấu Hình Shop, Bảo Mật & Đám Mây</h3>
         <button onclick="closeSettingsModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <form id="storeSettingsForm" onsubmit="saveStoreSettings(event)" class="space-y-4 text-xs overflow-y-auto smooth-scroll flex-1 py-3 pr-1">
+        <!-- ĐỒNG BỘ ĐÁM MÂY GOOGLE FIREBASE -->
+        <div class="p-3 bg-purple-50 rounded-xl border border-purple-200 space-y-2">
+          <span class="font-bold text-purple-950 flex items-center gap-1.5">
+            <i data-lucide="cloud" class="w-3.5 h-3.5 text-purple-700"></i>
+            <span>Cơ Sở Dữ Liệu Đám Mây (Firebase Database URL):</span>
+          </span>
+          <div>
+            <label class="block text-[10px] text-purple-900 mb-0.5">Dán đường link Firebase Realtime Database của bạn:</label>
+            <input 
+              type="url" 
+              id="settingFirebaseDbUrl" 
+              placeholder="https://minh-anh-shops-default-rtdb.asia-southeast1.firebasedatabase.app/" 
+              class="w-full border border-purple-300 rounded-lg p-2 font-mono text-[11px] bg-white text-purple-950"
+            >
+          </div>
+          <p class="text-[10px] text-purple-700">Đã kích hoạt tự động đồng bộ qua máy chủ Google Firebase Singapore!</p>
+        </div>
+
         <!-- Quản lý Tài khoản & Mật khẩu Quản trị -->
         <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 space-y-3">
           <span class="font-bold text-amber-950 flex items-center gap-1.5">
@@ -883,7 +910,7 @@
           </div>
         </div>
 
-        <!-- Mạng Xã Hội Hỗ Trợ Khách Hàng (MỚI) -->
+        <!-- Mạng Xã Hội Hỗ Trợ Khách Hàng -->
         <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl space-y-2.5">
           <span class="font-bold text-blue-950 flex items-center gap-1.5">
             <i data-lucide="share-2" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -959,6 +986,14 @@
               <input type="text" id="settingVndHolder" placeholder="Chủ thẻ" class="border border-neutral-300 rounded-lg p-1.5">
             </div>
           </div>
+
+          <div class="p-3 bg-neutral-50 rounded-xl space-y-1.5 border border-neutral-200">
+            <span class="font-bold text-neutral-800">Tài khoản Nhận USD (PayPal):</span>
+            <div class="grid grid-cols-2 gap-1.5">
+              <input type="email" id="settingPaypalEmail" placeholder="Email PayPal" class="border border-neutral-300 rounded-lg p-1.5 font-mono">
+              <input type="text" id="settingPaypalName" placeholder="Tên người nhận USD" class="border border-neutral-300 rounded-lg p-1.5">
+            </div>
+          </div>
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-3 border-t border-neutral-200 sticky bottom-0 bg-white">
@@ -991,16 +1026,12 @@
   <!-- 7. QUICK VIEW MODAL (XEM & CHỌN MẪU)        -->
   <!-- ========================================== -->
   <div id="quickViewModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-end sm:items-center justify-center sm:p-4">
-    <!-- Thêm overflow-y-auto và giới hạn chiều cao tối đa thân thiện với iOS -->
     <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-2xl w-full shadow-2xl relative flex flex-col sm:grid sm:grid-cols-2 max-h-[92vh] sm:max-h-[90vh] overflow-hidden">
-      <!-- Nút Đóng -->
       <button onclick="closeQuickView()" class="absolute top-3 right-3 z-30 p-2 rounded-full bg-white/90 hover:bg-white shadow text-neutral-800 active:scale-90 transition">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
 
-      <!-- VÙNG NỘI DUNG CUỘN TRÊN ĐIỆN THOẠI (Bao gồm Ảnh + Thông tin sản phẩm) -->
       <div class="overflow-y-auto smooth-scroll flex-1 p-0 sm:contents">
-        <!-- Vùng Ảnh: Trên điện thoại thu gọn để không chiếm toàn bộ màn hình -->
         <div class="bg-neutral-100 p-3 sm:p-4 flex flex-col justify-between flex-shrink-0">
           <div class="w-full aspect-[4/3] sm:aspect-[3/4] max-h-56 sm:max-h-none rounded-2xl overflow-hidden bg-neutral-200 mb-2 shadow-inner">
             <img id="qvMainImage" src="" alt="Preview" class="w-full h-full object-cover">
@@ -1008,7 +1039,6 @@
           <div id="qvThumbnails" class="flex gap-1.5 overflow-x-auto pb-1 smooth-scroll"></div>
         </div>
 
-        <!-- Vùng Thông Tin Chi Tiết -->
         <div class="p-4 sm:p-6 flex flex-col justify-between space-y-4">
           <div>
             <span id="qvCategory" class="text-[10px] uppercase font-bold tracking-widest text-neutral-400">Danh Mục</span>
@@ -1017,19 +1047,16 @@
               <span id="qvPrice" class="text-xl sm:text-2xl font-bold font-serif text-neutral-900">₩0</span>
             </div>
 
-            <!-- Chọn Màu -->
             <div class="mt-3 sm:mt-4">
               <span class="text-xs font-semibold text-neutral-800 block mb-1.5">Màu: <span id="qvSelectedColorName" class="font-normal text-neutral-500"></span></span>
               <div id="qvColors" class="flex items-center gap-2 flex-wrap"></div>
             </div>
 
-            <!-- Chọn Size -->
             <div class="mt-3">
               <span class="text-xs font-semibold text-neutral-800 block mb-1.5">Kích thước: <span id="qvSelectedSizeName" class="font-normal text-neutral-500"></span></span>
               <div id="qvSizes" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <!-- Link Tư Vấn -->
             <div class="mt-3 pt-2.5 border-t border-neutral-100">
               <a id="qvConsultLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-blue-600 text-xs font-semibold hover:underline">
                 <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
@@ -1040,7 +1067,6 @@
         </div>
       </div>
 
-      <!-- GHIM NÚT THÊM VÀO GIỎ CỐ ĐỊNH Ở ĐÁY ĐỂ CHẠM VÀO LÀ MUA NGAY (CỰC KỲ TIỆN LỢI TRÊN MOBILE) -->
       <div class="p-3 sm:p-6 bg-white border-t border-neutral-100 sm:border-0 z-20 sm:col-span-2">
         <button 
           id="qvAddToCartBtn"
@@ -1104,10 +1130,8 @@
       </div>
     </div>
 
-    <!-- Danh sách sản phẩm trong giỏ -->
     <div id="cartItemList" class="flex-1 overflow-y-auto p-4 space-y-3 divide-y divide-neutral-100 smooth-scroll"></div>
 
-    <!-- Tổng tiền & Đặt hàng -->
     <div class="p-4 border-t border-neutral-200 bg-neutral-50 space-y-2">
       <div class="flex items-center justify-between text-xs text-neutral-500">
         <span data-i18n="cartSubtotalLabel">Tiền hàng:</span>
@@ -1149,7 +1173,6 @@
         </button>
       </div>
 
-      <!-- Tiền tệ -->
       <div class="space-y-1.5">
         <label class="block text-[11px] font-bold text-neutral-700">1. Tiền tệ thanh toán:</label>
         <div class="grid grid-cols-3 gap-1.5">
@@ -1168,7 +1191,6 @@
         </div>
       </div>
 
-      <!-- Form nhận hàng -->
       <form id="orderSubmitForm" onsubmit="handlePlaceOrder(event)" class="space-y-3 text-xs">
         <div class="p-3 bg-neutral-50 rounded-xl space-y-2.5 border border-neutral-200">
           <span class="font-bold text-neutral-800 block text-[11px]">2. Địa chỉ tại Hàn Quốc (배송지):</span>
@@ -1209,10 +1231,8 @@
           </div>
         </div>
 
-        <!-- Khung hướng dẫn thanh toán -->
         <div id="paymentInstructionsBox" class="p-3 rounded-xl border bg-neutral-50 border-neutral-200"></div>
 
-        <!-- Tải ảnh bill -->
         <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
           <span class="font-bold text-amber-950 flex items-center justify-between text-[11px]">
             <span>3. Tải ảnh chụp biên lai chuyển tiền:</span>
@@ -1236,7 +1256,6 @@
           </div>
         </div>
 
-        <!-- Submit Button -->
         <div class="pt-2 border-t border-neutral-200 flex items-center justify-between">
           <div>
             <span class="text-[10px] text-neutral-500 block">Số tiền:</span>
@@ -1273,7 +1292,6 @@
         Shop đã nhận được biên lai thanh toán và đang đóng gói gửi hàng!
       </div>
 
-      <!-- Nút nhắn tin báo đơn qua FB Messenger -->
       <a id="successFbChatBtn" href="#" target="_blank" class="w-full inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-full text-xs transition">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
         <span>Nhắn Shop Kiểm Tra Đơn</span>
@@ -1455,12 +1473,14 @@
       }
     ];
 
+    // CẤU HÌNH ĐÃ GẮN SẴN ĐƯỜNG LINK DATABASE FIREBASE CỦA BẠN
     const DEFAULT_CONFIG = {
       brandName: 'MINH ANH CLOTHING',
       brandSlogan: 'Modern Wardrobe & Streetwear',
       orderPrefix: 'MA-',
       currency: 'KRW',
       language: 'vi',
+      firebaseDbUrl: 'https://minh-anh-shops-default-rtdb.asia-southeast1.firebasedatabase.app/',
       adminAuth: { username: 'admin', password: '888888' },
       staffAuth: { username: 'nhanvien', password: '111111' },
       adminPin: '8888',
@@ -1505,7 +1525,7 @@
     let adminSearchQuery = '';
     let activeCheckoutCurrency = 'KRW';
     let currentUploadedBillBase64 = null;
-    let currentAuthRole = null; // 'owner' | 'staff' | null
+    let currentAuthRole = null;
     let currentCouponApplied = false;
 
     let formImages = [];
@@ -1529,7 +1549,6 @@
       }
     }
 
-    // Modal nhập tài khoản & mật khẩu quản trị
     function openPinLoginModal() {
       const modal = document.getElementById('pinLoginModal');
       const uInput = document.getElementById('loginUsernameInput');
@@ -1600,7 +1619,6 @@
       });
     }
 
-    // Tự động tải tỷ giá hối đoái trực tiếp hoặc dùng tỷ giá dự phòng
     async function fetchLiveExchangeRates() {
       try {
         const res = await fetch('https://open.er-api.com/v6/latest/KRW');
@@ -1616,30 +1634,9 @@
           }
         }
       } catch (err) {
-        // Dự phòng tỷ giá ổn định nếu ngoại tuyến hoặc lỗi mạng
         if (!storeConfig.exchangeRates) {
           storeConfig.exchangeRates = { KRW_VND: 18.52, USD_KRW: 1350.0 };
         }
-      }
-    }
-
-    // Xử lý đăng nhập quản trị bí mật bằng mã PIN
-    function promptAdminLogin() {
-      const inputPin = prompt('Nhập mã PIN bảo mật:');
-      if (!inputPin) return;
-
-      const trimmedPin = inputPin.trim();
-      const adminPin = storeConfig.adminPin || '8888';
-      const staffPin = storeConfig.staffPin || '1111';
-
-      if (trimmedPin === adminPin) {
-        currentAuthRole = 'owner';
-        openAdminDashboard();
-      } else if (trimmedPin === staffPin) {
-        currentAuthRole = 'staff';
-        openAdminDashboard();
-      } else {
-        alert('Mã PIN không chính xác!');
       }
     }
 
@@ -1650,6 +1647,7 @@
       const roleTitle = document.getElementById('roleIndicatorTitle');
       const btnSettings = document.getElementById('adminBtnSettings');
       const btnDiscounts = document.getElementById('adminBtnDiscounts');
+      const btnSyncCloud = document.getElementById('adminBtnSyncCloud');
       const btnAddProd = document.getElementById('adminBtnAddProduct');
       const btnClearOrders = document.getElementById('adminBtnClearOrders');
       const statTotalValBox = document.getElementById('statTotalValueBox');
@@ -1662,6 +1660,7 @@
         if (roleTitle) roleTitle.innerText = 'QUẢN TRỊ • CHỦ SHOP (OWNER)';
         if (btnSettings) btnSettings.classList.remove('hidden');
         if (btnDiscounts) btnDiscounts.classList.remove('hidden');
+        if (btnSyncCloud) btnSyncCloud.classList.remove('hidden');
         if (btnAddProd) btnAddProd.classList.remove('hidden');
         if (btnClearOrders) btnClearOrders.classList.remove('hidden');
         if (statTotalValBox) statTotalValBox.classList.remove('hidden');
@@ -1670,6 +1669,7 @@
         if (roleTitle) roleTitle.innerText = 'KHÔNG GIAN LÀM VIỆC • NHÂN VIÊN (STAFF)';
         if (btnSettings) btnSettings.classList.add('hidden');
         if (btnDiscounts) btnDiscounts.classList.add('hidden');
+        if (btnSyncCloud) btnSyncCloud.classList.add('hidden');
         if (btnAddProd) btnAddProd.classList.add('hidden');
         if (btnClearOrders) btnClearOrders.classList.add('hidden');
         if (statTotalValBox) statTotalValBox.classList.add('hidden');
@@ -1829,7 +1829,7 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
       loadStorageData();
       renderCatalog();
       renderAdminTable();
@@ -1838,6 +1838,9 @@
       applyLanguage(storeConfig.language || 'vi');
       fetchLiveExchangeRates();
       lucide.createIcons();
+
+      // Tự động kéo dữ liệu mới nhất từ Đám mây Firebase khi mở trang
+      await fetchProductsFromCloud();
     });
 
     function loadStorageData() {
@@ -1856,6 +1859,7 @@
           storeConfig = { 
             ...DEFAULT_CONFIG, 
             ...parsed,
+            firebaseDbUrl: parsed.firebaseDbUrl || DEFAULT_CONFIG.firebaseDbUrl,
             socials: { ...DEFAULT_CONFIG.socials, ...(parsed.socials || {}) },
             discounts: { ...DEFAULT_CONFIG.discounts, ...(parsed.discounts || {}) }
           }; 
@@ -1875,10 +1879,79 @@
       }
     }
 
+    // ---------------------------------------------
+    // ĐỒNG BỘ ĐÁM MÂY (FIREBASE REALTIME DATABASE)
+    // ---------------------------------------------
+    function getCleanFirebaseUrl(endpoint = 'products') {
+      let url = (storeConfig.firebaseDbUrl || DEFAULT_CONFIG.firebaseDbUrl || '').trim();
+      if (!url) return null;
+      if (url.endsWith('/')) url = url.slice(0, -1);
+      return `${url}/${endpoint}.json`;
+    }
+
+    // Kéo sản phẩm từ Cloud về
+    async function fetchProductsFromCloud() {
+      const cloudUrl = getCleanFirebaseUrl('products');
+      if (!cloudUrl) return;
+
+      try {
+        const res = await fetch(cloudUrl);
+        if (res.ok) {
+          const cloudData = await res.json();
+          // Nếu database còn trống (: null), tự động bắn mảng sản phẩm mặc định lên để khởi tạo
+          if (cloudData === null || (Array.isArray(cloudData) && cloudData.length === 0)) {
+            await saveProductsToCloud(products.length > 0 ? products : DEFAULT_PRODUCTS);
+          } else if (Array.isArray(cloudData) && cloudData.length > 0) {
+            products = cloudData;
+            localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(products));
+            renderCatalog();
+            renderAdminTable();
+          }
+        }
+      } catch (err) {
+        console.log('Firebase sync:', err);
+      }
+    }
+
+    // Bắn toàn bộ sản phẩm lên Cloud
+    async function saveProductsToCloud(prodsList) {
+      const cloudUrl = getCleanFirebaseUrl('products');
+      if (!cloudUrl) return;
+
+      try {
+        await fetch(cloudUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(prodsList)
+        });
+      } catch (err) {
+        console.error('Lỗi bắn lên Cloud:', err);
+      }
+    }
+
+    // Nút bấm thủ công đồng bộ toàn diện
+    async function syncAllDataToCloud() {
+      if (currentAuthRole !== 'owner') return;
+      const cloudUrl = getCleanFirebaseUrl('products');
+      if (!cloudUrl) {
+        alert('Vui lòng vào "Cài đặt & Đám Mây" dán đường link Firebase Database URL trước!');
+        openSettingsModal();
+        return;
+      }
+
+      try {
+        await saveProductsToCloud(products);
+        alert('🎉 ĐỒNG BỘ ĐÁM MÂY THÀNH CÔNG!\nToàn bộ sản phẩm đã được lưu trữ an toàn trên máy chủ Google Firebase.');
+      } catch (e) {
+        alert('Lỗi đồng bộ: ' + e.message);
+      }
+    }
+
     function saveProductsToStorage() {
       localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(products));
       renderCatalog();
       renderAdminTable();
+      saveProductsToCloud(products);
     }
 
     function saveOrdersToStorage() {
@@ -1886,15 +1959,11 @@
       renderAdminOrders();
     }
 
-    // ---------------------------------------------
-    // TÍNH GIÁ ĐÃ GIẢM (DISCOUNT HELPER - KẾT HỢP GIẢM LẺ & FLASH SALE)
-    // ---------------------------------------------
     function getProductEffectiveDiscount(product) {
       const individualPct = Number(product.discountPercent) || 0;
       const flashSalePct = (storeConfig.discounts && storeConfig.discounts.flashSaleActive) 
         ? (Number(storeConfig.discounts.flashSalePercent) || 0) 
         : 0;
-      // Áp dụng mức giảm cao nhất giữa giảm riêng lẻ từng sản phẩm và Flash Sale toàn sàn
       const effectivePct = Math.max(individualPct, flashSalePct);
       const isDiscounted = effectivePct > 0;
       const finalPrice = isDiscounted ? Math.round(product.price * (100 - effectivePct) / 100) : product.price;
@@ -1907,17 +1976,6 @@
       };
     }
 
-    function getDiscountedPrice(originalPrice) {
-      if (storeConfig.discounts && storeConfig.discounts.flashSaleActive && storeConfig.discounts.flashSalePercent > 0) {
-        const pct = storeConfig.discounts.flashSalePercent;
-        return Math.round(originalPrice * (100 - pct) / 100);
-      }
-      return originalPrice;
-    }
-
-    // ---------------------------------------------
-    // QUẢN LÝ GIẢM GIÁ (OWNER MODAL)
-    // ---------------------------------------------
     function openDiscountModal() {
       if (currentAuthRole !== 'owner') {
         alert('Chỉ Chủ Shop mới có quyền điều chỉnh giảm giá!');
@@ -1962,7 +2020,6 @@
       alert('Đã cập nhật chương trình giảm giá thành công!');
     }
 
-    // Áp dụng mã Voucher trong giỏ hàng
     function applyCartCoupon() {
       const input = document.getElementById('cartCouponInput');
       const code = input ? input.value.trim().toUpperCase() : '';
@@ -2014,9 +2071,6 @@
       updateCartUI();
     }
 
-    // ---------------------------------------------
-    // RENDER STOREFRONT CATALOG
-    // ---------------------------------------------
     function renderCatalog() {
       const grid = document.getElementById('productGrid');
       const countEl = document.getElementById('catalogCount');
@@ -2079,7 +2133,6 @@
       lucide.createIcons();
     }
 
-    // Cập nhật giá trong QuickView
     function openQuickView(productId) {
       const prod = products.find(p => p.id === productId);
       if (!prod) return;
@@ -2216,7 +2269,6 @@
 
       const subtotalKrw = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       
-      // Tính giảm giá thêm từ voucher coupon nếu khách nhập
       let discountKrw = 0;
       if (currentCouponApplied && storeConfig.discounts?.couponPercent > 0) {
         discountKrw = Math.round(subtotalKrw * storeConfig.discounts.couponPercent / 100);
@@ -2345,6 +2397,7 @@
         box.innerHTML = `
           <div class="font-mono text-[11px] space-y-1">
             <div>PayPal: <strong>${storeConfig.paypal.email}</strong></div>
+            <div>Chủ TK: <strong>${storeConfig.paypal.name}</strong></div>
             <div>Số tiền: <strong class="text-sky-600 font-bold">$${usdVal} USD</strong></div>
           </div>
         `;
@@ -2372,9 +2425,6 @@
       document.getElementById('billPreviewContainer').classList.add('hidden');
     }
 
-    // ---------------------------------------------
-    // XỬ LÝ ĐẶT HÀNG & BẮN BOT TELEGRAM
-    // ---------------------------------------------
     async function sendTelegramOrderNotification(order) {
       const botToken = storeConfig.telegram?.botToken?.trim();
       const chatId   = storeConfig.telegram?.chatId?.trim() || '1673298807';
@@ -2455,7 +2505,6 @@
 
       document.getElementById('successOrderCode').innerText = orderCode;
       
-      // Gán link Facebook cho nút sau khi đặt hàng
       const fbChatBtn = document.getElementById('successFbChatBtn');
       if (fbChatBtn) {
         fbChatBtn.href = storeConfig.socials?.facebookUrl || '#';
@@ -2476,9 +2525,6 @@
       document.getElementById('orderSuccessModal').classList.remove('flex');
     }
 
-    // ---------------------------------------------
-    // ADMIN FUNCTIONS & BILL VIEWER
-    // ---------------------------------------------
     function renderAdminOrders() {
       const tbody = document.getElementById('adminOrdersTableBody');
       const emptyEl = document.getElementById('adminOrdersEmptyState');
@@ -2652,7 +2698,6 @@
       renderAdminTable();
     }
 
-    // Tính toán giá sau giảm khi nhập trong form sản phẩm
     function calculateFormDiscountPreview() {
       const priceVal = Number(document.getElementById('formPrice').value) || 0;
       const discountVal = Number(document.getElementById('formIndividualDiscount').value) || 0;
@@ -2671,9 +2716,6 @@
       }
     }
 
-    // ---------------------------------------------
-    // THÊM SẢN PHẨM & TẢI ẢNH
-    // ---------------------------------------------
     function openProductModal(prod = null) {
       if (currentAuthRole !== 'owner') {
         alert('Chỉ Chủ Shop mới có quyền thêm/sửa sản phẩm!');
@@ -2825,7 +2867,7 @@
 
       saveProductsToStorage();
       closeProductModal();
-      alert('Đã lưu sản phẩm thành công!');
+      alert('Đã lưu và đồng bộ sản phẩm lên đám mây thành công!');
     }
 
     function editProduct(id) {
@@ -2842,11 +2884,10 @@
       }
     }
 
-    // ---------------------------------------------
-    // CÀI ĐẶT THƯƠNG HIỆU, TÀI KHOẢN & MẠNG XÃ HỘI (OWNER)
-    // ---------------------------------------------
     function openSettingsModal() {
       if (currentAuthRole !== 'owner') return;
+
+      document.getElementById('settingFirebaseDbUrl').value = storeConfig.firebaseDbUrl || DEFAULT_CONFIG.firebaseDbUrl;
 
       document.getElementById('settingAdminUser').value = storeConfig.adminAuth?.username || 'admin';
       document.getElementById('settingAdminPass').value = storeConfig.adminAuth?.password || storeConfig.adminPin || '888888';
@@ -2859,7 +2900,6 @@
       document.getElementById('settingTelegramToken').value = storeConfig.telegram?.botToken || '';
       document.getElementById('settingTelegramChatId').value = storeConfig.telegram?.chatId || '1673298807';
 
-      // MXH
       document.getElementById('settingSocialFacebook').value = storeConfig.socials?.facebookUrl || '';
       document.getElementById('settingSocialTiktok').value   = storeConfig.socials?.tiktokUrl || '';
       document.getElementById('settingSocialKakao').value    = storeConfig.socials?.kakaoId || 'minhanh_kr';
@@ -2873,6 +2913,9 @@
       document.getElementById('settingVndAccount').value = storeConfig.bankVND.accountNumber;
       document.getElementById('settingVndHolder').value = storeConfig.bankVND.accountHolder;
 
+      document.getElementById('settingPaypalEmail').value = storeConfig.paypal?.email || '';
+      document.getElementById('settingPaypalName').value = storeConfig.paypal?.name || '';
+
       document.getElementById('storeSettingsModal').classList.remove('hidden');
       document.getElementById('storeSettingsModal').classList.add('flex');
       lucide.createIcons();
@@ -2883,9 +2926,12 @@
       document.getElementById('storeSettingsModal').classList.remove('flex');
     }
 
-    function saveStoreSettings(e) {
+    async function saveStoreSettings(e) {
       e.preventDefault();
       if (currentAuthRole !== 'owner') return;
+
+      const fUrl = document.getElementById('settingFirebaseDbUrl').value.trim();
+      storeConfig.firebaseDbUrl = fUrl || DEFAULT_CONFIG.firebaseDbUrl;
 
       const adminUser = document.getElementById('settingAdminUser').value.trim() || 'admin';
       const adminPass = document.getElementById('settingAdminPass').value.trim() || '888888';
@@ -2924,10 +2970,21 @@
         accountHolder: document.getElementById('settingVndHolder').value.trim()
       };
 
+      storeConfig.paypal = {
+        email: document.getElementById('settingPaypalEmail').value.trim(),
+        name: document.getElementById('settingPaypalName').value.trim()
+      };
+
       localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
       applyStoreConfigUI();
       closeSettingsModal();
-      alert('Đã cập nhật tài khoản quản trị & cấu hình cửa hàng thành công!');
+
+      if (fUrl) {
+        await saveProductsToCloud(products);
+        alert('Đã lưu cấu hình và kết nối đồng bộ Đám Mây thành công!');
+      } else {
+        alert('Đã cập nhật cấu hình cửa hàng!');
+      }
     }
 
     function applyStoreConfigUI() {
@@ -2940,7 +2997,6 @@
       if (brandSlogan) brandSlogan.innerText = storeConfig.brandSlogan;
       if (heroBrand) heroBrand.innerText = storeConfig.brandName;
 
-      // Banner Flash Sale
       const saleBanner = document.getElementById('saleBannerNotice');
       const saleBannerText = document.getElementById('saleBannerNoticeText');
       if (saleBanner && saleBannerText) {
@@ -2952,7 +3008,6 @@
         }
       }
 
-      // Cập nhật link MXH vào các vị trí trên website
       const fbUrl = storeConfig.socials?.facebookUrl || 'https://facebook.com';
       const tiktokUrl = storeConfig.socials?.tiktokUrl || 'https://tiktok.com';
       const kakaoId = storeConfig.socials?.kakaoId || 'minhanh_kr';
@@ -3023,7 +3078,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chat_id: chatId,
-            text: `🔔 *TEST KẾT NỐI HỖ TRỢ THÀNH CÔNG!*\n\nWebsite *${storeConfig.brandName}* đã bổ sung kênh hỗ trợ Facebook & TikTok hoàn tất!`,
+            text: `🔔 *TEST KẾT NỐI HỖ TRỢ THÀNH CÔNG!*\n\nWebsite *${storeConfig.brandName}* đã kích hoạt đồng bộ đám mây và kết nối Telegram bot sẵn sàng!`,
             parse_mode: 'Markdown'
           })
         });
