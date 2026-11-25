@@ -178,4 +178,2269 @@
   <!-- ================= HERO INTRO SECTION ================= -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
     <div class="relative rounded-3xl overflow-hidden bg-neutral-900 text-white shadow-xl min-h-[220px] sm:min-h-[280px] flex items-center">
-      <div class="absolute inset-0 opacity-40
+      <div class="absolute inset-0 opacity-40 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop');"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/70 to-transparent"></div>
+      
+      <div class="relative z-10 p-6 sm:p-10 max-w-xl">
+        <span class="inline-block px-2.5 py-1 rounded-full bg-white/20 backdrop-blur text-[10px] uppercase font-bold tracking-widest text-white mb-2">
+          BST HÀN QUỐC • S/S 2026
+        </span>
+        <h1 class="font-serif text-2xl sm:text-4xl font-bold tracking-tight mb-2 leading-tight">
+          Phong cách hiện đại cùng Minh Anh Clothing
+        </h1>
+        <p class="text-xs sm:text-sm text-neutral-300 font-light mb-4 line-clamp-2">
+          Tuyển chọn thời trang phong cách Hàn Quốc. Giao hàng toàn quốc nội địa Hàn, thanh toán đa tiền tệ và đối soát biên lai trực tiếp.
+        </p>
+        <div class="flex items-center space-x-3">
+          <a href="#productListContainer" class="bg-white text-neutral-900 text-xs font-bold px-4 py-2 rounded-full hover:bg-neutral-100 transition shadow">
+            Xem Bộ Sưu Tập
+          </a>
+          <button onclick="openSupportWidget()" class="bg-neutral-800/80 hover:bg-neutral-700 text-white text-xs font-medium px-3.5 py-2 rounded-full border border-neutral-600 transition flex items-center space-x-1.5">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5 text-rose-400"></i>
+            <span>Tư Vấn Nhanh</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRODUCT GRID CONTAINER ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="flex items-center justify-between mb-4 sm:mb-6">
+      <div>
+        <h2 id="currentCategoryTitle" class="font-serif text-lg sm:text-2xl font-bold text-neutral-900">Tất Cả Sản Phẩm</h2>
+        <p class="text-xs text-neutral-500 font-medium mt-0.5" id="productCountInfo">Đang tải danh sách quần áo...</p>
+      </div>
+
+      <!-- Ô tìm kiếm nhỏ gọn cho Mobile -->
+      <div class="sm:hidden relative w-40">
+        <input type="text" oninput="handleSearch(this.value)" placeholder="Tìm áo..." class="text-xs bg-white border border-neutral-300 rounded-full pl-7 pr-2.5 py-1 w-full focus:outline-none focus:ring-1 focus:ring-neutral-900">
+        <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400 absolute left-2 top-1/2 -translate-y-1/2"></i>
+      </div>
+    </div>
+
+    <!-- Danh sách sản phẩm (Grid hiển thị 2 cột trên điện thoại, 4 cột trên máy tính) -->
+    <div id="productListContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+      <!-- Sản phẩm sẽ được render tự động bằng Javascript -->
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white border-t border-neutral-200 pt-10 pb-8 text-neutral-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Cột 1: Thông tin shop -->
+      <div class="space-y-3">
+        <span class="font-serif text-xl font-bold text-neutral-900 block tracking-tight">MINH ANH CLOTHING</span>
+        <p class="text-neutral-500 text-[11px] leading-relaxed">
+          Cửa hàng chuyên các dòng thời trang trẻ trung, phom rộng phong cách đường phố & hiện đại Hàn Quốc.
+        </p>
+        <p class="text-[11px] text-neutral-500">
+          📍 Địa chỉ kho: Gyeonggi-do, Korea • Seoul Distribution Hub
+        </p>
+      </div>
+
+      <!-- Cột 2: Kênh hỗ trợ & Mạng xã hội -->
+      <div class="space-y-3">
+        <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Kênh Liên Hệ & Mạng Xã Hội</h4>
+        <div class="flex flex-col space-y-2 text-[11px]">
+          <a id="footerFbLink" href="https://facebook.com" target="_blank" class="hover:text-neutral-900 flex items-center space-x-2 text-blue-600">
+            <i data-lucide="facebook" class="w-3.5 h-3.5"></i>
+            <span>Fanpage Facebook Minh Anh</span>
+          </a>
+          <a id="footerTiktokLink" href="https://tiktok.com" target="_blank" class="hover:text-neutral-900 flex items-center space-x-2 text-neutral-900">
+            <i data-lucide="video" class="w-3.5 h-3.5"></i>
+            <span>Kênh TikTok Review Quần Áo</span>
+          </a>
+          <div class="flex items-center space-x-2 text-neutral-600">
+            <i data-lucide="message-square" class="w-3.5 h-3.5 text-amber-500"></i>
+            <span>KakaoTalk: <strong id="footerKakaoText" class="text-neutral-800">minhanh99</strong></span>
+          </div>
+          <div class="flex items-center space-x-2 text-neutral-600">
+            <i data-lucide="phone-call" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Hotline / Zalo: <strong id="footerPhoneText" class="text-neutral-800">010-8888-9999</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột 3: Chính sách đổi trả & Giờ làm việc -->
+      <div class="space-y-3">
+        <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Chính Sách & Cam Kết</h4>
+        <div class="space-y-2 text-[11px] text-neutral-500">
+          <p>• <strong>Đổi size miễn phí:</strong> Trong vòng 3 ngày kể từ khi nhận bưu phẩm tại Hàn Quốc.</p>
+          <p>• <strong>Kiểm tra hàng:</strong> Được kiểm tra đúng màu sắc, kích cỡ và mẫu mã trước khi nhận.</p>
+          <p>• <strong>Giờ làm việc:</strong> 09:00 - 23:00 (Giờ Hàn Quốc KST).</p>
+        </div>
+      </div>
+
+      <!-- Cột 4: Phương thức thanh toán -->
+      <div class="space-y-3">
+        <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Phương Thức Thanh Toán</h4>
+        <div class="space-y-1.5 text-[11px] text-neutral-500">
+          <p>• <strong>Hàn Quốc (KRW):</strong> Chuyển khoản nội địa (KB, Shinhan, Toss, KakaoBank).</p>
+          <p>• <strong>Việt Nam (VND):</strong> Quét mã VietQR tự động khớp số tiền.</p>
+          <p>• <strong>Quốc tế (USD):</strong> Thanh toán an toàn qua PayPal.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-400">
+      <button onclick="openLoginModal()" class="hover:text-neutral-700 transition focus:outline-none">
+        © 2026 Minh Anh Clothing. All rights reserved.
+      </button>
+      <div class="mt-2 sm:mt-0 flex items-center space-x-4">
+        <span>Bảo mật dữ liệu Firebase Singapore</span>
+        <span>•</span>
+        <button onclick="openLoginModal()" class="text-neutral-500 hover:text-neutral-900 font-medium">Khu Vực Quản Trị</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= FLOATING HELP & SUPPORT BUTTON ================= -->
+  <div class="fixed bottom-5 right-5 z-40">
+    <div id="supportPopupBox" class="hidden absolute bottom-14 right-0 w-64 bg-white rounded-2xl shadow-2xl border border-neutral-200 p-4 mb-2 animate-in fade-in slide-in-from-bottom-2">
+      <div class="flex items-center justify-between pb-2 mb-2 border-b border-neutral-100">
+        <span class="font-bold text-xs text-neutral-900 flex items-center space-x-1.5">
+          <i data-lucide="headset" class="w-4 h-4 text-rose-500"></i>
+          <span>Hỗ Trợ Minh Anh Shop</span>
+        </span>
+        <button onclick="toggleSupportBox()" class="text-neutral-400 hover:text-neutral-700">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="space-y-2">
+        <a id="btnWidgetFb" href="https://facebook.com" target="_blank" class="w-full flex items-center space-x-2.5 p-2 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 transition text-xs font-semibold">
+          <i data-lucide="facebook" class="w-4 h-4"></i>
+          <span>Nhắn tin Facebook</span>
+        </a>
+        <a id="btnWidgetTiktok" href="https://tiktok.com" target="_blank" class="w-full flex items-center space-x-2.5 p-2 rounded-xl bg-neutral-100 text-neutral-800 hover:bg-neutral-200 transition text-xs font-semibold">
+          <i data-lucide="video" class="w-4 h-4"></i>
+          <span>Xem clip trên TikTok</span>
+        </a>
+        <button onclick="copyKakaoId()" class="w-full flex items-center justify-between p-2 rounded-xl bg-amber-50 text-amber-900 hover:bg-amber-100 transition text-xs font-semibold">
+          <span class="flex items-center space-x-2">
+            <i data-lucide="message-square" class="w-4 h-4 text-amber-600"></i>
+            <span>KakaoTalk Shop</span>
+          </span>
+          <span class="text-[10px] bg-amber-200/80 px-1.5 py-0.5 rounded font-mono" id="widgetKakaoId">minhanh99</span>
+        </button>
+        <a id="btnWidgetPhone" href="tel:01088889999" class="w-full flex items-center space-x-2.5 p-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition text-xs font-semibold">
+          <i data-lucide="phone-call" class="w-4 h-4"></i>
+          <span>Gọi Hotline / Zalo</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Nút tròn nổi chính -->
+    <button onclick="toggleSupportBox()" class="widget-pulse bg-neutral-900 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:bg-neutral-800 active:scale-95 transition">
+      <i data-lucide="message-circle" class="w-6 h-6 text-rose-400"></i>
+    </button>
+  </div>
+
+  <!-- ================= MODAL: XEM CHI TIẾT SẢN PHẨM ================= -->
+  <div id="productDetailModal" class="fixed inset-0 z-50 hidden bg-neutral-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative my-auto animate-in zoom-in-95">
+      
+      <!-- Nút đóng -->
+      <button onclick="closeProductDetailModal()" class="absolute top-3 right-3 z-20 bg-white/90 p-2 rounded-full shadow text-neutral-600 hover:text-neutral-900">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Nội dung chi tiết có thể cuộn mượt mà -->
+      <div class="overflow-y-auto smooth-scroll flex-1 p-4 sm:p-6 space-y-4">
+        <!-- Ảnh to và album ảnh nhỏ -->
+        <div class="space-y-2">
+          <div class="rounded-2xl overflow-hidden bg-neutral-100 max-h-72 sm:max-h-96 flex items-center justify-center">
+            <img id="detailProductImage" src="" alt="" class="w-full h-full object-cover">
+          </div>
+          <!-- Thanh album ảnh thu nhỏ để bấm đổi ảnh -->
+          <div id="detailThumbnailsContainer" class="flex space-x-2 overflow-x-auto pb-1 no-scrollbar">
+            <!-- Render danh sách ảnh nhỏ -->
+          </div>
+        </div>
+
+        <div>
+          <span id="detailProductCategory" class="text-[10px] uppercase tracking-wider font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">Áo</span>
+          <h3 id="detailProductName" class="font-serif text-lg sm:text-2xl font-bold text-neutral-900 mt-1">Tên sản phẩm</h3>
+          <div class="flex items-baseline space-x-2 mt-1">
+            <span id="detailProductPrice" class="text-lg sm:text-2xl font-extrabold text-neutral-900">₩0</span>
+            <span id="detailProductOldPrice" class="text-xs sm:text-sm text-neutral-400 line-through hidden">₩0</span>
+            <span id="detailProductSaleBadge" class="hidden text-[10px] bg-rose-600 text-white font-bold px-1.5 py-0.5 rounded">-10%</span>
+          </div>
+        </div>
+
+        <!-- Chọn Màu Sắc -->
+        <div>
+          <label class="text-xs font-bold text-neutral-700 block mb-1.5">Chọn Màu Sắc:</label>
+          <div id="detailColorOptions" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Chọn Kích Thước (Size) -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs font-bold text-neutral-700">Chọn Size:</label>
+            <button onclick="openSizeGuideModal()" class="text-xs text-rose-600 hover:underline flex items-center space-x-1">
+              <i data-lucide="ruler" class="w-3.5 h-3.5"></i>
+              <span>Xem bảng tư vấn size</span>
+            </button>
+          </div>
+          <div id="detailSizeOptions" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- MÔ TẢ CHI TIẾT SẢN PHẨM -->
+        <div id="detailProductDescBox" class="bg-neutral-50 rounded-2xl p-3.5 border border-neutral-200/80 space-y-1.5">
+          <span class="text-xs font-bold text-neutral-800 flex items-center space-x-1.5">
+            <i data-lucide="file-text" class="w-3.5 h-3.5 text-neutral-500"></i>
+            <span>Mô Tả Sản Phẩm & Chất Liệu:</span>
+          </span>
+          <p id="detailProductDescription" class="text-xs text-neutral-600 leading-relaxed whitespace-pre-line"></p>
+        </div>
+
+        <!-- Tư vấn trực tiếp qua FB -->
+        <div class="bg-neutral-50 rounded-xl p-3 border border-neutral-200 text-xs flex items-center justify-between">
+          <span class="text-neutral-600">Cần tư vấn chuẩn chiều cao / cân nặng?</span>
+          <a id="btnDetailConsultFb" href="https://facebook.com" target="_blank" class="font-bold text-blue-600 hover:underline flex items-center space-x-1 shrink-0">
+            <span>Hỏi shop ngay</span>
+            <i data-lucide="external-link" class="w-3 h-3"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Thanh nút bấm cố định dưới đáy modal -->
+      <div class="border-t border-neutral-200 p-3 sm:p-4 bg-white shrink-0 flex items-center space-x-3">
+        <div class="flex items-center border border-neutral-300 rounded-xl overflow-hidden shrink-0">
+          <button onclick="adjustDetailQty(-1)" class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-bold">-</button>
+          <span id="detailQuantityDisplay" class="px-3 py-2 text-xs font-bold w-10 text-center">1</span>
+          <button onclick="adjustDetailQty(1)" class="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-bold">+</button>
+        </div>
+        <button onclick="addToCartFromDetailModal()" class="flex-1 bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-2.5 px-4 rounded-xl text-xs sm:text-sm flex items-center justify-center space-x-2 transition active:scale-95">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>Thêm Vào Giỏ Hàng</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= DRAWER: GIỎ HÀNG BÊN PHẢI ================= -->
+  <div id="cartDrawerBackdrop" onclick="toggleCartDrawer(false)" class="fixed inset-0 z-50 bg-neutral-900/60 backdrop-blur-sm hidden transition-opacity"></div>
+  <aside id="cartDrawerPanel" class="fixed top-0 right-0 bottom-0 w-full sm:w-96 bg-white z-50 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="p-4 border-b border-neutral-200 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-neutral-900"></i>
+        <h3 class="font-serif text-lg font-bold text-neutral-900">Giỏ Hàng Của Bạn</h3>
+      </div>
+      <button onclick="toggleCartDrawer(false)" class="p-1 text-neutral-400 hover:text-neutral-900">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Danh sách món đồ trong giỏ -->
+    <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-3">
+      <!-- Sẽ render tự động -->
+    </div>
+
+    <!-- Nhập mã giảm giá Voucher -->
+    <div class="p-3 border-t border-neutral-100 bg-neutral-50/70">
+      <div class="flex items-center space-x-2">
+        <input type="text" id="couponCodeInput" placeholder="Nhập mã giảm giá..." class="text-xs uppercase bg-white border border-neutral-300 rounded-lg px-3 py-1.5 flex-1 focus:outline-none focus:ring-1 focus:ring-neutral-900">
+        <button onclick="applyCouponCode()" class="bg-neutral-800 text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-neutral-900 transition">Áp Dụng</button>
+      </div>
+      <div id="couponMessageText" class="text-[10px] mt-1 font-medium hidden"></div>
+    </div>
+
+    <!-- Tổng tiền & Nút Đặt Hàng -->
+    <div class="p-4 border-t border-neutral-200 bg-white space-y-3">
+      <div class="space-y-1 text-xs">
+        <div class="flex justify-between text-neutral-500">
+          <span>Tạm tính:</span>
+          <span id="cartSubtotalText">₩0</span>
+        </div>
+        <div id="cartDiscountRow" class="flex justify-between text-rose-600 font-semibold hidden">
+          <span>Giảm giá:</span>
+          <span id="cartDiscountAmountText">-₩0</span>
+        </div>
+        <div class="flex justify-between text-neutral-900 font-extrabold text-sm pt-1 border-t border-neutral-100">
+          <span>Tổng cộng:</span>
+          <span id="cartGrandTotalText" class="text-base text-rose-600">₩0</span>
+        </div>
+      </div>
+
+      <button onclick="openCheckoutModal()" class="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center space-x-2 transition active:scale-95 shadow-md">
+        <span>Tiến Hành Đặt Hàng & Giao Nhận</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= MODAL: THANH TOÁN & ĐIỀN ĐỊA CHỈ HÀN QUỐC ================= -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden bg-neutral-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative my-auto animate-in zoom-in-95">
+      <div class="p-4 border-b border-neutral-200 flex items-center justify-between">
+        <div>
+          <h3 class="font-serif text-lg font-bold text-neutral-900">Thông Tin Giao Hàng & Thanh Toán</h3>
+          <p class="text-[11px] text-neutral-500">Giao hàng tận nơi toàn Hàn Quốc</p>
+        </div>
+        <button onclick="closeCheckoutModal()" class="text-neutral-400 hover:text-neutral-900">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto p-4 sm:p-6 space-y-4 smooth-scroll flex-1">
+        <!-- 1. Chọn tiền tệ thanh toán -->
+        <div>
+          <label class="text-xs font-bold text-neutral-700 block mb-1.5">1. Chọn phương thức tiền tệ:</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="selectCheckoutCurrency('KRW')" id="chkCur-KRW" class="chk-cur-btn border-2 border-neutral-900 bg-neutral-900 text-white rounded-xl p-2 text-center transition">
+              <span class="block text-xs font-bold">₩ KRW</span>
+              <span class="block text-[10px] opacity-80">Nội địa Hàn</span>
+            </button>
+            <button onclick="selectCheckoutCurrency('VND')" id="chkCur-VND" class="chk-cur-btn border-2 border-neutral-200 bg-white text-neutral-700 rounded-xl p-2 text-center hover:border-neutral-400 transition">
+              <span class="block text-xs font-bold">₫ VND</span>
+              <span class="block text-[10px] text-neutral-500">VietQR</span>
+            </button>
+            <button onclick="selectCheckoutCurrency('USD')" id="chkCur-USD" class="chk-cur-btn border-2 border-neutral-200 bg-white text-neutral-700 rounded-xl p-2 text-center hover:border-neutral-400 transition">
+              <span class="block text-xs font-bold">$ USD</span>
+              <span class="block text-[10px] text-neutral-500">PayPal</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Địa chỉ nhận hàng tại Hàn Quốc -->
+        <div class="space-y-2.5 bg-neutral-50 p-3 rounded-2xl border border-neutral-200">
+          <span class="text-xs font-bold text-neutral-800 block">2. Địa chỉ tại Hàn Quốc (배송지):</span>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-neutral-600">Tên người nhận *</label>
+              <input type="text" id="chkCustName" placeholder="Ví dụ: Nguyễn Văn A" class="text-xs bg-white border border-neutral-300 rounded-lg p-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-900">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-neutral-600">Số điện thoại Hàn *</label>
+              <input type="tel" id="chkCustPhone" placeholder="010-xxxx-xxxx" class="text-xs bg-white border border-neutral-300 rounded-lg p-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-900">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] font-semibold text-neutral-600">Mã bưu điện (우편번호) *</label>
+              <input type="text" id="chkCustZip" placeholder="Ví dụ: 16499" class="text-xs bg-white border border-neutral-300 rounded-lg p-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-900">
+            </div>
+            <div>
+              <label class="text-[10px] font-semibold text-neutral-600">Tỉnh / Thành phố *</label>
+              <select id="chkCustCity" class="text-xs bg-white border border-neutral-300 rounded-lg p-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-900">
+                <option value="Seoul">Seoul (서울)</option>
+                <option value="Gyeonggi-do">Gyeonggi-do (경기도)</option>
+                <option value="Incheon">Incheon (인천)</option>
+                <option value="Busan">Busan (부산)</option>
+                <option value="Daegu">Daegu (대구)</option>
+                <option value="Daejeon">Daejeon (대전)</option>
+                <option value="Gwangju">Gwangju (광주)</option>
+                <option value="Ulsan">Ulsan (울산)</option>
+                <option value="Khu vực khác">Khu vực khác tại Hàn</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="text-[10px] font-semibold text-neutral-600">Địa chỉ cụ thể (Tòa nhà, số phòng) *</label>
+            <input type="text" id="chkCustAddress" placeholder="Tên đường, số nhà, số phòng..." class="text-xs bg-white border border-neutral-300 rounded-lg p-2 w-full focus:outline-none focus:ring-1 focus:ring-neutral-900">
+          </div>
+        </div>
+
+        <!-- 3. Hướng dẫn chuyển tiền theo loại tiền đã chọn -->
+        <div id="paymentInstructionsCard" class="bg-amber-50/70 border border-amber-200 rounded-2xl p-3 text-xs space-y-2">
+          <!-- Render thông tin tài khoản ngân hàng tương ứng -->
+        </div>
+
+        <!-- 4. Tải ảnh chụp biên lai chuyển tiền (Bắt buộc) -->
+        <div class="border border-dashed border-neutral-300 rounded-2xl p-3 text-center space-y-2 bg-neutral-50/50">
+          <label class="text-xs font-bold text-neutral-800 block">3. Tải ảnh chụp biên lai chuyển tiền (Bill):</label>
+          <input type="file" id="billFileInput" accept="image/*" onchange="handleBillFileSelected(event)" class="hidden">
+          <button type="button" onclick="document.getElementById('billFileInput').click()" class="bg-white border border-neutral-300 hover:border-neutral-400 text-neutral-700 text-xs font-semibold px-4 py-2 rounded-xl inline-flex items-center space-x-1.5 shadow-sm">
+            <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+            <span>Chọn ảnh chụp màn hình bill</span>
+          </button>
+          <div id="billPreviewContainer" class="hidden mt-2 relative inline-block">
+            <img id="billPreviewImage" src="" class="max-h-36 rounded-lg border border-neutral-300 mx-auto shadow">
+            <button onclick="removeSelectedBill()" class="absolute -top-2 -right-2 bg-rose-600 text-white rounded-full p-1 shadow">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+          <p class="text-[10px] text-neutral-400">Hệ thống sẽ nén ảnh tự động và bắn ngay vào bot Telegram của shop</p>
+        </div>
+      </div>
+
+      <!-- Nút hoàn tất đơn hàng -->
+      <div class="p-4 border-t border-neutral-200 bg-white flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-neutral-500 block">Số tiền cần thanh toán:</span>
+          <span id="checkoutTotalPayDisplay" class="text-base font-extrabold text-rose-600">₩0</span>
+        </div>
+        <button onclick="submitCustomerOrder()" id="btnSubmitOrder" class="bg-neutral-900 hover:bg-neutral-800 text-white text-xs sm:text-sm font-bold px-6 py-2.5 rounded-xl flex items-center space-x-2 transition active:scale-95 shadow">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>Gửi Đơn Hàng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: BẢNG TƯ VẤN KÍCH CỠ (SIZE GUIDE) ================= -->
+  <div id="sizeGuideModal" class="fixed inset-0 z-50 hidden bg-neutral-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl relative animate-in zoom-in-95">
+      <button onclick="closeSizeGuideModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-800">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="font-serif text-lg font-bold text-neutral-900 mb-2 flex items-center space-x-2">
+        <i data-lucide="ruler" class="w-5 h-5 text-rose-500"></i>
+        <span>Bảng Tư Vấn Kích Cỡ Chuẩn</span>
+      </h3>
+      <p class="text-xs text-neutral-500 mb-4">Áp dụng cho phom dáng Unisex rộng rãi phong cách Hàn Quốc:</p>
+      
+      <div class="border border-neutral-200 rounded-xl overflow-hidden text-xs">
+        <table class="w-full text-left">
+          <thead class="bg-neutral-100 text-neutral-700 font-bold">
+            <tr>
+              <th class="p-2.5">Size</th>
+              <th class="p-2.5">Chiều cao</th>
+              <th class="p-2.5">Cân nặng</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-neutral-200">
+            <tr>
+              <td class="p-2.5 font-bold">S</td>
+              <td class="p-2.5">1m50 – 1m62</td>
+              <td class="p-2.5">42 – 53 kg</td>
+            </tr>
+            <tr>
+              <td class="p-2.5 font-bold">M</td>
+              <td class="p-2.5">1m60 – 1m70</td>
+              <td class="p-2.5">52 – 64 kg</td>
+            </tr>
+            <tr>
+              <td class="p-2.5 font-bold">L</td>
+              <td class="p-2.5">1m68 – 1m78</td>
+              <td class="p-2.5">63 – 75 kg</td>
+            </tr>
+            <tr>
+              <td class="p-2.5 font-bold">XL</td>
+              <td class="p-2.5">1m75 – 1m88</td>
+              <td class="p-2.5">74 – 90 kg</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-[11px] text-neutral-400 mt-3 italic">* Nếu thích mặc phom rộng giấu quần, bạn có thể chọn tăng lên 1 size.</p>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: ĐĂNG NHẬP QUẢN TRỊ BẢO MẬT (USER / PASS) ================= -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden bg-neutral-900/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl relative animate-in zoom-in-95">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-800">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="text-center mb-5">
+        <div class="w-12 h-12 bg-neutral-900 text-white rounded-2xl flex items-center justify-center mx-auto mb-2 shadow">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-serif text-lg font-bold text-neutral-900">Đăng Nhập Quản Trị</h3>
+        <p class="text-xs text-neutral-500">Dành riêng cho Chủ Shop & Nhân Viên</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-neutral-700 block mb-1">Tài khoản</label>
+          <input type="text" id="loginUsernameInput" required placeholder="admin hoặc nhanvien" class="w-full text-xs bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:ring-1 focus:ring-neutral-900">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-neutral-700 block mb-1">Mật khẩu</label>
+          <input type="password" id="loginPasswordInput" required placeholder="••••••" class="w-full text-xs bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:ring-1 focus:ring-neutral-900">
+        </div>
+        <div id="loginErrorMessage" class="text-rose-600 text-[11px] font-semibold hidden text-center"></div>
+
+        <button type="submit" class="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 shadow">
+          Đăng Nhập Vào Hệ Thống
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= BẢNG ĐIỀU KHIỂN QUẢN TRỊ (ADMIN DASHBOARD MODAL) ================= -->
+  <div id="adminDashboardModal" class="fixed inset-0 z-50 hidden bg-neutral-900/80 backdrop-blur-md flex flex-col p-2 sm:p-6 overflow-hidden">
+    <div class="bg-white rounded-3xl w-full max-w-6xl mx-auto flex-1 flex flex-col overflow-hidden shadow-2xl">
+      
+      <!-- Header Dashboard -->
+      <div class="bg-neutral-900 text-white p-4 sm:px-6 flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-3">
+          <span class="font-serif text-lg font-bold">MINH ANH BACKSTAGE</span>
+          <span id="adminRoleBadge" class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">CHỦ SHOP</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="syncDataFromFirebase(true)" class="bg-neutral-800 hover:bg-neutral-700 text-white text-xs px-3 py-1.5 rounded-lg flex items-center space-x-1.5">
+            <i data-lucide="cloud" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span class="hidden sm:inline">Làm Mới Đám Mây</span>
+          </button>
+          <button onclick="logoutAdmin()" class="bg-neutral-800 hover:bg-rose-600 text-white text-xs px-3 py-1.5 rounded-lg flex items-center space-x-1 transition">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <span>Thoát</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Thanh chọn Tab Quản trị -->
+      <div class="bg-neutral-100 border-b border-neutral-200 px-4 sm:px-6 flex space-x-2 overflow-x-auto text-xs font-semibold py-2 shrink-0">
+        <button onclick="switchAdminTab('products')" id="adminTabBtn-products" class="admin-tab-btn bg-white text-neutral-900 px-3.5 py-1.5 rounded-lg shadow-sm">
+          📦 Quản Lý Sản Phẩm
+        </button>
+        <button onclick="switchAdminTab('orders')" id="adminTabBtn-orders" class="admin-tab-btn text-neutral-600 hover:text-neutral-900 px-3.5 py-1.5 rounded-lg">
+          📋 Đơn Hàng & Bill (<span id="adminOrderCountBadge">0</span>)
+        </button>
+        <button onclick="switchAdminTab('discounts')" id="adminTabBtn-discounts" class="admin-tab-btn owner-only-feature text-neutral-600 hover:text-neutral-900 px-3.5 py-1.5 rounded-lg">
+          🏷️ Khuyến Mãi & Giảm Giá
+        </button>
+        <button onclick="switchAdminTab('settings')" id="adminTabBtn-settings" class="admin-tab-btn owner-only-feature text-neutral-600 hover:text-neutral-900 px-3.5 py-1.5 rounded-lg">
+          ⚙️ Cài Đặt Shop, Ngân Hàng & Bot
+        </button>
+      </div>
+
+      <!-- Nội dung các Tab -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 smooth-scroll">
+        
+        <!-- TAB 1: QUẢN LÝ SẢN PHẨM -->
+        <div id="adminTab-products" class="admin-tab-content space-y-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-neutral-900 text-base">Danh Sách Quần Áo Đang Bán</h3>
+              <p class="text-xs text-neutral-500">Thêm, sửa giá hoặc cập nhật % giảm giá riêng lẻ</p>
+            </div>
+            <button onclick="openProductEditModal(null)" class="owner-only-feature bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-bold px-4 py-2 rounded-xl flex items-center space-x-1.5 shadow">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Thêm Mẫu Quần Áo Mới</span>
+            </button>
+          </div>
+
+          <div class="border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-neutral-100 text-neutral-700 font-bold uppercase tracking-wider">
+                  <tr>
+                    <th class="p-3">Ảnh</th>
+                    <th class="p-3">Tên Sản Phẩm</th>
+                    <th class="p-3">Danh Mục</th>
+                    <th class="p-3">Mô Tả</th>
+                    <th class="p-3">Giá Gốc</th>
+                    <th class="p-3">Giảm Giá</th>
+                    <th class="p-3">Giá Bán</th>
+                    <th class="p-3 text-right">Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="adminProductTableBody" class="divide-y divide-neutral-200">
+                  <!-- Render bảng sản phẩm -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: QUẢN LÝ ĐƠN HÀNG & BILL -->
+        <div id="adminTab-orders" class="admin-tab-content hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-neutral-900 text-base">Danh Sách Đơn Hàng Tiếp Nhận</h3>
+              <p class="text-xs text-neutral-500">Đối soát ảnh bill chuyển khoản và duyệt đóng hàng</p>
+            </div>
+            <button onclick="clearAllOrders()" class="owner-only-feature text-xs text-rose-600 hover:underline">Xóa tất cả đơn</button>
+          </div>
+
+          <div id="adminOrdersContainer" class="space-y-3">
+            <!-- Render danh sách đơn hàng -->
+          </div>
+        </div>
+
+        <!-- TAB 3: KHUYẾN MÃI & FLASH SALE (Dành cho Chủ Shop) -->
+        <div id="adminTab-discounts" class="admin-tab-content hidden space-y-6">
+          <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-bold text-rose-900 text-sm">Chương Trình Giảm Giá Toàn Sàn (Storewide Flash Sale)</h4>
+                <p class="text-xs text-rose-700">Khi bật, tất cả sản phẩm chưa cài giảm giá riêng sẽ tự động giảm theo % này</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="storeSaleActiveToggle" class="sr-only peer">
+                <div class="w-11 h-6 bg-neutral-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600"></div>
+              </label>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div>
+                <label class="text-xs font-semibold text-rose-900 block mb-1">% Giảm Toàn Bộ Shop</label>
+                <input type="number" id="storeSalePercentInput" min="0" max="90" placeholder="Ví dụ: 10" class="text-xs bg-white border border-rose-300 rounded-xl p-2.5 w-full focus:outline-none focus:ring-1 focus:ring-rose-600 font-bold">
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-rose-900 block mb-1">Dòng chữ thông báo trên Banner</label>
+                <input type="text" id="storeSaleBannerTextInput" placeholder="Ưu đãi giảm 10% mừng đại tiệc BST mới..." class="text-xs bg-white border border-rose-300 rounded-xl p-2.5 w-full focus:outline-none focus:ring-1 focus:ring-rose-600">
+              </div>
+            </div>
+          </div>
+
+          <!-- Mã Coupon Voucher -->
+          <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-4 sm:p-6 space-y-4">
+            <h4 class="font-bold text-neutral-900 text-sm">Cài Đặt Mã Voucher / Coupon</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-xs font-semibold text-neutral-700 block mb-1">Mã Giảm Giá</label>
+                <input type="text" id="couponCodeSettingInput" placeholder="Ví dụ: MINHANH10" class="text-xs uppercase bg-white border border-neutral-300 rounded-xl p-2.5 w-full font-mono font-bold focus:outline-none focus:ring-1 focus:ring-neutral-900">
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-neutral-700 block mb-1">% Trừ Khi Khách Nhập Mã</label>
+                <input type="number" id="couponPercentSettingInput" min="0" max="90" placeholder="10" class="text-xs bg-white border border-neutral-300 rounded-xl p-2.5 w-full font-bold focus:outline-none focus:ring-1 focus:ring-neutral-900">
+              </div>
+            </div>
+          </div>
+
+          <button onclick="saveDiscountSettings()" class="bg-neutral-900 text-white font-bold text-xs px-6 py-2.5 rounded-xl hover:bg-neutral-800 transition">
+            Lưu Cài Đặt Khuyến Mãi
+          </button>
+        </div>
+
+        <!-- TAB 4: CÀI ĐẶT HỆ THỐNG & TÀI KHOẢN (Chủ Shop) -->
+        <div id="adminTab-settings" class="admin-tab-content hidden space-y-6">
+          
+          <!-- Đường link Firebase Singapore -->
+          <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 space-y-2">
+            <span class="text-xs font-bold text-blue-900 block flex items-center space-x-1.5">
+              <i data-lucide="database" class="w-4 h-4 text-blue-600"></i>
+              <span>Cơ Sở Dữ Liệu Đám Mây (Firebase Realtime Database URL)</span>
+            </span>
+            <input type="text" id="settingFirebaseUrlInput" class="w-full text-xs font-mono bg-white border border-blue-300 rounded-xl p-2.5 text-neutral-700 focus:outline-none focus:ring-1 focus:ring-blue-600">
+            <p class="text-[11px] text-blue-700">Đã thiết lập máy chủ Singapore tự động lưu vĩnh viễn.</p>
+          </div>
+
+          <!-- Tài khoản Ngân Hàng Hàn Quốc, VietQR & PayPal -->
+          <div class="border border-neutral-200 rounded-2xl p-4 sm:p-6 space-y-4">
+            <h4 class="font-bold text-neutral-900 text-sm">Cấu Hình Tài Khoản Nhận Tiền (3 Tiền Tệ)</h4>
+            
+            <div class="space-y-3">
+              <span class="text-xs font-bold text-neutral-700 block text-rose-600">1. Tài khoản Nội địa Hàn Quốc (KRW):</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <input type="text" id="settingKrwBankName" placeholder="Tên Ngân Hàng (KB, Shinhan...)" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+                <input type="text" id="settingKrwAccountNum" placeholder="Số Tài Khoản Hàn" class="text-xs bg-white border border-neutral-300 rounded-xl p-2 font-mono">
+                <input type="text" id="settingKrwAccountHolder" placeholder="Tên Chủ Tài Khoản" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+              </div>
+            </div>
+
+            <div class="space-y-3 pt-2">
+              <span class="text-xs font-bold text-neutral-700 block text-emerald-600">2. Tài khoản Việt Nam (VND VietQR):</span>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <input type="text" id="settingVndBankName" placeholder="Mã Ngân Hàng (MB, VCB, ACB...)" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+                <input type="text" id="settingVndAccountNum" placeholder="Số Tài Khoản VN" class="text-xs bg-white border border-neutral-300 rounded-xl p-2 font-mono">
+                <input type="text" id="settingVndAccountHolder" placeholder="Tên Chủ Tài Khoản VN" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+              </div>
+            </div>
+
+            <div class="space-y-3 pt-2">
+              <span class="text-xs font-bold text-neutral-700 block text-blue-600">3. Tài khoản PayPal (USD $):</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <input type="email" id="settingPaypalEmail" placeholder="Email nhận tiền PayPal" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+                <input type="text" id="settingPaypalHolder" placeholder="Tên Tài Khoản PayPal" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+              </div>
+            </div>
+          </div>
+
+          <!-- Telegram Bot Alert -->
+          <div class="border border-neutral-200 rounded-2xl p-4 sm:p-6 space-y-4">
+            <h4 class="font-bold text-neutral-900 text-sm flex items-center space-x-1.5">
+              <i data-lucide="send" class="w-4 h-4 text-blue-500"></i>
+              <span>Cấu Hình Bắn Đơn & Bill Về Điện Thoại (Telegram)</span>
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input type="text" id="settingTelegramToken" placeholder="Telegram Bot Token" class="text-xs bg-white border border-neutral-300 rounded-xl p-2 font-mono">
+              <input type="text" id="settingTelegramChatId" placeholder="Telegram Chat ID" class="text-xs bg-white border border-neutral-300 rounded-xl p-2 font-mono">
+            </div>
+            <button onclick="testTelegramConnection()" class="bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold px-4 py-2 rounded-xl transition">
+              Bấm thử gửi tin nhắn kiểm tra Telegram
+            </button>
+          </div>
+
+          <!-- Liên Kết Mạng Xã Hội -->
+          <div class="border border-neutral-200 rounded-2xl p-4 sm:p-6 space-y-4">
+            <h4 class="font-bold text-neutral-900 text-sm">Cấu Hình Kênh Mạng Xã Hội & CSKH</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input type="text" id="settingSocialFb" placeholder="Link Fanpage Facebook" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+              <input type="text" id="settingSocialTiktok" placeholder="Link Kênh TikTok" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+              <input type="text" id="settingSocialKakao" placeholder="ID KakaoTalk" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+              <input type="text" id="settingSocialPhone" placeholder="Hotline / Số điện thoại" class="text-xs bg-white border border-neutral-300 rounded-xl p-2">
+            </div>
+          </div>
+
+          <button onclick="saveAllStoreSettings()" class="bg-neutral-900 text-white font-bold text-xs px-6 py-3 rounded-xl hover:bg-neutral-800 transition shadow">
+            Lưu Toàn Bộ Cấu Hình Hệ Thống
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: THÊM / SỬA SẢN PHẨM ================= -->
+  <div id="productEditModal" class="fixed inset-0 z-50 hidden bg-neutral-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative my-auto animate-in zoom-in-95">
+      <div class="p-4 border-b border-neutral-200 flex items-center justify-between">
+        <h3 id="productEditModalTitle" class="font-bold text-neutral-900 text-base">Thêm Sản Phẩm Mới</h3>
+        <button onclick="closeProductEditModal()" class="text-neutral-400 hover:text-neutral-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveProduct(event)" class="p-4 sm:p-6 space-y-3 overflow-y-auto smooth-scroll flex-1 text-xs">
+        <input type="hidden" id="editProductId">
+
+        <div>
+          <label class="font-semibold text-neutral-700 block mb-1">Tên Mẫu Quần Áo *</label>
+          <input type="text" id="editProductName" required placeholder="Ví dụ: Áo Hoodie Nỉ Bông Phom Rộng" class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:ring-1 focus:ring-neutral-900">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="font-semibold text-neutral-700 block mb-1">Danh Mục *</label>
+            <select id="editProductCategory" class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:ring-1 focus:ring-neutral-900">
+              <option value="Ao">Áo & Hoodie</option>
+              <option value="Quan">Quần & Denim</option>
+              <option value="Set">Set Thiết Kế</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-neutral-700 block mb-1">Giá Gốc (Won KRW) *</label>
+            <input type="number" id="editProductPrice" required min="1000" step="500" placeholder="49000" class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-neutral-900">
+          </div>
+        </div>
+
+        <!-- Ô GIẢM GIÁ RIÊNG LẺ CHO SẢN PHẨM NÀY -->
+        <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-rose-900">% Giảm Giá Riêng Cho Mẫu Này:</label>
+            <span id="editProductSalePreviewPrice" class="text-rose-700 font-bold">Giá sau giảm: ₩0</span>
+          </div>
+          <input type="number" id="editProductDiscountPercent" min="0" max="90" oninput="updateEditDiscountPreview()" placeholder="Nhập số % (ví dụ: 15) hoặc để 0 nếu không giảm" class="w-full bg-white border border-rose-300 rounded-lg p-2 font-bold text-rose-600 focus:outline-none focus:ring-1 focus:ring-rose-600">
+        </div>
+
+        <!-- TẢI NHIỀU ẢNH SẢN PHẨM (GIAO DIỆN TRỰC QUAN NHƯ TRƯỚC) -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="font-semibold text-neutral-700">Hình Ảnh Sản Phẩm (Thêm nhiều ảnh góc chụp):</label>
+            <span id="editImageCountBadge" class="text-[11px] text-neutral-500 font-medium">0 ảnh</span>
+          </div>
+
+          <!-- Nút bấm chọn nhiều ảnh -->
+          <input type="file" id="editProductMultipleFiles" accept="image/*" multiple onchange="handleMultipleProductFiles(event)" class="hidden">
+          
+          <div class="border-2 border-dashed border-neutral-300 hover:border-neutral-900 rounded-2xl p-4 text-center cursor-pointer transition bg-neutral-50/70" onclick="document.getElementById('editProductMultipleFiles').click()">
+            <div class="flex flex-col items-center space-y-1">
+              <div class="w-10 h-10 bg-neutral-200 rounded-full flex items-center justify-center text-neutral-700">
+                <i data-lucide="image-plus" class="w-5 h-5"></i>
+              </div>
+              <span class="text-xs font-bold text-neutral-800">Bấm để chọn một hoặc nhiều ảnh cùng lúc</span>
+              <span class="text-[10px] text-neutral-400">Hỗ trợ chọn nhiều ảnh từ điện thoại / máy tính</span>
+            </div>
+          </div>
+
+          <!-- Danh sách ảnh xem trước và nút xóa từng ảnh -->
+          <div id="editImagesGalleryPreview" class="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-2.5">
+            <!-- Render các ảnh xem trước tại đây -->
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="font-semibold text-neutral-700 block mb-1">Màu sắc (cách nhau dấu phẩy)</label>
+            <input type="text" id="editProductColors" placeholder="Đen, Xám, Be" class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2">
+          </div>
+          <div>
+            <label class="font-semibold text-neutral-700 block mb-1">Sizes (cách nhau dấu phẩy)</label>
+            <input type="text" id="editProductSizes" placeholder="S, M, L, XL" class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2">
+          </div>
+        </div>
+
+        <!-- Ô NHẬP MÔ TẢ SẢN PHẨM -->
+        <div>
+          <label class="font-semibold text-neutral-700 block mb-1">Mô Tả Chi Tiết (Chất vải, phom dáng, cách phối đồ, giặt ủi):</label>
+          <textarea id="editProductDescription" rows="3" placeholder="Ví dụ: Chất vải cotton nỉ chần bông 380gsm dày dặn, phom rộng phong cách đường phố Seoul..." class="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-neutral-900"></textarea>
+        </div>
+
+        <div class="pt-2 border-t border-neutral-200 flex justify-end space-x-2">
+          <button type="button" onclick="closeProductEditModal()" class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl font-semibold">Hủy</button>
+          <button type="submit" class="px-5 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-bold shadow">Lưu Sản Phẩm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
+  <div id="toastNotificationBox" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] transition-transform duration-300 ease-out">
+    <div class="bg-neutral-900 text-white text-xs font-medium px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-2 border border-neutral-700">
+      <span id="toastIcon">✨</span>
+      <span id="toastMessage">Thông báo</span>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT HỆ THỐNG HOÀN CHỈNH ================= -->
+  <script>
+    /* ================= 1. DỮ LIỆU KHỞI TẠO MẶC ĐỊNH ================= */
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "sp-01",
+        name: "Zip Hoodie Nỉ Dày Phom Rộng Gothic",
+        category: "Ao",
+        priceKrw: 49000,
+        discountPercent: 10,
+        imageUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=600&auto=format&fit=crop",
+        colors: ["Đen Xước", "Xám Khói", "Be Cát"],
+        sizes: ["M", "L", "XL"],
+        description: "Chất liệu nỉ bông Hàn Quốc 100% Cotton định lượng 400gsm dày dặn đứng phom. Khóa kéo zip kim loại 2 chiều trơn tru, phom rộng Drop-shoulder cá tính."
+      },
+      {
+        id: "sp-02",
+        name: "Quần Jean Ống Rộng Rách Gối Unisex",
+        category: "Quan",
+        priceKrw: 55000,
+        discountPercent: 0,
+        imageUrl: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop",
+        colors: ["Xanh Retro", "Đen Tuyền"],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Chất liệu denim cotton wash mềm cao cấp, hạn chế phai màu. Thiết kế ống suông rộng che khuyết điểm chân, chi tiết rách gối nhẹ bụi bặm."
+      },
+      {
+        id: "sp-03",
+        name: "Set Bộ Nỉ Thu Đông Streetwear Seoul",
+        category: "Set",
+        priceKrw: 79000,
+        discountPercent: 15,
+        imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
+        colors: ["Xám Tiêu", "Nâu Chocolate"],
+        sizes: ["Free Size (< 75kg)"],
+        description: "Set gồm áo nỉ cổ tròn và quần suông bo gấu. Chất nỉ bông giữ ấm cực tốt, thích hợp mặc dạo phố hay mặc nhà mùa đông Hàn Quốc."
+      },
+      {
+        id: "sp-04",
+        name: "Áo Thun Cotton Nặng Tay Lỡ Boxy Cut",
+        category: "Ao",
+        priceKrw: 32000,
+        discountPercent: 0,
+        imageUrl: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600&auto=format&fit=crop",
+        colors: ["Trắng Sữa", "Đen", "Xanh Rêu"],
+        sizes: ["S", "M", "L"],
+        description: "Vải 100% Cotton 2 chiều định lượng 250gsm, thấm hút mồ hôi tốt. Bo cổ dệt dày không lo bai nhão sau khi giặt máy."
+      }
+    ];
+
+    const DEFAULT_SETTINGS = {
+      firebaseUrl: "https://minh-anh-shops-default-rtdb.asia-southeast1.firebasedatabase.app/",
+      storewideSaleActive: false,
+      storewideSalePercent: 10,
+      storewideSaleBannerText: "ƯU ĐÃI ĐẶC BIỆT: GIẢM 10% TOÀN BỘ SẢN PHẨM TRÊN WEB!",
+      couponCode: "MINHANH10",
+      couponPercent: 10,
+      adminUser: "admin",
+      adminPass: "888888",
+      staffUser: "nhanvien",
+      staffPass: "111111",
+      krwBank: "KB Kookmin Bank",
+      krwAcc: "920301-01-654321",
+      krwName: "NGUYEN VAN A",
+      vndBank: "MB Bank",
+      vndAcc: "0988888888",
+      vndName: "NGUYEN VAN A",
+      paypalEmail: "billing@minhanhclothing.xyz",
+      paypalName: "Minh Anh Studio LLC",
+      telegramToken: "",
+      telegramChatId: "",
+      socialFb: "https://facebook.com",
+      socialTiktok: "https://tiktok.com",
+      socialKakao: "minhanh99",
+      socialPhone: "010-8888-9999"
+    };
+
+    /* ================= 2. STATE ỨNG DỤNG ================= */
+    let products = [];
+    let orders = [];
+    let cart = [];
+    let settings = { ...DEFAULT_SETTINGS };
+    let currentCategory = "ALL";
+    let currentSearchTerm = "";
+    let currentCurrency = "KRW";
+    let currentLanguage = "vi";
+    let activeAdminRole = null; // 'admin' | 'staff' | null
+    let selectedDetailProduct = null;
+    let selectedDetailColor = "";
+    let selectedDetailSize = "";
+    let detailQuantity = 1;
+    let appliedCoupon = null;
+    let selectedCheckoutCurrencyType = "KRW";
+    let checkoutUploadedBillBase64 = "";
+    let currentEditProductImages = []; // Mảng chứa nhiều ảnh của sản phẩm đang sửa/thêm
+
+    // Tỷ giá dự phòng an toàn
+    const EXCHANGE_RATES = {
+      KRW: 1,
+      VND: 18.5,    // 1 KRW ≈ 18.5 VND
+      USD: 0.00075  // 1 KRW ≈ 0.00075 USD
+    };
+
+    /* ================= 3. KHỞI CHẠY HỆ THỐNG KHI TẢI TRANG ================= */
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadLocalSettings();
+      loadLocalOrders();
+      initLanguagePreference();
+
+      // Nạp sản phẩm từ đám mây Firebase Singapore
+      await syncDataFromFirebase(false);
+
+      updateCurrencyDisplay();
+      renderProducts();
+      renderCart();
+      updateSupportWidgetLinks();
+      lucide.createIcons();
+    });
+
+    /* ================= 4. ĐỒNG BỘ ĐÁM MÂY FIREBASE ================= */
+    function getFirebaseUrl() {
+      let url = settings.firebaseUrl || DEFAULT_SETTINGS.firebaseUrl;
+      url = url.trim();
+      if (!url.endsWith('/')) url += '/';
+      return url;
+    }
+
+    async function syncDataFromFirebase(showToast) {
+      const icon = document.getElementById('cloudSyncIcon');
+      if (icon) icon.classList.add('animate-spin');
+
+      const firebaseUrl = getFirebaseUrl();
+      try {
+        const response = await fetch(`${firebaseUrl}products.json`);
+        if (response.ok) {
+          const data = await response.json();
+          // Kiểm tra xem đã từng khởi tạo hay chưa để KHÔNG bao giờ tự nạp lại sản phẩm đã xóa
+          const hasInitializedBefore = localStorage.getItem('minhanh_cloud_initialized') === 'true';
+
+          if (data && Array.isArray(data)) {
+            // Đã có dữ liệu thật trên Firebase (kể cả mảng rỗng do bạn xóa hết)
+            products = data;
+            localStorage.setItem('minhanh_products', JSON.stringify(products));
+            localStorage.setItem('minhanh_cloud_initialized', 'true');
+            if (showToast) showCustomToast(`Đã đồng bộ ${products.length} mẫu quần áo từ đám mây!`, '☁️');
+          } else if (!hasInitializedBefore && (data === null || data === undefined)) {
+            // Chỉ nạp dữ liệu mẫu ĐÚNG 1 LẦN DUY NHẤT khi tạo shop mới tinh
+            await pushProductsToFirebase(DEFAULT_PRODUCTS);
+            products = [...DEFAULT_PRODUCTS];
+            localStorage.setItem('minhanh_products', JSON.stringify(products));
+            localStorage.setItem('minhanh_cloud_initialized', 'true');
+            if (showToast) showCustomToast('Đã khởi tạo kho hàng ban đầu lên Đám Mây!', '🚀');
+          } else {
+            // Trường hợp bạn đã chủ động xóa hết sạch sản phẩm trên kho
+            products = [];
+            localStorage.setItem('minhanh_products', JSON.stringify(products));
+            if (showToast) showCustomToast('Kho hàng hiện đang trống!', '📦');
+          }
+        } else {
+          fallbackLocalProducts();
+        }
+      } catch (err) {
+        console.warn('Lỗi kết nối Firebase, sử dụng bộ nhớ nội bộ:', err);
+        fallbackLocalProducts();
+      } finally {
+        if (icon) icon.classList.remove('animate-spin');
+        renderProducts();
+        if (activeAdminRole) renderAdminProductTable();
+      }
+    }
+
+    function fallbackLocalProducts() {
+      const cached = localStorage.getItem('minhanh_products');
+      if (cached) {
+        try { products = JSON.parse(cached); } catch(e) { products = []; }
+      } else {
+        products = [];
+      }
+    }
+
+    async function pushProductsToFirebase(productList) {
+      const firebaseUrl = getFirebaseUrl();
+      try {
+        await fetch(`${firebaseUrl}products.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productList || [])
+        });
+      } catch (e) {
+        console.error('Không thể đẩy dữ liệu lên Firebase:', e);
+      }
+    }
+
+    /* ================= 5. HIỂN THỊ TIỀN TỆ & TÍNH GIÁ ================= */
+    function calculateProductFinalPriceKrw(product) {
+      const basePrice = Number(product.priceKrw) || 0;
+      let discount = 0;
+
+      // Ưu tiên giảm giá riêng lẻ của sản phẩm nếu có
+      if (product.discountPercent && Number(product.discountPercent) > 0) {
+        discount = Number(product.discountPercent);
+      } else if (settings.storewideSaleActive && Number(settings.storewideSalePercent) > 0) {
+        discount = Number(settings.storewideSalePercent);
+      }
+
+      if (discount > 0) {
+        return {
+          finalPrice: Math.round(basePrice * (100 - discount) / 100),
+          oldPrice: basePrice,
+          discountPercent: discount
+        };
+      }
+      return { finalPrice: basePrice, oldPrice: null, discountPercent: 0 };
+    }
+
+    function formatCurrency(amountKrw, targetCurrency = currentCurrency) {
+      const amt = Number(amountKrw) || 0;
+      if (targetCurrency === 'VND') {
+        const vnd = Math.round(amt * EXCHANGE_RATES.VND);
+        return new Intl.NumberFormat('vi-VN').format(vnd) + ' ₫';
+      } else if (targetCurrency === 'USD') {
+        const usd = (amt * EXCHANGE_RATES.USD).toFixed(2);
+        return '$' + usd;
+      }
+      return '₩' + new Intl.NumberFormat('ko-KR').format(amt);
+    }
+
+    function changeDisplayCurrency(cur) {
+      currentCurrency = cur;
+      renderProducts();
+      renderCart();
+      if (selectedDetailProduct) openProductDetailModal(selectedDetailProduct.id);
+    }
+
+    function updateCurrencyDisplay() {
+      const selector = document.getElementById('currencySelector');
+      if (selector) {
+        selector.value = currentCurrency;
+      }
+    }
+
+    /* ================= 6. VẼ DANH SÁCH SẢN PHẨM ================= */
+    function renderProducts() {
+      const container = document.getElementById('productListContainer');
+      const countInfo = document.getElementById('productCountInfo');
+      if (!container) return;
+
+      let filtered = products.filter(p => {
+        const matchCat = (currentCategory === 'ALL' || p.category === currentCategory);
+        const matchSearch = p.name.toLowerCase().includes(currentSearchTerm.toLowerCase());
+        return matchCat && matchSearch;
+      });
+
+      if (countInfo) {
+        countInfo.innerText = `Tìm thấy ${filtered.length} mẫu trang phục`;
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-16 text-center text-neutral-400">
+            <i data-lucide="package-x" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+            <p class="text-sm">Không tìm thấy sản phẩm phù hợp.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map(p => {
+        const priceInfo = calculateProductFinalPriceKrw(p);
+        const hasSale = priceInfo.discountPercent > 0;
+
+        return `
+          <div class="group bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/80 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+            <!-- Khung ảnh có huy hiệu sale -->
+            <div class="relative overflow-hidden bg-neutral-100 aspect-[4/5] cursor-pointer" onclick="openProductDetailModal('${p.id}')">
+              <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/400x500/f4f4f5/71717a?text=Minh+Anh+Shop'">
+              ${hasSale ? `
+                <span class="absolute top-2 left-2 bg-rose-600 text-white text-[10px] sm:text-xs font-extrabold px-2 py-0.5 rounded-full shadow">
+                  -${priceInfo.discountPercent}% SALE
+                </span>
+              ` : ''}
+              <button onclick="event.stopPropagation(); quickAddToCart('${p.id}')" title="Thêm nhanh vào giỏ" class="absolute bottom-2.5 right-2.5 bg-white/95 text-neutral-900 p-2 sm:p-2.5 rounded-full shadow-lg hover:bg-neutral-900 hover:text-white transition active:scale-90">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Thông tin tên, giá -->
+            <div class="p-3 sm:p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[9px] uppercase tracking-wider font-bold text-neutral-400 block">${p.category}</span>
+                <h3 onclick="openProductDetailModal('${p.id}')" class="text-xs sm:text-sm font-semibold text-neutral-900 line-clamp-2 mt-0.5 hover:text-rose-600 cursor-pointer">
+                  ${p.name}
+                </h3>
+              </div>
+
+              <div class="mt-2.5 pt-2 border-t border-neutral-100 flex items-baseline justify-between">
+                <div>
+                  <span class="text-xs sm:text-base font-extrabold ${hasSale ? 'text-rose-600' : 'text-neutral-900'}">
+                    ${formatCurrency(priceInfo.finalPrice)}
+                  </span>
+                  ${hasSale ? `
+                    <span class="text-[10px] sm:text-xs text-neutral-400 line-through ml-1.5 font-normal">
+                      ${formatCurrency(priceInfo.oldPrice)}
+                    </span>
+                  ` : ''}
+                </div>
+                <span class="text-[10px] text-neutral-400">${p.sizes ? p.sizes.length + ' sizes' : ''}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      const titles = {
+        'ALL': 'Tất Cả Sản Phẩm',
+        'Ao': 'Áo Thun & Áo Hoodie',
+        'Quan': 'Quần Denim & Quần Dài',
+        'Set': 'Set Quần Áo Thiết Kế'
+      };
+      const titleElem = document.getElementById('currentCategoryTitle');
+      if (titleElem) titleElem.innerText = titles[cat] || 'Danh Mục Quần Áo';
+
+      // Cập nhật nút active desktop
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-neutral-900', 'text-white');
+        btn.classList.add('text-neutral-600');
+      });
+      const activeNav = document.getElementById(`nav-${cat}`);
+      if (activeNav) {
+        activeNav.classList.add('bg-neutral-900', 'text-white');
+        activeNav.classList.remove('text-neutral-600');
+      }
+
+      renderProducts();
+    }
+
+    function handleSearch(val) {
+      currentSearchTerm = val.trim();
+      renderProducts();
+    }
+
+    /* ================= 7. XEM CHI TIẾT SẢN PHẨM (MODAL) ================= */
+    function openProductDetailModal(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+
+      selectedDetailProduct = p;
+      detailQuantity = 1;
+      selectedDetailColor = p.colors && p.colors.length > 0 ? p.colors[0] : "Tiêu chuẩn";
+      selectedDetailSize = p.sizes && p.sizes.length > 0 ? p.sizes[0] : "Free Size";
+
+      // Chuẩn hóa danh sách ảnh (nếu sản phẩm có images dạng mảng hoặc imageUrl đơn lẻ)
+      const imageList = (p.images && p.images.length > 0) ? p.images : [p.imageUrl || ''];
+
+      document.getElementById('detailProductName').innerText = p.name;
+      document.getElementById('detailProductCategory').innerText = p.category;
+      document.getElementById('detailProductImage').src = imageList[0];
+      document.getElementById('detailQuantityDisplay').innerText = detailQuantity;
+
+      // Album ảnh thu nhỏ (thumbnails)
+      const thumbContainer = document.getElementById('detailThumbnailsContainer');
+      if (thumbContainer) {
+        if (imageList.length > 1) {
+          thumbContainer.innerHTML = imageList.map((imgSrc, i) => `
+            <img src="${imgSrc}" onclick="switchDetailMainImage('${imgSrc}', this)" class="detail-thumb w-14 h-14 object-cover rounded-xl border-2 ${i === 0 ? 'border-neutral-900' : 'border-transparent opacity-60'} cursor-pointer hover:opacity-100 transition shrink-0">
+          `).join('');
+          thumbContainer.classList.remove('hidden');
+        } else {
+          thumbContainer.innerHTML = '';
+          thumbContainer.classList.add('hidden');
+        }
+      }
+
+      const priceInfo = calculateProductFinalPriceKrw(p);
+      const priceElem = document.getElementById('detailProductPrice');
+      const oldPriceElem = document.getElementById('detailProductOldPrice');
+      const badgeElem = document.getElementById('detailProductSaleBadge');
+
+      priceElem.innerText = formatCurrency(priceInfo.finalPrice);
+      if (priceInfo.discountPercent > 0) {
+        priceElem.classList.add('text-rose-600');
+        oldPriceElem.classList.remove('hidden');
+        oldPriceElem.innerText = formatCurrency(priceInfo.oldPrice);
+        badgeElem.classList.remove('hidden');
+        badgeElem.innerText = `-${priceInfo.discountPercent}% SALE`;
+      } else {
+        priceElem.classList.remove('text-rose-600');
+        oldPriceElem.classList.add('hidden');
+        badgeElem.classList.add('hidden');
+      }
+
+      // Màu sắc
+      const colorContainer = document.getElementById('detailColorOptions');
+      colorContainer.innerHTML = (p.colors || ['Màu mặc định']).map(c => `
+        <button type="button" onclick="selectDetailColor('${c}')" class="detail-color-btn text-xs px-3 py-1.5 rounded-xl border ${c === selectedDetailColor ? 'border-neutral-900 bg-neutral-900 text-white font-bold' : 'border-neutral-300 text-neutral-700 hover:border-neutral-500'}">
+          ${c}
+        </button>
+      `).join('');
+
+      // Size
+      const sizeContainer = document.getElementById('detailSizeOptions');
+      sizeContainer.innerHTML = (p.sizes || ['Free Size']).map(s => `
+        <button type="button" onclick="selectDetailSize('${s}')" class="detail-size-btn text-xs px-3 py-1.5 rounded-xl border ${s === selectedDetailSize ? 'border-neutral-900 bg-neutral-900 text-white font-bold' : 'border-neutral-300 text-neutral-700 hover:border-neutral-500'}">
+          ${s}
+        </button>
+      `).join('');
+
+      // Mô tả sản phẩm
+      const descElem = document.getElementById('detailProductDescription');
+      const descBox = document.getElementById('detailProductDescBox');
+      if (descElem && descBox) {
+        const descContent = (p.description && p.description.trim()) ? p.description.trim() : 'Sản phẩm phong cách thiết kế Hàn Quốc, chất vải cao cấp thoáng mát và đứng phom.';
+        descElem.innerText = descContent;
+        descBox.classList.remove('hidden');
+      }
+
+      document.getElementById('productDetailModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function switchDetailMainImage(imgSrc, el) {
+      document.getElementById('detailProductImage').src = imgSrc;
+      document.querySelectorAll('.detail-thumb').forEach(thumb => {
+        thumb.classList.remove('border-neutral-900');
+        thumb.classList.add('border-transparent', 'opacity-60');
+      });
+      el.classList.add('border-neutral-900');
+      el.classList.remove('border-transparent', 'opacity-60');
+    }
+
+    function closeProductDetailModal() {
+      document.getElementById('productDetailModal').classList.add('hidden');
+    }
+
+    function selectDetailColor(c) {
+      selectedDetailColor = c;
+      document.querySelectorAll('.detail-color-btn').forEach(btn => {
+        if (btn.innerText.trim() === c) {
+          btn.className = 'detail-color-btn text-xs px-3 py-1.5 rounded-xl border border-neutral-900 bg-neutral-900 text-white font-bold';
+        } else {
+          btn.className = 'detail-color-btn text-xs px-3 py-1.5 rounded-xl border border-neutral-300 text-neutral-700 hover:border-neutral-500';
+        }
+      });
+    }
+
+    function selectDetailSize(s) {
+      selectedDetailSize = s;
+      document.querySelectorAll('.detail-size-btn').forEach(btn => {
+        if (btn.innerText.trim() === s) {
+          btn.className = 'detail-size-btn text-xs px-3 py-1.5 rounded-xl border border-neutral-900 bg-neutral-900 text-white font-bold';
+        } else {
+          btn.className = 'detail-size-btn text-xs px-3 py-1.5 rounded-xl border border-neutral-300 text-neutral-700 hover:border-neutral-500';
+        }
+      });
+    }
+
+    function adjustDetailQty(delta) {
+      detailQuantity = Math.max(1, detailQuantity + delta);
+      document.getElementById('detailQuantityDisplay').innerText = detailQuantity;
+    }
+
+    function quickAddToCart(id) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      const color = p.colors && p.colors.length > 0 ? p.colors[0] : 'Tiêu chuẩn';
+      const size = p.sizes && p.sizes.length > 0 ? p.sizes[0] : 'Free Size';
+      addItemToCart(p, color, size, 1);
+      showCustomToast(`Đã thêm "${p.name}" vào giỏ!`, '🛍️');
+    }
+
+    function addToCartFromDetailModal() {
+      if (!selectedDetailProduct) return;
+      addItemToCart(selectedDetailProduct, selectedDetailColor, selectedDetailSize, detailQuantity);
+      closeProductDetailModal();
+      toggleCartDrawer(true);
+      showCustomToast(`Đã thêm ${detailQuantity} món vào giỏ!`, '🛍️');
+    }
+
+    /* ================= 8. QUẢN LÝ GIỎ HÀNG ================= */
+    function addItemToCart(product, color, size, qty) {
+      const priceInfo = calculateProductFinalPriceKrw(product);
+      const existingIndex = cart.findIndex(item => item.id === product.id && item.color === color && item.size === size);
+
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity += qty;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          category: product.category,
+          priceKrw: priceInfo.finalPrice,
+          imageUrl: product.imageUrl,
+          color: color,
+          size: size,
+          quantity: qty
+        });
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const list = document.getElementById('cartItemsList');
+      const badge = document.getElementById('cartCountBadge');
+      const subtotalElem = document.getElementById('cartSubtotalText');
+      const grandTotalElem = document.getElementById('cartGrandTotalText');
+      const discountRow = document.getElementById('cartDiscountRow');
+      const discountAmountElem = document.getElementById('cartDiscountAmountText');
+
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (badge) badge.innerText = totalItems;
+
+      if (!list) return;
+
+      if (cart.length === 0) {
+        list.innerHTML = `
+          <div class="py-16 text-center text-neutral-400">
+            <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-2 opacity-40"></i>
+            <p class="text-xs">Giỏ hàng của bạn đang trống</p>
+          </div>
+        `;
+        if (subtotalElem) subtotalElem.innerText = formatCurrency(0);
+        if (grandTotalElem) grandTotalElem.innerText = formatCurrency(0);
+        if (discountRow) discountRow.classList.add('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      list.innerHTML = cart.map((item, index) => `
+        <div class="flex items-center space-x-3 bg-neutral-50 p-2.5 rounded-2xl border border-neutral-100">
+          <img src="${item.imageUrl}" class="w-14 h-14 object-cover rounded-xl bg-neutral-200 shrink-0">
+          <div class="flex-1 min-w-0">
+            <h4 class="text-xs font-semibold text-neutral-900 truncate">${item.name}</h4>
+            <div class="text-[10px] text-neutral-500 mt-0.5">${item.color} • Size ${item.size}</div>
+            <div class="text-xs font-bold text-neutral-900 mt-1">${formatCurrency(item.priceKrw)}</div>
+          </div>
+          <div class="flex flex-col items-end space-y-1">
+            <button onclick="removeCartItem(${index})" class="text-neutral-400 hover:text-rose-600">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+            <div class="flex items-center border border-neutral-200 rounded-lg bg-white overflow-hidden text-xs">
+              <button onclick="updateCartItemQty(${index}, -1)" class="px-2 py-0.5 hover:bg-neutral-100">-</button>
+              <span class="px-1.5 font-bold">${item.quantity}</span>
+              <button onclick="updateCartItemQty(${index}, 1)" class="px-2 py-0.5 hover:bg-neutral-100">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      const subtotalKrw = cart.reduce((sum, item) => sum + (item.priceKrw * item.quantity), 0);
+      let discountKrw = 0;
+
+      if (appliedCoupon) {
+        discountKrw = Math.round(subtotalKrw * (appliedCoupon.percent / 100));
+        discountRow.classList.remove('hidden');
+        discountAmountElem.innerText = `-${formatCurrency(discountKrw)}`;
+      } else {
+        discountRow.classList.add('hidden');
+      }
+
+      const grandTotalKrw = Math.max(0, subtotalKrw - discountKrw);
+      if (subtotalElem) subtotalElem.innerText = formatCurrency(subtotalKrw);
+      if (grandTotalElem) grandTotalElem.innerText = formatCurrency(grandTotalKrw);
+
+      lucide.createIcons();
+    }
+
+    function updateCartItemQty(index, delta) {
+      if (!cart[index]) return;
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function toggleCartDrawer(open) {
+      const drawer = document.getElementById('cartDrawerPanel');
+      const backdrop = document.getElementById('cartDrawerBackdrop');
+      if (open) {
+        backdrop.classList.remove('hidden');
+        drawer.classList.remove('translate-x-full');
+      } else {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function applyCouponCode() {
+      const code = document.getElementById('couponCodeInput').value.trim().toUpperCase();
+      const msg = document.getElementById('couponMessageText');
+      msg.classList.remove('hidden');
+
+      if (code === settings.couponCode.toUpperCase() && settings.couponPercent > 0) {
+        appliedCoupon = { code: code, percent: settings.couponPercent };
+        msg.className = 'text-[10px] mt-1 font-semibold text-emerald-600';
+        msg.innerText = `Áp dụng thành công mã ${code}: Giảm ${settings.couponPercent}%!`;
+        renderCart();
+      } else {
+        appliedCoupon = null;
+        msg.className = 'text-[10px] mt-1 font-semibold text-rose-600';
+        msg.innerText = 'Mã giảm giá không hợp lệ hoặc đã hết hạn!';
+        renderCart();
+      }
+    }
+
+    /* ================= 9. THANH TOÁN & ĐẶT HÀNG ================= */
+    function openCheckoutModal() {
+      if (cart.length === 0) {
+        showCustomToast('Giỏ hàng chưa có sản phẩm!', '⚠️');
+        return;
+      }
+      toggleCartDrawer(false);
+      selectCheckoutCurrency(currentCurrency || 'KRW');
+      document.getElementById('checkoutModal').classList.remove('hidden');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function selectCheckoutCurrency(cur) {
+      selectedCheckoutCurrencyType = cur;
+      document.querySelectorAll('.chk-cur-btn').forEach(btn => {
+        btn.className = 'chk-cur-btn border-2 border-neutral-200 bg-white text-neutral-700 rounded-xl p-2 text-center transition';
+      });
+
+      const activeBtn = document.getElementById(`chkCur-${cur}`);
+      if (activeBtn) {
+        activeBtn.className = 'chk-cur-btn border-2 border-neutral-900 bg-neutral-900 text-white rounded-xl p-2 text-center transition';
+      }
+
+      renderPaymentInstructions();
+    }
+
+    function getCartFinalTotalKrw() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.priceKrw * item.quantity), 0);
+      let discount = 0;
+      if (appliedCoupon) discount = Math.round(subtotal * (appliedCoupon.percent / 100));
+      return Math.max(0, subtotal - discount);
+    }
+
+    function renderPaymentInstructions() {
+      const card = document.getElementById('paymentInstructionsCard');
+      const totalDisplay = document.getElementById('checkoutTotalPayDisplay');
+      const totalKrw = getCartFinalTotalKrw();
+
+      totalDisplay.innerText = formatCurrency(totalKrw, selectedCheckoutCurrencyType);
+
+      if (selectedCheckoutCurrencyType === 'KRW') {
+        card.innerHTML = `
+          <div class="flex items-center space-x-2 text-neutral-900 font-bold">
+            <i data-lucide="building" class="w-4 h-4 text-rose-600"></i>
+            <span>Chuyển Khoản Ngân Hàng Hàn Quốc (계좌이체):</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-amber-200 text-xs space-y-1 font-mono">
+            <div>Ngân Hàng: <strong class="text-neutral-900">${settings.krwBank}</strong></div>
+            <div>Số Tài Khoản: <strong class="text-rose-600 text-sm">${settings.krwAcc}</strong></div>
+            <div>Chủ Tài Khoản: <strong>${settings.krwName}</strong></div>
+          </div>
+          <p class="text-[10px] text-neutral-500">Chuyển đúng số tiền <strong>₩${new Intl.NumberFormat('ko-KR').format(totalKrw)}</strong> rồi tải ảnh biên lai bên dưới.</p>
+        `;
+      } else if (selectedCheckoutCurrencyType === 'VND') {
+        const totalVnd = Math.round(totalKrw * EXCHANGE_RATES.VND);
+        const qrUrl = `https://img.vietqr.io/image/${settings.vndBank}-${settings.vndAcc}-compact2.png?amount=${totalVnd}&addInfo=MINHANH%20ORDER`;
+        card.innerHTML = `
+          <div class="flex items-center space-x-2 text-neutral-900 font-bold">
+            <i data-lucide="qr-code" class="w-4 h-4 text-emerald-600"></i>
+            <span>Quét Mã VietQR (Thanh toán Việt Nam):</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-amber-200 text-center space-y-2">
+            <img src="${qrUrl}" alt="VietQR" class="max-h-44 mx-auto rounded-lg shadow-sm">
+            <div class="text-[11px] font-mono">STK: <strong>${settings.vndAcc}</strong> (${settings.vndBank}) • ${settings.vndName}</div>
+            <div class="text-xs font-bold text-emerald-700">Số tiền: ${new Intl.NumberFormat('vi-VN').format(totalVnd)} ₫</div>
+          </div>
+        `;
+      } else {
+        const totalUsd = (totalKrw * EXCHANGE_RATES.USD).toFixed(2);
+        card.innerHTML = `
+          <div class="flex items-center space-x-2 text-neutral-900 font-bold">
+            <i data-lucide="globe" class="w-4 h-4 text-blue-600"></i>
+            <span>Thanh toán Quốc tế qua PayPal:</span>
+          </div>
+          <div class="bg-white p-2.5 rounded-xl border border-amber-200 text-xs space-y-1">
+            <div>Email PayPal: <strong class="text-blue-600 font-mono">${settings.paypalEmail}</strong></div>
+            <div>Người thụ hưởng: <strong>${settings.paypalName}</strong></div>
+            <div class="text-xs font-bold text-neutral-900 pt-1">Số tiền: $${totalUsd} USD</div>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    function handleBillFileSelected(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      compressImage(file, 600, 0.7, (base64) => {
+        checkoutUploadedBillBase64 = base64;
+        document.getElementById('billPreviewImage').src = base64;
+        document.getElementById('billPreviewContainer').classList.remove('hidden');
+      });
+    }
+
+    function removeSelectedBill() {
+      checkoutUploadedBillBase64 = "";
+      document.getElementById('billFileInput').value = "";
+      document.getElementById('billPreviewContainer').classList.add('hidden');
+    }
+
+    async function submitCustomerOrder() {
+      const name = document.getElementById('chkCustName').value.trim();
+      const phone = document.getElementById('chkCustPhone').value.trim();
+      const zip = document.getElementById('chkCustZip').value.trim();
+      const city = document.getElementById('chkCustCity').value;
+      const address = document.getElementById('chkCustAddress').value.trim();
+
+      if (!name || !phone || !zip || !address) {
+        showCustomToast('Vui lòng điền đủ thông tin giao hàng tại Hàn!', '⚠️');
+        return;
+      }
+
+      if (!checkoutUploadedBillBase64) {
+        showCustomToast('Vui lòng tải ảnh chụp bill chuyển khoản!', '⚠️');
+        return;
+      }
+
+      const totalKrw = getCartFinalTotalKrw();
+      const orderId = 'MA-' + Math.floor(100000 + Math.random() * 900000);
+
+      const orderData = {
+        id: orderId,
+        date: new Date().toLocaleString('vi-VN'),
+        customerName: name,
+        customerPhone: phone,
+        shippingAddress: `[${zip}] ${city}, ${address}`,
+        currency: selectedCheckoutCurrencyType,
+        totalKrw: totalKrw,
+        items: [...cart],
+        billImage: checkoutUploadedBillBase64,
+        status: "Chờ xác nhận"
+      };
+
+      orders.unshift(orderData);
+      localStorage.setItem('minhanh_orders', JSON.stringify(orders));
+
+      // Bắn đơn và bill về Telegram
+      sendOrderToTelegram(orderData);
+
+      // Xóa giỏ hàng
+      cart = [];
+      appliedCoupon = null;
+      checkoutUploadedBillBase64 = "";
+      renderCart();
+      closeCheckoutModal();
+
+      showCustomToast(`Đặt hàng thành công! Mã đơn: ${orderId}`, '🎉');
+    }
+
+    async function sendOrderToTelegram(order) {
+      if (!settings.telegramToken || !settings.telegramChatId) return;
+
+      const itemSummary = order.items.map(i => `• ${i.name} (${i.color}, Size ${i.size}) x${i.quantity}`).join('\n');
+      const caption = `🛍️ ĐƠN HÀNG MỚI: ${order.id}\n👤 Khách: ${order.customerName} (${order.customerPhone})\n📍 Đ/C Hàn: ${order.shippingAddress}\n💰 Tổng tiền: ${formatCurrency(order.totalKrw, order.currency)}\n\n📦 Danh sách hàng:\n${itemSummary}`;
+
+      try {
+        if (order.billImage && order.billImage.startsWith('data:image')) {
+          const blob = await (await fetch(order.billImage)).blob();
+          const formData = new FormData();
+          formData.append('chat_id', settings.telegramChatId);
+          formData.append('caption', caption);
+          formData.append('photo', blob, 'bill.jpg');
+
+          await fetch(`https://api.telegram.org/bot${settings.telegramToken}/sendPhoto`, {
+            method: 'POST',
+            body: formData
+          });
+        }
+      } catch (err) {
+        console.warn('Lỗi gửi Telegram:', err);
+      }
+    }
+
+    /* ================= 10. HỆ THỐNG QUẢN TRỊ BẢO MẬT ================= */
+    function openLoginModal() {
+      document.getElementById('loginErrorMessage').classList.add('hidden');
+      document.getElementById('loginUsernameInput').value = '';
+      document.getElementById('loginPasswordInput').value = '';
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('loginUsernameInput').value.trim();
+      const pass = document.getElementById('loginPasswordInput').value.trim();
+      const err = document.getElementById('loginErrorMessage');
+
+      if (user === settings.adminUser && pass === settings.adminPass) {
+        activeAdminRole = 'admin';
+        closeLoginModal();
+        openAdminDashboard();
+        showCustomToast('Đăng nhập thành công với quyền Chủ Shop!', '👑');
+      } else if (user === settings.staffUser && pass === settings.staffPass) {
+        activeAdminRole = 'staff';
+        closeLoginModal();
+        openAdminDashboard();
+        showCustomToast('Đăng nhập thành công với quyền Nhân Viên!', '🏷️');
+      } else {
+        err.innerText = 'Tài khoản hoặc mật khẩu không chính xác!';
+        err.classList.remove('hidden');
+      }
+    }
+
+    function openAdminDashboard() {
+      const modal = document.getElementById('adminDashboardModal');
+      const badge = document.getElementById('adminRoleBadge');
+      
+      if (activeAdminRole === 'admin') {
+        badge.innerText = 'CHỦ SHOP (TOÀN QUYỀN)';
+        badge.className = 'bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase';
+        document.querySelectorAll('.owner-only-feature').forEach(el => el.classList.remove('hidden'));
+      } else {
+        badge.innerText = 'NHÂN VIÊN (DUYỆT ĐƠN)';
+        badge.className = 'bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase';
+        document.querySelectorAll('.owner-only-feature').forEach(el => el.classList.add('hidden'));
+      }
+
+      switchAdminTab(activeAdminRole === 'staff' ? 'orders' : 'products');
+      renderAdminProductTable();
+      renderAdminOrders();
+      populateSettingsInputs();
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function logoutAdmin() {
+      activeAdminRole = null;
+      document.getElementById('adminDashboardModal').classList.add('hidden');
+      showCustomToast('Đã đăng xuất khỏi trang quản trị!', '🔒');
+    }
+
+    function switchAdminTab(tab) {
+      document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
+      document.querySelectorAll('.admin-tab-btn').forEach(b => {
+        b.classList.remove('bg-white', 'text-neutral-900', 'shadow-sm');
+        b.classList.add('text-neutral-600');
+      });
+
+      const targetContent = document.getElementById(`adminTab-${tab}`);
+      const targetBtn = document.getElementById(`adminTabBtn-${tab}`);
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetBtn) {
+        targetBtn.classList.add('bg-white', 'text-neutral-900', 'shadow-sm');
+        targetBtn.classList.remove('text-neutral-600');
+      }
+    }
+
+    /* ================= 11. BẢNG SẢN PHẨM & FORM THÊM / SỬA ================= */
+    function renderAdminProductTable() {
+      const tbody = document.getElementById('adminProductTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = products.map((p, idx) => {
+        const priceInfo = calculateProductFinalPriceKrw(p);
+        const hasSale = priceInfo.discountPercent > 0;
+        const mainImg = (p.images && p.images.length > 0) ? p.images[0] : (p.imageUrl || '');
+        const totalImgs = (p.images && p.images.length > 0) ? p.images.length : (p.imageUrl ? 1 : 0);
+        const descPreview = p.description ? (p.description.length > 35 ? p.description.substring(0, 35) + '...' : p.description) : '<span class="text-neutral-400 italic">Chưa có</span>';
+
+        return `
+          <tr class="hover:bg-neutral-50">
+            <td class="p-3">
+              <div class="relative w-10 h-10">
+                <img src="${mainImg}" class="w-10 h-10 object-cover rounded-lg bg-neutral-200">
+                ${totalImgs > 1 ? `<span class="absolute -top-1 -right-1 bg-neutral-900 text-white text-[9px] px-1 rounded font-bold">${totalImgs}</span>` : ''}
+              </div>
+            </td>
+            <td class="p-3 font-semibold text-neutral-900">${p.name}</td>
+            <td class="p-3 text-neutral-500">${p.category}</td>
+            <td class="p-3 text-neutral-500 max-w-[150px] truncate">${descPreview}</td>
+            <td class="p-3 font-mono">₩${new Intl.NumberFormat('ko-KR').format(p.priceKrw)}</td>
+            <td class="p-3">
+              ${hasSale ? `<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">-${priceInfo.discountPercent}%</span>` : '<span class="text-neutral-400">Không</span>'}
+            </td>
+            <td class="p-3 font-bold text-neutral-900 font-mono">
+              ₩${new Intl.NumberFormat('ko-KR').format(priceInfo.finalPrice)}
+            </td>
+            <td class="p-3 text-right space-x-1">
+              <button onclick="openProductEditModal('${p.id}')" class="p-1 text-neutral-600 hover:text-neutral-900">
+                <i data-lucide="edit-3" class="w-4 h-4"></i>
+              </button>
+              ${activeAdminRole === 'admin' ? `
+                <button onclick="deleteProduct('${p.id}')" class="p-1 text-neutral-400 hover:text-rose-600">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              ` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function openProductEditModal(id) {
+      const title = document.getElementById('productEditModalTitle');
+      const idInput = document.getElementById('editProductId');
+      const nameInput = document.getElementById('editProductName');
+      const catInput = document.getElementById('editProductCategory');
+      const priceInput = document.getElementById('editProductPrice');
+      const discountInput = document.getElementById('editProductDiscountPercent');
+      const colorsInput = document.getElementById('editProductColors');
+      const sizesInput = document.getElementById('editProductSizes');
+      const descInput = document.getElementById('editProductDescription');
+
+      currentEditProductImages = [];
+
+      if (id) {
+        const p = products.find(x => x.id === id);
+        if (!p) return;
+        title.innerText = 'Chỉnh Sửa Sản Phẩm';
+        idInput.value = p.id;
+        nameInput.value = p.name;
+        catInput.value = p.category;
+        priceInput.value = p.priceKrw;
+        discountInput.value = p.discountPercent || 0;
+        colorsInput.value = p.colors ? p.colors.join(', ') : '';
+        sizesInput.value = p.sizes ? p.sizes.join(', ') : '';
+        if (descInput) descInput.value = p.description || '';
+        
+        // Nạp danh sách ảnh đã có
+        if (p.images && Array.isArray(p.images) && p.images.length > 0) {
+          currentEditProductImages = [...p.images];
+        } else if (p.imageUrl) {
+          currentEditProductImages = [p.imageUrl];
+        }
+      } else {
+        title.innerText = 'Thêm Mẫu Quần Áo Mới';
+        idInput.value = '';
+        nameInput.value = '';
+        priceInput.value = '';
+        discountInput.value = '0';
+        colorsInput.value = 'Đen, Xám, Trắng';
+        sizesInput.value = 'S, M, L, XL';
+        if (descInput) descInput.value = '';
+      }
+
+      renderEditImagesGallery();
+      updateEditDiscountPreview();
+      document.getElementById('productEditModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeProductEditModal() {
+      document.getElementById('productEditModal').classList.add('hidden');
+    }
+
+    function updateEditDiscountPreview() {
+      const price = Number(document.getElementById('editProductPrice').value) || 0;
+      const discount = Number(document.getElementById('editProductDiscountPercent').value) || 0;
+      const previewElem = document.getElementById('editProductSalePreviewPrice');
+      if (discount > 0 && price > 0) {
+        const finalP = Math.round(price * (100 - discount) / 100);
+        previewElem.innerText = `Giá sau giảm: ₩${new Intl.NumberFormat('ko-KR').format(finalP)} (-${discount}%)`;
+      } else {
+        previewElem.innerText = `Giá sau giảm: ₩${new Intl.NumberFormat('ko-KR').format(price)}`;
+      }
+    }
+
+    function handleMultipleProductFiles(e) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+
+      let processed = 0;
+      files.forEach(file => {
+        compressImage(file, 800, 0.72, (base64) => {
+          currentEditProductImages.push(base64);
+          processed++;
+          if (processed === files.length) {
+            renderEditImagesGallery();
+          }
+        });
+      });
+
+      e.target.value = '';
+    }
+
+    function renderEditImagesGallery() {
+      const gallery = document.getElementById('editImagesGalleryPreview');
+      const badge = document.getElementById('editImageCountBadge');
+      if (badge) badge.innerText = `${currentEditProductImages.length} ảnh`;
+
+      if (!gallery) return;
+
+      gallery.innerHTML = currentEditProductImages.map((imgSrc, idx) => `
+        <div class="relative group aspect-square rounded-xl overflow-hidden border border-neutral-200 bg-neutral-100 shadow-sm">
+          <img src="${imgSrc}" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1 rounded font-bold">${idx === 0 ? 'Đại diện' : `#${idx+1}`}</span>
+          <button type="button" onclick="removeImageFromEdit(${idx})" class="absolute top-1 right-1 bg-rose-600 text-white p-1 rounded-full shadow hover:bg-rose-700 transition">
+            <i data-lucide="x" class="w-3 h-3"></i>
+          </button>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function removeImageFromEdit(idx) {
+      currentEditProductImages.splice(idx, 1);
+      renderEditImagesGallery();
+    }
+
+    async function handleSaveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('editProductId').value;
+      const name = document.getElementById('editProductName').value.trim();
+      const category = document.getElementById('editProductCategory').value;
+      const priceKrw = Number(document.getElementById('editProductPrice').value) || 0;
+      const discountPercent = Number(document.getElementById('editProductDiscountPercent').value) || 0;
+      const colors = document.getElementById('editProductColors').value.split(',').map(s => s.trim()).filter(Boolean);
+      const sizes = document.getElementById('editProductSizes').value.split(',').map(s => s.trim()).filter(Boolean);
+      const description = document.getElementById('editProductDescription') ? document.getElementById('editProductDescription').value.trim() : '';
+
+      if (currentEditProductImages.length === 0) {
+        showCustomToast('Vui lòng chọn ít nhất 1 ảnh sản phẩm!', '⚠️');
+        return;
+      }
+
+      const mainImageUrl = currentEditProductImages[0];
+      const allImages = [...currentEditProductImages];
+
+      if (id) {
+        // Cập nhật sản phẩm cũ
+        const index = products.findIndex(p => p.id === id);
+        if (index > -1) {
+          products[index] = { 
+            ...products[index], 
+            name, 
+            category, 
+            priceKrw, 
+            discountPercent, 
+            imageUrl: mainImageUrl, 
+            images: allImages,
+            colors, 
+            sizes,
+            description
+          };
+        }
+      } else {
+        // Thêm mới
+        const newProduct = {
+          id: 'sp-' + Date.now(),
+          name, 
+          category, 
+          priceKrw, 
+          discountPercent, 
+          imageUrl: mainImageUrl, 
+          images: allImages,
+          colors, 
+          sizes,
+          description
+        };
+        products.unshift(newProduct);
+      }
+
+      localStorage.setItem('minhanh_products', JSON.stringify(products));
+      await pushProductsToFirebase(products);
+
+      closeProductEditModal();
+      renderAdminProductTable();
+      renderProducts();
+      showCustomToast('Đã lưu và đồng bộ lên đám mây Firebase thành công!', '☁️');
+    }
+
+    async function deleteProduct(id) {
+      const p = products.find(item => item.id === id);
+      const name = p ? `"${p.name}"` : 'sản phẩm này';
+
+      if (!confirm(`Bạn có chắc chắn muốn XÓA VĨNH VIỄN ${name} khỏi kho hàng và máy chủ đám mây không?`)) {
+        return;
+      }
+
+      // 1. Loại bỏ sản phẩm khỏi danh sách hiện tại
+      products = products.filter(item => item.id !== id);
+
+      // 2. Cập nhật ngay vào bộ nhớ máy tính/điện thoại
+      localStorage.setItem('minhanh_products', JSON.stringify(products));
+      localStorage.setItem('minhanh_cloud_initialized', 'true');
+
+      // 3. Đồng bộ xóa vĩnh viễn trực tiếp trên Firebase Singapore
+      await pushProductsToFirebase(products);
+
+      // 4. Vẽ lại bảng quản trị và trang chủ
+      renderAdminProductTable();
+      renderProducts();
+      showCustomToast(`Đã xóa vĩnh viễn ${name} khỏi đám mây!`, '🗑️');
+    }
+
+    /* ================= 12. QUẢN LÝ ĐƠN HÀNG TRONG ADMIN ================= */
+    function renderAdminOrders() {
+      const container = document.getElementById('adminOrdersContainer');
+      const badge = document.getElementById('adminOrderCountBadge');
+      if (badge) badge.innerText = orders.length;
+
+      if (!container) return;
+
+      if (orders.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 text-center text-neutral-400">
+            <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+            <p class="text-xs">Chưa có đơn hàng nào.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = orders.map((o, index) => `
+        <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="space-y-1 text-xs">
+            <div class="flex items-center space-x-2">
+              <span class="font-mono font-bold text-neutral-900">${o.id}</span>
+              <span class="text-[10px] text-neutral-400">${o.date}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${o.status === 'Đã duyệt' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                ${o.status}
+              </span>
+            </div>
+            <div>Khách hàng: <strong>${o.customerName}</strong> (${o.customerPhone})</div>
+            <div class="text-neutral-500">Đ/C Hàn: ${o.shippingAddress}</div>
+            <div class="font-bold text-neutral-900 font-mono">Tổng bill: ${formatCurrency(o.totalKrw, o.currency)}</div>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            ${o.billImage ? `
+              <button onclick="viewOrderBill('${o.billImage}')" class="px-3 py-1.5 bg-neutral-200 hover:bg-neutral-300 rounded-xl text-xs font-semibold flex items-center space-x-1">
+                <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                <span>Xem Bill</span>
+              </button>
+            ` : ''}
+            <button onclick="toggleOrderStatus(${index})" class="px-3 py-1.5 ${o.status === 'Đã duyệt' ? 'bg-neutral-300 text-neutral-700' : 'bg-emerald-600 text-white'} rounded-xl text-xs font-bold shadow-sm">
+              ${o.status === 'Đã duyệt' ? 'Hủy Duyệt' : 'Duyệt Đơn Hàng'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function toggleOrderStatus(index) {
+      if (!orders[index]) return;
+      orders[index].status = orders[index].status === 'Đã duyệt' ? 'Chờ xác nhận' : 'Đã duyệt';
+      localStorage.setItem('minhanh_orders', JSON.stringify(orders));
+      renderAdminOrders();
+      showCustomToast('Đã cập nhật trạng thái đơn hàng!', '✅');
+    }
+
+    function viewOrderBill(imgUrl) {
+      const w = window.open("");
+      w.document.write(`<img src="${imgUrl}" style="max-width:100%; display:block; margin:20px auto; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.2);">`);
+    }
+
+    function clearAllOrders() {
+      if (!confirm('Xóa toàn bộ lịch sử đơn hàng?')) return;
+      orders = [];
+      localStorage.setItem('minhanh_orders', JSON.stringify(orders));
+      renderAdminOrders();
+    }
+
+    /* ================= 13. CÀI ĐẶT & BẢO LƯU ================= */
+    function populateSettingsInputs() {
+      document.getElementById('storeSaleActiveToggle').checked = settings.storewideSaleActive;
+      document.getElementById('storeSalePercentInput').value = settings.storewideSalePercent;
+      document.getElementById('storeSaleBannerTextInput').value = settings.storewideSaleBannerText;
+      document.getElementById('couponCodeSettingInput').value = settings.couponCode;
+      document.getElementById('couponPercentSettingInput').value = settings.couponPercent;
+
+      document.getElementById('settingFirebaseUrlInput').value = settings.firebaseUrl;
+      document.getElementById('settingKrwBankName').value = settings.krwBank;
+      document.getElementById('settingKrwAccountNum').value = settings.krwAcc;
+      document.getElementById('settingKrwAccountHolder').value = settings.krwName;
+      document.getElementById('settingVndBankName').value = settings.vndBank;
+      document.getElementById('settingVndAccountNum').value = settings.vndAcc;
+      document.getElementById('settingVndAccountHolder').value = settings.vndName;
+      document.getElementById('settingPaypalEmail').value = settings.paypalEmail;
+      document.getElementById('settingPaypalHolder').value = settings.paypalName;
+      document.getElementById('settingTelegramToken').value = settings.telegramToken;
+      document.getElementById('settingTelegramChatId').value = settings.telegramChatId;
+      document.getElementById('settingSocialFb').value = settings.socialFb;
+      document.getElementById('settingSocialTiktok').value = settings.socialTiktok;
+      document.getElementById('settingSocialKakao').value = settings.socialKakao;
+      document.getElementById('settingSocialPhone').value = settings.socialPhone;
+    }
+
+    function saveDiscountSettings() {
+      settings.storewideSaleActive = document.getElementById('storeSaleActiveToggle').checked;
+      settings.storewideSalePercent = Number(document.getElementById('storeSalePercentInput').value) || 0;
+      settings.storewideSaleBannerText = document.getElementById('storeSaleBannerTextInput').value.trim();
+      settings.couponCode = document.getElementById('couponCodeSettingInput').value.trim().toUpperCase();
+      settings.couponPercent = Number(document.getElementById('couponPercentSettingInput').value) || 0;
+
+      saveLocalSettings();
+      updateBannerDisplay();
+      renderProducts();
+      showCustomToast('Đã lưu cấu hình khuyến mãi!', '🏷️');
+    }
+
+    function saveAllStoreSettings() {
+      settings.firebaseUrl = document.getElementById('settingFirebaseUrlInput').value.trim();
+      settings.krwBank = document.getElementById('settingKrwBankName').value.trim();
+      settings.krwAcc = document.getElementById('settingKrwAccountNum').value.trim();
+      settings.krwName = document.getElementById('settingKrwAccountHolder').value.trim();
+      settings.vndBank = document.getElementById('settingVndBankName').value.trim();
+      settings.vndAcc = document.getElementById('settingVndAccountNum').value.trim();
+      settings.vndName = document.getElementById('settingVndAccountHolder').value.trim();
+      settings.paypalEmail = document.getElementById('settingPaypalEmail').value.trim();
+      settings.paypalName = document.getElementById('settingPaypalHolder').value.trim();
+      settings.telegramToken = document.getElementById('settingTelegramToken').value.trim();
+      settings.telegramChatId = document.getElementById('settingTelegramChatId').value.trim();
+      settings.socialFb = document.getElementById('settingSocialFb').value.trim();
+      settings.socialTiktok = document.getElementById('settingSocialTiktok').value.trim();
+      settings.socialKakao = document.getElementById('settingSocialKakao').value.trim();
+      settings.socialPhone = document.getElementById('settingSocialPhone').value.trim();
+
+      saveLocalSettings();
+      updateSupportWidgetLinks();
+      showCustomToast('Đã lưu toàn bộ cấu hình hệ thống!', '💾');
+    }
+
+    function loadLocalSettings() {
+      const stored = localStorage.getItem('minhanh_settings');
+      if (stored) {
+        try { settings = { ...DEFAULT_SETTINGS, ...JSON.parse(stored) }; } catch (e) {}
+      }
+      updateBannerDisplay();
+    }
+
+    function saveLocalSettings() {
+      localStorage.setItem('minhanh_settings', JSON.stringify(settings));
+    }
+
+    function loadLocalOrders() {
+      const stored = localStorage.getItem('minhanh_orders');
+      if (stored) {
+        try { orders = JSON.parse(stored); } catch (e) { orders = []; }
+      }
+    }
+
+    function updateBannerDisplay() {
+      const banner = document.getElementById('storewideSaleBanner');
+      const text = document.getElementById('storewideSaleText');
+      if (settings.storewideSaleActive) {
+        banner.classList.remove('hidden');
+        if (text) text.innerText = settings.storewideSaleBannerText || `Ưu đãi giảm ${settings.storewideSalePercent}% toàn bộ cửa hàng!`;
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
+    function updateSupportWidgetLinks() {
+      const fb = settings.socialFb || "https://facebook.com";
+      const tt = settings.socialTiktok || "https://tiktok.com";
+      const phone = settings.socialPhone || "010-8888-9999";
+      const kakao = settings.socialKakao || "minhanh99";
+
+      const btnFb = document.getElementById('btnWidgetFb');
+      const btnTt = document.getElementById('btnWidgetTiktok');
+      const btnPh = document.getElementById('btnWidgetPhone');
+      const txtKa = document.getElementById('widgetKakaoId');
+      const consultFb = document.getElementById('btnDetailConsultFb');
+
+      if (btnFb) btnFb.href = fb;
+      if (btnTt) btnTt.href = tt;
+      if (btnPh) btnPh.href = `tel:${phone.replace(/[^0-9]/g, '')}`;
+      if (txtKa) txtKa.innerText = kakao;
+      if (consultFb) consultFb.href = fb;
+
+      const fFb = document.getElementById('footerFbLink');
+      const fTt = document.getElementById('footerTiktokLink');
+      const fKa = document.getElementById('footerKakaoText');
+      const fPh = document.getElementById('footerPhoneText');
+
+      if (fFb) fFb.href = fb;
+      if (fTt) fTt.href = tt;
+      if (fKa) fKa.innerText = kakao;
+      if (fPh) fPh.innerText = phone;
+    }
+
+    /* ================= 14. TIỆN ÍCH HỖ TRỢ, NÉN ẢNH, ĐA NGÔN NGỮ ================= */
+    function toggleSupportBox() {
+      const box = document.getElementById('supportPopupBox');
+      box.classList.toggle('hidden');
+    }
+
+    function openSupportWidget() {
+      const box = document.getElementById('supportPopupBox');
+      box.classList.remove('hidden');
+    }
+
+    function copyKakaoId() {
+      const text = settings.socialKakao || 'minhanh99';
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      showCustomToast(`Đã sao chép KakaoTalk ID: ${text}`, '📋');
+    }
+
+    function openSizeGuideModal() {
+      document.getElementById('sizeGuideModal').classList.remove('hidden');
+    }
+
+    function closeSizeGuideModal() {
+      document.getElementById('sizeGuideModal').classList.add('hidden');
+    }
+
+    function showCustomToast(msg, icon = '✨') {
+      const box = document.getElementById('toastNotificationBox');
+      document.getElementById('toastMessage').innerText = msg;
+      document.getElementById('toastIcon').innerText = icon;
+      box.classList.remove('translate-y-[-150%]');
+      setTimeout(() => {
+        box.classList.add('translate-y-[-150%]');
+      }, 3000);
+    }
+
+    async function testTelegramConnection() {
+      const token = document.getElementById('settingTelegramToken').value.trim();
+      const chatId = document.getElementById('settingTelegramChatId').value.trim();
+
+      if (!token || !chatId) {
+        showCustomToast('Vui lòng nhập Token và Chat ID trước!', '⚠️');
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: '🔔 TEST KẾT NỐI MINH ANH CLOTHING THÀNH CÔNG!\nWebsite đã liên kết với bot của bạn.'
+          })
+        });
+        if (res.ok) {
+          showCustomToast('Tin nhắn kiểm tra đã gửi tới Telegram!', '🚀');
+        } else {
+          showCustomToast('Gửi thất bại! Hãy kiểm tra Token và bấm /start với bot.', '❌');
+        }
+      } catch (e) {
+        showCustomToast('Không thể kết nối máy chủ Telegram!', '❌');
+      }
+    }
+
+    // Hàm nén ảnh tự động thu nhỏ Base64 xuống dưới 150KB
+    function compressImage(file, maxWidth, quality, callback) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(event) {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL('image/jpeg', quality));
+        };
+      };
+    }
+
+    // Đa ngôn ngữ
+    const TRANSLATIONS = {
+      vi: {
+        topBar: "Hỗ trợ giao hàng toàn Hàn Quốc • Đổi size miễn phí trong 3 ngày",
+        cartText: "Giỏ hàng",
+        all: "Tất cả",
+        ao: "Áo & Hoodie",
+        quan: "Quần & Denim",
+        set: "Set Thiết Kế"
+      },
+      ko: {
+        topBar: "한국 전지역 무료배송 • 3일 이내 무료 사이즈 교환",
+        cartText: "장바구니",
+        all: "전체상품",
+        ao: "상의 & 후드",
+        quan: "바지 & 데님",
+        set: "셋업 & 세트"
+      },
+      en: {
+        topBar: "Korea Nationwide Delivery • Free Size Exchange within 3 Days",
+        cartText: "Cart",
+        all: "All Items",
+        ao: "Tops & Hoodies",
+        quan: "Pants & Denim",
+        set: "Co-ord Sets"
+      }
+    };
+
+    function initLanguagePreference() {
+      const saved = localStorage.getItem('minhanh_lang') || 'vi';
+      changeLanguage(saved);
+    }
+
+    function changeLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('minhanh_lang', lang);
+
+      ['vi', 'ko', 'en'].forEach(l => {
+        const btn = document.getElementById(`langBtn-${l}`);
+        if (btn) {
+          if (l === lang) {
+            btn.className = 'px-1 text-[10px] font-bold text-white';
+          } else {
+            btn.className = 'px-1 text-[10px] text-neutral-400 hover:text-white';
+          }
+        }
+      });
+
+      const t = TRANSLATIONS[lang] || TRANSLATIONS.vi;
+      const topBar = document.getElementById('topBarMessage');
+      const cartText = document.getElementById('cartBtnText');
+      if (topBar) topBar.innerText = t.topBar;
+      if (cartText) cartText.innerText = t.cartText;
+
+      const navAll = document.getElementById('nav-ALL');
+      const navAo = document.getElementById('nav-Ao');
+      const navQuan = document.getElementById('nav-Quan');
+      const navSet = document.getElementById('nav-Set');
+      if (navAll) navAll.innerText = t.all;
+      if (navAo) navAo.innerText = t.ao;
+      if (navQuan) navQuan.innerText = t.quan;
+      if (navSet) navSet.innerText = t.set;
+    }
+  </script>
+</body>
+</html>
