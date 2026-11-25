@@ -348,9 +348,15 @@
 
       <!-- Nội dung chi tiết có thể cuộn mượt mà -->
       <div class="overflow-y-auto smooth-scroll flex-1 p-4 sm:p-6 space-y-4">
-        <!-- Ảnh to -->
-        <div class="rounded-2xl overflow-hidden bg-neutral-100 max-h-72 sm:max-h-96 flex items-center justify-center">
-          <img id="detailProductImage" src="" alt="" class="w-full h-full object-cover">
+        <!-- Ảnh to và album ảnh nhỏ -->
+        <div class="space-y-2">
+          <div class="rounded-2xl overflow-hidden bg-neutral-100 max-h-72 sm:max-h-96 flex items-center justify-center">
+            <img id="detailProductImage" src="" alt="" class="w-full h-full object-cover">
+          </div>
+          <!-- Thanh album ảnh thu nhỏ để bấm đổi ảnh -->
+          <div id="detailThumbnailsContainer" class="flex space-x-2 overflow-x-auto pb-1 no-scrollbar">
+            <!-- Render danh sách ảnh nhỏ -->
+          </div>
         </div>
 
         <div>
@@ -907,18 +913,29 @@
           <input type="number" id="editProductDiscountPercent" min="0" max="90" oninput="updateEditDiscountPreview()" placeholder="Nhập số % (ví dụ: 15) hoặc để 0 nếu không giảm" class="w-full bg-white border border-rose-300 rounded-lg p-2 font-bold text-rose-600 focus:outline-none focus:ring-1 focus:ring-rose-600">
         </div>
 
-        <!-- Chọn ảnh hoặc dán link ảnh -->
+        <!-- TẢI NHIỀU ẢNH SẢN PHẨM (GIAO DIỆN TRỰC QUAN NHƯ TRƯỚC) -->
         <div>
-          <label class="font-semibold text-neutral-700 block mb-1">Ảnh Sản Phẩm (Tự động nén siêu nhẹ):</label>
-          <div class="flex space-x-2">
-            <input type="text" id="editProductImageUrl" placeholder="Dán link ảnh hoặc tải ảnh từ máy tính/điện thoại" class="flex-1 bg-neutral-50 border border-neutral-300 rounded-xl p-2 text-xs">
-            <input type="file" id="editProductFileInput" accept="image/*" onchange="handleProductFileSelected(event)" class="hidden">
-            <button type="button" onclick="document.getElementById('editProductFileInput').click()" class="bg-neutral-800 text-white px-3 py-2 rounded-xl text-xs font-semibold shrink-0">
-              Tải Ảnh Lên
-            </button>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="font-semibold text-neutral-700">Hình Ảnh Sản Phẩm (Thêm nhiều ảnh góc chụp):</label>
+            <span id="editImageCountBadge" class="text-[11px] text-neutral-500 font-medium">0 ảnh</span>
           </div>
-          <div id="editImagePreviewWrapper" class="mt-2 text-center hidden">
-            <img id="editImagePreview" src="" class="max-h-36 rounded-xl border border-neutral-200 mx-auto object-cover">
+
+          <!-- Nút bấm chọn nhiều ảnh -->
+          <input type="file" id="editProductMultipleFiles" accept="image/*" multiple onchange="handleMultipleProductFiles(event)" class="hidden">
+          
+          <div class="border-2 border-dashed border-neutral-300 hover:border-neutral-900 rounded-2xl p-4 text-center cursor-pointer transition bg-neutral-50/70" onclick="document.getElementById('editProductMultipleFiles').click()">
+            <div class="flex flex-col items-center space-y-1">
+              <div class="w-10 h-10 bg-neutral-200 rounded-full flex items-center justify-center text-neutral-700">
+                <i data-lucide="image-plus" class="w-5 h-5"></i>
+              </div>
+              <span class="text-xs font-bold text-neutral-800">Bấm để chọn một hoặc nhiều ảnh cùng lúc</span>
+              <span class="text-[10px] text-neutral-400">Hỗ trợ chọn nhiều ảnh từ điện thoại / máy tính</span>
+            </div>
+          </div>
+
+          <!-- Danh sách ảnh xem trước và nút xóa từng ảnh -->
+          <div id="editImagesGalleryPreview" class="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-2.5">
+            <!-- Render các ảnh xem trước tại đây -->
           </div>
         </div>
 
@@ -1039,6 +1056,7 @@
     let appliedCoupon = null;
     let selectedCheckoutCurrencyType = "KRW";
     let checkoutUploadedBillBase64 = "";
+    let currentEditProductImages = []; // Mảng chứa nhiều ảnh của sản phẩm đang sửa/thêm
 
     // Tỷ giá dự phòng an toàn
     const EXCHANGE_RATES = {
@@ -1290,10 +1308,27 @@
       selectedDetailColor = p.colors && p.colors.length > 0 ? p.colors[0] : "Tiêu chuẩn";
       selectedDetailSize = p.sizes && p.sizes.length > 0 ? p.sizes[0] : "Free Size";
 
+      // Chuẩn hóa danh sách ảnh (nếu sản phẩm có images dạng mảng hoặc imageUrl đơn lẻ)
+      const imageList = (p.images && p.images.length > 0) ? p.images : [p.imageUrl || ''];
+
       document.getElementById('detailProductName').innerText = p.name;
       document.getElementById('detailProductCategory').innerText = p.category;
-      document.getElementById('detailProductImage').src = p.imageUrl;
+      document.getElementById('detailProductImage').src = imageList[0];
       document.getElementById('detailQuantityDisplay').innerText = detailQuantity;
+
+      // Album ảnh thu nhỏ (thumbnails)
+      const thumbContainer = document.getElementById('detailThumbnailsContainer');
+      if (thumbContainer) {
+        if (imageList.length > 1) {
+          thumbContainer.innerHTML = imageList.map((imgSrc, i) => `
+            <img src="${imgSrc}" onclick="switchDetailMainImage('${imgSrc}', this)" class="detail-thumb w-14 h-14 object-cover rounded-xl border-2 ${i === 0 ? 'border-neutral-900' : 'border-transparent opacity-60'} cursor-pointer hover:opacity-100 transition shrink-0">
+          `).join('');
+          thumbContainer.classList.remove('hidden');
+        } else {
+          thumbContainer.innerHTML = '';
+          thumbContainer.classList.add('hidden');
+        }
+      }
 
       const priceInfo = calculateProductFinalPriceKrw(p);
       const priceElem = document.getElementById('detailProductPrice');
@@ -1331,6 +1366,16 @@
 
       document.getElementById('productDetailModal').classList.remove('hidden');
       lucide.createIcons();
+    }
+
+    function switchDetailMainImage(imgSrc, el) {
+      document.getElementById('detailProductImage').src = imgSrc;
+      document.querySelectorAll('.detail-thumb').forEach(thumb => {
+        thumb.classList.remove('border-neutral-900');
+        thumb.classList.add('border-transparent', 'opacity-60');
+      });
+      el.classList.add('border-neutral-900');
+      el.classList.remove('border-transparent', 'opacity-60');
     }
 
     function closeProductDetailModal() {
@@ -1776,11 +1821,16 @@
       tbody.innerHTML = products.map((p, idx) => {
         const priceInfo = calculateProductFinalPriceKrw(p);
         const hasSale = priceInfo.discountPercent > 0;
+        const mainImg = (p.images && p.images.length > 0) ? p.images[0] : (p.imageUrl || '');
+        const totalImgs = (p.images && p.images.length > 0) ? p.images.length : (p.imageUrl ? 1 : 0);
 
         return `
           <tr class="hover:bg-neutral-50">
             <td class="p-3">
-              <img src="${p.imageUrl}" class="w-10 h-10 object-cover rounded-lg bg-neutral-200">
+              <div class="relative w-10 h-10">
+                <img src="${mainImg}" class="w-10 h-10 object-cover rounded-lg bg-neutral-200">
+                ${totalImgs > 1 ? `<span class="absolute -top-1 -right-1 bg-neutral-900 text-white text-[9px] px-1 rounded font-bold">${totalImgs}</span>` : ''}
+              </div>
             </td>
             <td class="p-3 font-semibold text-neutral-900">${p.name}</td>
             <td class="p-3 text-neutral-500">${p.category}</td>
@@ -1815,11 +1865,10 @@
       const catInput = document.getElementById('editProductCategory');
       const priceInput = document.getElementById('editProductPrice');
       const discountInput = document.getElementById('editProductDiscountPercent');
-      const imgInput = document.getElementById('editProductImageUrl');
       const colorsInput = document.getElementById('editProductColors');
       const sizesInput = document.getElementById('editProductSizes');
-      const previewWrapper = document.getElementById('editImagePreviewWrapper');
-      const preview = document.getElementById('editImagePreview');
+
+      currentEditProductImages = [];
 
       if (id) {
         const p = products.find(x => x.id === id);
@@ -1830,12 +1879,14 @@
         catInput.value = p.category;
         priceInput.value = p.priceKrw;
         discountInput.value = p.discountPercent || 0;
-        imgInput.value = p.imageUrl;
         colorsInput.value = p.colors ? p.colors.join(', ') : '';
         sizesInput.value = p.sizes ? p.sizes.join(', ') : '';
-        if (p.imageUrl) {
-          preview.src = p.imageUrl;
-          previewWrapper.classList.remove('hidden');
+        
+        // Nạp danh sách ảnh đã có
+        if (p.images && Array.isArray(p.images) && p.images.length > 0) {
+          currentEditProductImages = [...p.images];
+        } else if (p.imageUrl) {
+          currentEditProductImages = [p.imageUrl];
         }
       } else {
         title.innerText = 'Thêm Mẫu Quần Áo Mới';
@@ -1843,14 +1894,14 @@
         nameInput.value = '';
         priceInput.value = '';
         discountInput.value = '0';
-        imgInput.value = '';
         colorsInput.value = 'Đen, Xám, Trắng';
         sizesInput.value = 'S, M, L, XL';
-        previewWrapper.classList.add('hidden');
       }
 
+      renderEditImagesGallery();
       updateEditDiscountPreview();
       document.getElementById('productEditModal').classList.remove('hidden');
+      lucide.createIcons();
     }
 
     function closeProductEditModal() {
@@ -1869,15 +1920,47 @@
       }
     }
 
-    function handleProductFileSelected(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+    function handleMultipleProductFiles(e) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
 
-      compressImage(file, 800, 0.75, (base64) => {
-        document.getElementById('editProductImageUrl').value = base64;
-        document.getElementById('editImagePreview').src = base64;
-        document.getElementById('editImagePreviewWrapper').classList.remove('hidden');
+      let processed = 0;
+      files.forEach(file => {
+        compressImage(file, 800, 0.72, (base64) => {
+          currentEditProductImages.push(base64);
+          processed++;
+          if (processed === files.length) {
+            renderEditImagesGallery();
+          }
+        });
       });
+
+      e.target.value = '';
+    }
+
+    function renderEditImagesGallery() {
+      const gallery = document.getElementById('editImagesGalleryPreview');
+      const badge = document.getElementById('editImageCountBadge');
+      if (badge) badge.innerText = `${currentEditProductImages.length} ảnh`;
+
+      if (!gallery) return;
+
+      gallery.innerHTML = currentEditProductImages.map((imgSrc, idx) => `
+        <div class="relative group aspect-square rounded-xl overflow-hidden border border-neutral-200 bg-neutral-100 shadow-sm">
+          <img src="${imgSrc}" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1 rounded font-bold">${idx === 0 ? 'Đại diện' : `#${idx+1}`}</span>
+          <button type="button" onclick="removeImageFromEdit(${idx})" class="absolute top-1 right-1 bg-rose-600 text-white p-1 rounded-full shadow hover:bg-rose-700 transition">
+            <i data-lucide="x" class="w-3 h-3"></i>
+          </button>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    function removeImageFromEdit(idx) {
+      currentEditProductImages.splice(idx, 1);
+      renderEditImagesGallery();
     }
 
     async function handleSaveProduct(e) {
@@ -1887,25 +1970,45 @@
       const category = document.getElementById('editProductCategory').value;
       const priceKrw = Number(document.getElementById('editProductPrice').value) || 0;
       const discountPercent = Number(document.getElementById('editProductDiscountPercent').value) || 0;
-      let imageUrl = document.getElementById('editProductImageUrl').value.trim();
       const colors = document.getElementById('editProductColors').value.split(',').map(s => s.trim()).filter(Boolean);
       const sizes = document.getElementById('editProductSizes').value.split(',').map(s => s.trim()).filter(Boolean);
 
-      if (!imageUrl) {
-        imageUrl = 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=600&auto=format&fit=crop';
+      if (currentEditProductImages.length === 0) {
+        showCustomToast('Vui lòng chọn ít nhất 1 ảnh sản phẩm!', '⚠️');
+        return;
       }
+
+      const mainImageUrl = currentEditProductImages[0];
+      const allImages = [...currentEditProductImages];
 
       if (id) {
         // Cập nhật sản phẩm cũ
         const index = products.findIndex(p => p.id === id);
         if (index > -1) {
-          products[index] = { ...products[index], name, category, priceKrw, discountPercent, imageUrl, colors, sizes };
+          products[index] = { 
+            ...products[index], 
+            name, 
+            category, 
+            priceKrw, 
+            discountPercent, 
+            imageUrl: mainImageUrl, 
+            images: allImages,
+            colors, 
+            sizes 
+          };
         }
       } else {
         // Thêm mới
         const newProduct = {
           id: 'sp-' + Date.now(),
-          name, category, priceKrw, discountPercent, imageUrl, colors, sizes
+          name, 
+          category, 
+          priceKrw, 
+          discountPercent, 
+          imageUrl: mainImageUrl, 
+          images: allImages,
+          colors, 
+          sizes
         };
         products.unshift(newProduct);
       }
