@@ -38,25 +38,32 @@
     .drawer-closed { transform: translateX(100%); }
     /* iOS Momentum Scrolling */
     .smooth-scroll { -webkit-overflow-scrolling: touch; }
+    
+    /* Animation Pulse nhẹ cho nút hỗ trợ */
+    @keyframes floatPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .btn-support-pulse {
+      animation: floatPulse 3s infinite ease-in-out;
+    }
   </style>
 </head>
 <body class="bg-[#faf9f6] text-neutral-800 font-sans antialiased selection:bg-neutral-900 selection:text-white">
 
-  <!-- TOP BANNER: TỶ GIÁ & ĐĂNG NHẬP ADMIN -->
+  <!-- TOP BANNER: THÔNG BÁO FREESHIP -->
   <div class="bg-neutral-900 text-white text-[11px] px-3 sm:px-8 py-2 flex items-center justify-between border-b border-neutral-800">
     <div class="flex items-center gap-2 truncate">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
       <span id="topAnnouncementText" class="font-medium text-neutral-300 uppercase tracking-wider truncate">MINH ANH CLOTHING • FREESHIP TỪ ₩50,000</span>
     </div>
 
-    <div class="flex items-center gap-2 flex-shrink-0">
-      <button 
-        onclick="promptAdminLogin()" 
-        class="text-neutral-300 hover:text-white text-[11px] font-semibold flex items-center gap-1 bg-neutral-800 px-2.5 py-1 rounded-md border border-neutral-700/80 active:scale-95 transition"
-      >
-        <i data-lucide="lock" class="w-3 h-3 text-emerald-400"></i>
-        <span id="adminStatusLabel">Quản Trị</span>
-      </button>
+    <div class="flex items-center gap-3 flex-shrink-0 text-neutral-400 text-[10px]">
+      <span class="hidden sm:inline">Hỗ trợ giao hàng toàn Hàn Quốc</span>
+      <span class="inline-flex items-center gap-1 text-emerald-400 font-semibold">
+        <i data-lucide="headphones" class="w-3 h-3"></i>
+        <span>Hỗ trợ 24/7</span>
+      </span>
     </div>
   </div>
 
@@ -68,8 +75,8 @@
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200">
       <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
         
-        <!-- Logo -->
-        <a href="javascript:void(0)" onclick="filterCategory('all')" class="flex flex-col flex-shrink-0">
+        <!-- Logo: Chạm 3 lần liên tiếp vào Logo để kích hoạt khung đăng nhập bí mật -->
+        <a href="javascript:void(0)" onclick="handleSecretLogoClick()" class="flex flex-col flex-shrink-0 select-none cursor-pointer">
           <span id="storeBrandLogo" class="text-lg sm:text-2xl font-extrabold tracking-tight font-serif text-neutral-900">MINH ANH</span>
           <span id="storeBrandSlogan" class="text-[8px] sm:text-[9px] uppercase tracking-[0.2em] text-neutral-500 font-medium -mt-1">Modern Chic</span>
         </a>
@@ -80,6 +87,10 @@
           <button onclick="filterCategory('ao')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Áo & Hoodie</button>
           <button onclick="filterCategory('quan')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Quần & Denim</button>
           <button onclick="filterCategory('set')" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500">Set thiết kế</button>
+          <button onclick="toggleSupportDropdown()" class="nav-item hover:text-neutral-900 transition-colors text-neutral-500 flex items-center gap-1">
+            <span>Tư vấn Size</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          </button>
         </nav>
 
         <!-- Right Tools -->
@@ -98,7 +109,7 @@
             <i data-lucide="chevron-down" class="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500"></i>
           </div>
 
-          <!-- Nút kích hoạt tìm kiếm nhanh trên Mobile -->
+          <!-- Nút tìm kiếm nhanh trên Mobile -->
           <button 
             onclick="toggleMobileSearch()"
             class="sm:hidden p-2 rounded-full hover:bg-neutral-100 text-neutral-700 active:scale-95 transition"
@@ -129,7 +140,7 @@
         </div>
       </div>
 
-      <!-- THANH TÌM KIẾM RIÊNG BIỆT DÀNH CHO MOBILE (TỐI ƯU CẢM ỨNG) -->
+      <!-- THANH TÌM KIẾM DÀNH CHO MOBILE -->
       <div id="mobileSearchWrapper" class="px-3 pb-2.5 pt-1 border-t border-neutral-100 sm:hidden">
         <div class="relative">
           <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
@@ -151,7 +162,7 @@
       </div>
     </header>
 
-    <!-- HERO SECTION (TỐI ƯU GỌN GÀNG TRÊN ĐIỆN THOẠI) -->
+    <!-- HERO SECTION -->
     <section class="relative bg-white border-b border-neutral-200 py-6 sm:py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         <div class="space-y-4">
@@ -165,6 +176,18 @@
           <p class="text-neutral-600 text-xs sm:text-sm leading-relaxed">
             Tuyển chọn thời trang phong cách Hàn Quốc. Giao hàng toàn quốc nội địa Hàn, thanh toán đa tiền tệ và đối soát biên lai trực tiếp.
           </p>
+
+          <!-- Nút Liên Hệ Trực Tiếp Nhanh Trên Hero -->
+          <div class="flex items-center gap-2 pt-1">
+            <a id="heroFbLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-sm transition">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Nhắn Facebook</span>
+            </a>
+            <a id="heroTiktokLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-neutral-900 hover:bg-black text-white rounded-xl text-xs font-semibold shadow-sm transition">
+              <i data-lucide="video" class="w-4 h-4 text-rose-400"></i>
+              <span>Video TikTok</span>
+            </a>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 sm:gap-4">
@@ -187,7 +210,7 @@
           <p class="text-[11px] text-neutral-500 mt-0.5">Hiển thị <span id="catalogCount" class="font-bold text-neutral-800">0</span> sản phẩm</p>
         </div>
         
-        <!-- Category Pill Buttons: Cuộn ngang mượt mà trên Mobile -->
+        <!-- Category Pill Buttons -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 smooth-scroll" id="categoryPills">
           <button onclick="filterCategory('all')" data-cat="all" class="cat-pill active px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-900 text-white whitespace-nowrap transition">Tất cả</button>
           <button onclick="filterCategory('ao')" data-cat="ao" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 whitespace-nowrap transition">Áo & Hoodie</button>
@@ -196,7 +219,7 @@
         </div>
       </div>
 
-      <!-- Products Grid: 2 cột trên điện thoại -->
+      <!-- Products Grid -->
       <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
         <!-- Rendered by JS -->
       </div>
@@ -211,19 +234,170 @@
       </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-neutral-200 py-8 text-xs text-neutral-500">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-        <div>
-          <p class="font-bold text-neutral-800 text-sm">MINH ANH CLOTHING</p>
-          <p class="mt-0.5 text-[11px]">Hỗ trợ giao hàng toàn quốc nội địa Hàn Quốc</p>
+    <!-- FOOTER VỚI ĐẦY ĐỦ THÔNG TIN HỖ TRỢ & MẠNG XÃ HỘI -->
+    <footer class="bg-white border-t border-neutral-200 pt-10 pb-8 text-xs text-neutral-600">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-8 border-b border-neutral-200">
+          
+          <!-- Cột 1: Thương hiệu -->
+          <div class="space-y-3">
+            <h4 class="font-serif font-bold text-base text-neutral-900">MINH ANH CLOTHING</h4>
+            <p class="text-[11px] text-neutral-500 leading-relaxed">
+              Thời trang thiết kế và phong cách đường phố Hàn Quốc. Giao hàng toàn bộ các tỉnh thành tại Hàn Quốc trong 1 - 2 ngày làm việc.
+            </p>
+            <div class="flex items-center gap-2 pt-1">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200">
+                <i data-lucide="check" class="w-3 h-3"></i>
+                Hàng chính hãng
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-sky-50 text-sky-800 text-[10px] font-bold border border-sky-200">
+                <i data-lucide="truck" class="w-3 h-3"></i>
+                Ship CJ / Post
+              </span>
+            </div>
+          </div>
+
+          <!-- Cột 2: Kênh Mạng Xã Hội Chính Thức -->
+          <div class="space-y-3">
+            <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Kênh Mạng Xã Hội</h4>
+            <ul class="space-y-2 text-xs">
+              <li>
+                <a id="footerFbLink" href="#" target="_blank" class="inline-flex items-center gap-2 text-neutral-600 hover:text-blue-600 transition">
+                  <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <i data-lucide="facebook" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span class="font-medium" id="footerFbText">Facebook Fanpage</span>
+                </a>
+              </li>
+              <li>
+                <a id="footerTiktokLink" href="#" target="_blank" class="inline-flex items-center gap-2 text-neutral-600 hover:text-black transition">
+                  <div class="w-6 h-6 rounded-lg bg-neutral-100 text-neutral-900 flex items-center justify-center">
+                    <i data-lucide="video" class="w-3.5 h-3.5 text-rose-500"></i>
+                  </div>
+                  <span class="font-medium" id="footerTiktokText">Kênh TikTok Shop</span>
+                </a>
+              </li>
+              <li>
+                <div class="inline-flex items-center gap-2 text-neutral-600">
+                  <div class="w-6 h-6 rounded-lg bg-yellow-100 text-yellow-800 flex items-center justify-center font-bold text-[10px]">
+                    K
+                  </div>
+                  <span>KakaoTalk: <strong class="font-mono text-neutral-800" id="footerKakaoText">minhanh_kr</strong></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Cột 3: Hỗ Trợ Đơn Hàng & Đổi Trả -->
+          <div class="space-y-3">
+            <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Hỗ Trợ Khách Hàng</h4>
+            <div class="space-y-2 text-[11px] text-neutral-500">
+              <p>• <strong>Đổi size miễn phí:</strong> Trong vòng 3 ngày kể từ khi nhận bưu phẩm.</p>
+              <p>• <strong>Kiểm tra hàng:</strong> Được kiểm tra đúng màu và mẫu trước khi nhận.</p>
+              <p>• <strong>Giờ làm việc:</strong> 09:00 - 23:00 (KST - Giờ Hàn Quốc).</p>
+            </div>
+          </div>
+
+          <!-- Cột 4: Hotline & Tư Vấn Kích Thước -->
+          <div class="space-y-3">
+            <h4 class="font-bold text-neutral-900 text-xs uppercase tracking-wider">Hotline Tư Vấn</h4>
+            <div class="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-1">
+              <span class="text-[10px] text-neutral-400 block">Số điện thoại liên hệ:</span>
+              <a id="footerHotlineLink" href="tel:010-8888-9999" class="text-sm font-bold font-mono text-neutral-900 block hover:text-blue-600">
+                010-8888-9999
+              </a>
+              <span class="text-[10px] text-emerald-600 font-semibold block">Phục vụ khách hàng Việt & Hàn</span>
+            </div>
+          </div>
+
         </div>
-        <div class="flex items-center gap-3 text-[11px]">
-          <span>© 2026 Minh Anh Clothing.</span>
-          <button onclick="promptAdminLogin()" class="text-neutral-500 hover:text-neutral-900 underline font-medium">Đăng Nhập Quản Trị</button>
+
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px]">
+          <p class="text-neutral-500">Giao hàng an toàn nội địa Hàn Quốc • Đảm bảo 100% hình thật hàng thật</p>
+          <!-- Nút kích hoạt bí mật kín đáo dưới chân trang -->
+          <span onclick="promptAdminLogin()" class="cursor-default select-none text-neutral-400 hover:text-neutral-600 transition">
+            © 2026 Minh Anh Clothing. All rights reserved.
+          </span>
         </div>
       </div>
     </footer>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- NÚT HỖ TRỢ NỔI (FLOATING SUPPORT WIDGET)   -->
+  <!-- ========================================== -->
+  <div class="fixed bottom-5 right-4 z-40 flex flex-col items-end">
+    <!-- Menu Hỗ Trợ Bung Ra -->
+    <div id="supportDropdownMenu" class="hidden mb-3 w-56 bg-white rounded-2xl shadow-2xl border border-neutral-200 overflow-hidden transform transition-all duration-200 origin-bottom-right">
+      <div class="p-3 bg-neutral-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-bold text-xs">Hỗ Trợ & Tư Vấn Size</span>
+        </div>
+        <button onclick="toggleSupportDropdown()" class="text-neutral-400 hover:text-white p-0.5">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <div class="p-2 space-y-1 text-xs">
+        <!-- Facebook Messenger -->
+        <a id="floatFbLink" href="#" target="_blank" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-neutral-100 transition text-neutral-800">
+          <div class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <strong class="block text-[11px] font-semibold">Nhắn Facebook</strong>
+            <span class="text-[9px] text-neutral-400">Tư vấn chọn size chuẩn</span>
+          </div>
+        </a>
+
+        <!-- TikTok Video -->
+        <a id="floatTiktokLink" href="#" target="_blank" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-neutral-100 transition text-neutral-800">
+          <div class="w-7 h-7 rounded-lg bg-black text-white flex items-center justify-center flex-shrink-0">
+            <i data-lucide="video" class="w-4 h-4 text-rose-400"></i>
+          </div>
+          <div>
+            <strong class="block text-[11px] font-semibold">Kênh TikTok</strong>
+            <span class="text-[9px] text-neutral-400">Xem video người mẫu mặc</span>
+          </div>
+        </a>
+
+        <!-- KakaoTalk -->
+        <a id="floatKakaoLink" href="javascript:void(0)" onclick="copyKakaoIdAlert()" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-neutral-100 transition text-neutral-800">
+          <div class="w-7 h-7 rounded-lg bg-yellow-300 text-neutral-900 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+            K
+          </div>
+          <div>
+            <strong class="block text-[11px] font-semibold">KakaoTalk Hàn</strong>
+            <span class="text-[9px] text-neutral-400" id="floatKakaoSubText">ID: minhanh_kr</span>
+          </div>
+        </a>
+
+        <!-- Gọi Hotline -->
+        <a id="floatHotlineLink" href="tel:010-8888-9999" class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-neutral-100 transition text-neutral-800">
+          <div class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center flex-shrink-0">
+            <i data-lucide="phone-call" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <strong class="block text-[11px] font-semibold">Gọi Trực Tiếp</strong>
+            <span class="text-[9px] text-neutral-400" id="floatHotlineSubText">010-8888-9999</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Nút Tròn Chính Nổi Trên Màn Hình -->
+    <button 
+      onclick="toggleSupportDropdown()"
+      class="btn-support-pulse flex items-center gap-2 px-3.5 py-2.5 bg-neutral-900 hover:bg-black text-white rounded-full shadow-2xl active:scale-95 transition"
+      aria-label="Hỗ trợ trực tuyến"
+    >
+      <div class="relative">
+        <i data-lucide="message-square" class="w-4 h-4"></i>
+        <span class="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400"></span>
+      </div>
+      <span class="text-xs font-bold tracking-tight">Hỗ Trợ</span>
+    </button>
   </div>
 
   <!-- ========================================== -->
@@ -260,7 +434,7 @@
           <h2 class="text-lg sm:text-2xl font-serif font-bold text-neutral-900" id="adminWelcomeTitle">Quản Trị Đơn Hàng & Kho</h2>
         </div>
         
-        <!-- Nút thao tác nhanh: Cố định kích thước cảm ứng -->
+        <!-- Nút thao tác nhanh -->
         <div class="flex items-center gap-2 pt-1 sm:pt-0">
           <button 
             id="adminBtnSettings"
@@ -268,7 +442,7 @@
             class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold text-neutral-700 bg-white active:bg-neutral-100 transition shadow-sm"
           >
             <i data-lucide="sliders-horizontal" class="w-4 h-4 text-neutral-600"></i>
-            <span>Cài đặt & Bot</span>
+            <span>Cài đặt & Bot & MXH</span>
           </button>
           
           <button 
@@ -282,7 +456,7 @@
         </div>
       </div>
 
-      <!-- Navigation Tabs: Đơn Hàng vs Sản Phẩm -->
+      <!-- Navigation Tabs -->
       <div class="flex items-center gap-2 border-b border-neutral-200 pb-2 overflow-x-auto smooth-scroll">
         <button 
           id="tabBtnOrders" 
@@ -315,7 +489,6 @@
           </div>
         </div>
 
-        <!-- Orders Table / Mobile List -->
         <div class="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
           <div class="overflow-x-auto smooth-scroll">
             <table class="w-full text-left text-xs text-neutral-600 min-w-[600px] sm:min-w-0">
@@ -360,7 +533,6 @@
           </div>
         </div>
 
-        <!-- Products Table -->
         <div class="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
           <div class="p-3 border-b border-neutral-200">
             <input 
@@ -402,8 +574,8 @@
         <i data-lucide="lock" class="w-5 h-5"></i>
       </div>
       <div>
-        <h3 class="text-base font-serif font-bold text-neutral-900">Mã PIN Đăng Nhập</h3>
-        <p class="text-[11px] text-neutral-500 mt-1">Nhập mã PIN Chủ Shop hoặc Nhân Viên:</p>
+        <h3 class="text-base font-serif font-bold text-neutral-900">Xác Thực Truy Cập</h3>
+        <p class="text-[11px] text-neutral-500 mt-1">Vui lòng nhập mã PIN phân quyền:</p>
       </div>
 
       <form onsubmit="handleAdminLoginSubmit(event)" class="space-y-3">
@@ -412,32 +584,25 @@
           id="adminPasswordInput" 
           inputmode="numeric"
           pattern="[0-9]*"
+          maxlength="8"
           required 
-          placeholder="Nhập mã PIN..." 
-          class="w-full text-center tracking-widest text-lg font-bold border border-neutral-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-neutral-900"
+          placeholder="••••" 
+          class="w-full text-center tracking-widest text-xl font-bold border border-neutral-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-neutral-900"
         >
         
-        <div class="text-[10px] text-neutral-500 bg-neutral-50 p-2 rounded-xl text-left border border-neutral-200 space-y-0.5">
-          <div>• Chủ Shop: <strong class="text-neutral-900">8888</strong> (Toàn quyền)</div>
-          <div>• Nhân Viên: <strong class="text-neutral-900">1111</strong> (Duyệt đơn)</div>
-        </div>
-        
-        <div class="flex items-center gap-2 pt-1">
+        <div class="flex items-center gap-2 pt-2">
           <button type="button" onclick="closeAdminLoginModal()" class="w-1/2 py-2.5 rounded-xl border border-neutral-300 text-xs font-semibold text-neutral-600 active:bg-neutral-50">Hủy</button>
-          <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-neutral-900 text-white text-xs font-bold active:bg-neutral-800">Vào Shop</button>
+          <button type="submit" class="w-1/2 py-2.5 rounded-xl bg-neutral-900 text-white text-xs font-bold active:bg-neutral-800">Đăng Nhập</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 4. MODAL: THÊM / SỬA SẢN PHẨM (TỐI ƯU MOBILE) -->
+  <!-- 4. MODAL: THÊM / SỬA SẢN PHẨM             -->
   <!-- ========================================== -->
   <div id="productFormModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center sm:p-4">
-    <!-- Cửa sổ bo góc đẩy từ dưới lên trên mobile, hỗ trợ cuộn không bị kẹt nút -->
     <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-xl w-full p-4 sm:p-6 shadow-2xl relative max-h-[92vh] sm:max-h-[90vh] flex flex-col">
-      
-      <!-- Header Modal -->
       <div class="flex items-center justify-between pb-3 border-b border-neutral-200 flex-shrink-0">
         <h3 id="productModalTitle" class="font-serif font-bold text-base sm:text-lg text-neutral-900">Thêm Sản Phẩm Mới</h3>
         <button onclick="closeProductModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
@@ -445,7 +610,6 @@
         </button>
       </div>
 
-      <!-- Form Body Có Khả Năng Cuộn Mượt Mà -->
       <form id="productCrudForm" onsubmit="handleSaveProduct(event)" class="space-y-4 text-xs overflow-y-auto smooth-scroll flex-1 py-3 pr-1">
         <input type="hidden" id="formProductId">
         
@@ -469,7 +633,6 @@
           </div>
         </div>
 
-        <!-- Nhập Link Ảnh Hoặc Tải File Ảnh Sản Phẩm -->
         <div class="space-y-2 p-3 bg-neutral-50 rounded-xl border border-neutral-200">
           <label class="block font-semibold text-neutral-800">Hình ảnh sản phẩm:</label>
           
@@ -487,11 +650,9 @@
             </label>
           </div>
 
-          <!-- Thumbnails xem trước -->
           <div id="formImageThumbnails" class="grid grid-cols-4 gap-2 pt-1"></div>
         </div>
 
-        <!-- Sizes & Colors (Nút Bấm To Dễ Chạm Tay) -->
         <div>
           <label class="block font-semibold text-neutral-700 mb-1.5">Kích thước (chọn nhiều):</label>
           <div class="flex flex-wrap gap-1.5" id="formSizeCheckboxes"></div>
@@ -502,7 +663,6 @@
           <div class="flex flex-wrap gap-1.5" id="formColorCheckboxes"></div>
         </div>
 
-        <!-- Nút Submit ghim phía đáy -->
         <div class="pt-3 border-t border-neutral-200 flex items-center justify-end gap-2 sticky bottom-0 bg-white">
           <button type="button" onclick="closeProductModal()" class="px-4 py-2.5 border border-neutral-300 rounded-xl text-neutral-600 font-semibold active:bg-neutral-100">Hủy</button>
           <button type="submit" class="px-5 py-2.5 bg-neutral-900 active:bg-neutral-800 text-white font-bold rounded-xl shadow-md">Lưu Sản Phẩm</button>
@@ -512,12 +672,12 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- 5. MODAL: CÀI ĐẶT THƯƠNG HIỆU & BOT        -->
+  <!-- 5. MODAL: CÀI ĐẶT THƯƠNG HIỆU, BOT & MXH    -->
   <!-- ========================================== -->
   <div id="storeSettingsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center sm:p-4">
     <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl relative max-h-[92vh] flex flex-col">
       <div class="flex items-center justify-between pb-3 border-b border-neutral-200 flex-shrink-0">
-        <h3 class="font-serif font-bold text-base sm:text-lg text-neutral-900">Cấu Hình Shop & Bảo Mật</h3>
+        <h3 class="font-serif font-bold text-base sm:text-lg text-neutral-900">Cấu Hình Shop, Bảo Mật & MXH</h3>
         <button onclick="closeSettingsModal()" class="p-1 rounded-full text-neutral-400 hover:text-neutral-900">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
@@ -535,6 +695,35 @@
             <div>
               <label class="block font-semibold text-amber-900 mb-0.5">PIN Nhân Viên:</label>
               <input type="text" id="settingStaffPin" inputmode="numeric" required placeholder="1111" class="w-full border border-amber-300 rounded-lg p-2 font-mono font-bold bg-white text-neutral-800">
+            </div>
+          </div>
+        </div>
+
+        <!-- Mạng Xã Hội Hỗ Trợ Khách Hàng (MỚI) -->
+        <div class="p-3 bg-blue-50/60 border border-blue-200 rounded-xl space-y-2.5">
+          <span class="font-bold text-blue-950 flex items-center gap-1.5">
+            <i data-lucide="share-2" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Kênh Hỗ Trợ & Mạng Xã Hội (Facebook, TikTok):</span>
+          </span>
+
+          <div>
+            <label class="block font-semibold text-blue-900 mb-0.5">Link Facebook / Messenger:</label>
+            <input type="url" id="settingSocialFacebook" placeholder="https://m.me/tenfanpage hoặc https://facebook.com/..." class="w-full border border-blue-300 rounded-lg p-2 bg-white text-neutral-800">
+          </div>
+
+          <div>
+            <label class="block font-semibold text-blue-900 mb-0.5">Link Kênh TikTok:</label>
+            <input type="url" id="settingSocialTiktok" placeholder="https://tiktok.com/@tenkenh" class="w-full border border-blue-300 rounded-lg p-2 bg-white text-neutral-800">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block font-semibold text-blue-900 mb-0.5">ID KakaoTalk (Hàn):</label>
+              <input type="text" id="settingSocialKakao" placeholder="minhanh_kr" class="w-full border border-blue-300 rounded-lg p-2 bg-white text-neutral-800 font-mono">
+            </div>
+            <div>
+              <label class="block font-semibold text-blue-900 mb-0.5">Hotline Tư Vấn:</label>
+              <input type="text" id="settingSocialHotline" placeholder="010-8888-9999" class="w-full border border-blue-300 rounded-lg p-2 bg-white text-neutral-800 font-mono">
             </div>
           </div>
         </div>
@@ -646,6 +835,14 @@
           <div class="mt-3">
             <span class="text-xs font-semibold text-neutral-800 block mb-1.5">Kích thước: <span id="qvSelectedSizeName" class="font-normal text-neutral-500"></span></span>
             <div id="qvSizes" class="flex flex-wrap gap-1.5"></div>
+          </div>
+
+          <!-- Nút hỏi tư vấn trực tiếp về mẫu này -->
+          <div class="mt-4 pt-3 border-t border-neutral-100">
+            <a id="qvConsultLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 text-blue-600 text-xs font-semibold hover:underline">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+              <span>Hỏi shop tư vấn chiều cao / cân nặng cho mẫu này</span>
+            </a>
           </div>
         </div>
 
@@ -853,14 +1050,20 @@
         Shop đã nhận được biên lai thanh toán và đang đóng gói gửi hàng!
       </div>
 
-      <button onclick="closeSuccessModal()" class="w-full bg-neutral-900 text-white font-bold py-2.5 rounded-full text-xs">
+      <!-- Nút nhắn tin báo đơn qua FB Messenger -->
+      <a id="successFbChatBtn" href="#" target="_blank" class="w-full inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-full text-xs transition">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        <span>Nhắn Shop Kiểm Tra Đơn</span>
+      </a>
+
+      <button onclick="closeSuccessModal()" class="w-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 font-bold py-2.5 rounded-full text-xs">
         Tiếp Tục Xem Hàng
       </button>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- JAVASCRIPT ENGINE (TỐI ƯU CẢM ỨNG & KHO)    -->
+  <!-- JAVASCRIPT ENGINE                          -->
   <!-- ========================================== -->
   <script>
     const STORAGE_KEY_PRODUCTS = 'minhanh_products_v4';
@@ -946,6 +1149,12 @@
       staffPin: '1111',
       exchangeRates: { KRW_VND: 18.52, USD_KRW: 1350.0 },
       telegram: { botToken: '', chatId: '1673298807' },
+      socials: {
+        facebookUrl: 'https://facebook.com',
+        tiktokUrl: 'https://tiktok.com',
+        kakaoId: 'minhanh_kr',
+        hotline: '010-8888-9999'
+      },
       bankKRW: {
         bankName: 'KB Kookmin Bank (국민은행)',
         accountNumber: '924501-04-189204',
@@ -978,13 +1187,47 @@
     let selectedQvColor = null;
     let selectedQvSize = null;
 
+    // Cơ chế gõ bí mật để mở Đăng nhập (Bấm nhanh 3 lần vào logo)
+    let logoClickCount = 0;
+    let logoClickTimer = null;
+
+    function handleSecretLogoClick() {
+      logoClickCount++;
+      clearTimeout(logoClickTimer);
+      if (logoClickCount >= 3) {
+        logoClickCount = 0;
+        promptAdminLogin();
+      } else {
+        logoClickTimer = setTimeout(() => {
+          logoClickCount = 0;
+        }, 800);
+      }
+    }
+
+    // Toggle menu hỗ trợ khách hàng
+    function toggleSupportDropdown() {
+      const menu = document.getElementById('supportDropdownMenu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    function copyKakaoIdAlert() {
+      const kid = storeConfig.socials?.kakaoId || 'minhanh_kr';
+      navigator.clipboard.writeText(kid).then(() => {
+        alert(`Đã sao chép ID KakaoTalk: "${kid}"! Bạn có thể mở KakaoTalk để tìm kiếm và nhắn tin cho shop.`);
+      }).catch(() => {
+        alert(`ID KakaoTalk của Shop là: ${kid}`);
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       loadStorageData();
       renderCatalog();
       renderAdminTable();
       renderAdminOrders();
       applyStoreConfigUI();
-      fetchLiveExchangeRates(false);
+      fetchLiveExchangeRates();
       lucide.createIcons();
     });
 
@@ -999,7 +1242,16 @@
 
       const localConfig = localStorage.getItem(STORAGE_KEY_CONFIG);
       if (localConfig) {
-        try { storeConfig = { ...DEFAULT_CONFIG, ...JSON.parse(localConfig) }; } catch (e) { storeConfig = { ...DEFAULT_CONFIG }; }
+        try { 
+          const parsed = JSON.parse(localConfig);
+          storeConfig = { 
+            ...DEFAULT_CONFIG, 
+            ...parsed,
+            socials: { ...DEFAULT_CONFIG.socials, ...(parsed.socials || {}) }
+          }; 
+        } catch (e) { 
+          storeConfig = { ...DEFAULT_CONFIG }; 
+        }
       } else {
         storeConfig = { ...DEFAULT_CONFIG };
         localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
@@ -1025,7 +1277,7 @@
     }
 
     // ---------------------------------------------
-    // TÌM KIẾM RIÊNG CHO MOBILE
+    // TÌM KIẾM CHO MOBILE
     // ---------------------------------------------
     function toggleMobileSearch() {
       const wrapper = document.getElementById('mobileSearchWrapper');
@@ -1297,6 +1549,12 @@
       document.getElementById('qvCategory').innerText = getCategoryName(prod.category);
       document.getElementById('qvTitle').innerText = prod.title;
       document.getElementById('qvPrice').innerText = formatCurrency(prod.price);
+
+      // Cập nhật link tư vấn Facebook kèm tên sản phẩm
+      const consultLink = document.getElementById('qvConsultLink');
+      if (consultLink) {
+        consultLink.href = storeConfig.socials?.facebookUrl || '#';
+      }
 
       const mainImg = document.getElementById('qvMainImage');
       const thumbsContainer = document.getElementById('qvThumbnails');
@@ -1670,6 +1928,13 @@
       sendTelegramOrderNotification(newOrder);
 
       document.getElementById('successOrderCode').innerText = orderCode;
+      
+      // Gán link Facebook cho nút sau khi đặt hàng
+      const fbChatBtn = document.getElementById('successFbChatBtn');
+      if (fbChatBtn) {
+        fbChatBtn.href = storeConfig.socials?.facebookUrl || '#';
+      }
+
       cart = [];
       updateCartUI();
       removeBillUpload();
@@ -1851,7 +2116,7 @@
     }
 
     // ---------------------------------------------
-    // THÊM SẢN PHẨM & TẢI ẢNH (TỐI ƯU PHONE)
+    // THÊM SẢN PHẨM & TẢI ẢNH
     // ---------------------------------------------
     function openProductModal(prod = null) {
       if (currentAuthRole !== 'owner') {
@@ -2003,7 +2268,7 @@
     }
 
     // ---------------------------------------------
-    // CÀI ĐẶT THƯƠNG HIỆU & PIN (OWNER)
+    // CÀI ĐẶT THƯƠNG HIỆU, PIN & MẠNG XÃ HỘI (OWNER)
     // ---------------------------------------------
     function openSettingsModal() {
       if (currentAuthRole !== 'owner') return;
@@ -2015,6 +2280,12 @@
       document.getElementById('settingBrandSlogan').value = storeConfig.brandSlogan;
       document.getElementById('settingTelegramToken').value = storeConfig.telegram?.botToken || '';
       document.getElementById('settingTelegramChatId').value = storeConfig.telegram?.chatId || '1673298807';
+
+      // MXH
+      document.getElementById('settingSocialFacebook').value = storeConfig.socials?.facebookUrl || '';
+      document.getElementById('settingSocialTiktok').value   = storeConfig.socials?.tiktokUrl || '';
+      document.getElementById('settingSocialKakao').value    = storeConfig.socials?.kakaoId || 'minhanh_kr';
+      document.getElementById('settingSocialHotline').value  = storeConfig.socials?.hotline || '010-8888-9999';
 
       document.getElementById('settingKrwBank').value = storeConfig.bankKRW.bankName;
       document.getElementById('settingKrwAccount').value = storeConfig.bankKRW.accountNumber;
@@ -2043,6 +2314,13 @@
       storeConfig.brandName   = document.getElementById('settingBrandName').value.trim() || 'MINH ANH CLOTHING';
       storeConfig.brandSlogan = document.getElementById('settingBrandSlogan').value.trim() || '';
 
+      storeConfig.socials = {
+        facebookUrl: document.getElementById('settingSocialFacebook').value.trim() || 'https://facebook.com',
+        tiktokUrl:   document.getElementById('settingSocialTiktok').value.trim() || 'https://tiktok.com',
+        kakaoId:     document.getElementById('settingSocialKakao').value.trim() || 'minhanh_kr',
+        hotline:     document.getElementById('settingSocialHotline').value.trim() || '010-8888-9999'
+      };
+
       storeConfig.telegram = {
         botToken: document.getElementById('settingTelegramToken').value.trim(),
         chatId: document.getElementById('settingTelegramChatId').value.trim() || '1673298807'
@@ -2063,7 +2341,7 @@
       localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(storeConfig));
       applyStoreConfigUI();
       closeSettingsModal();
-      alert('Đã cập nhật cấu hình cửa hàng!');
+      alert('Đã cập nhật cấu hình cửa hàng & Mạng xã hội thành công!');
     }
 
     function applyStoreConfigUI() {
@@ -2072,6 +2350,45 @@
       const brandSlogan = document.getElementById('storeBrandSlogan');
       if (brandLogo) brandLogo.innerText = storeConfig.brandName;
       if (brandSlogan) brandSlogan.innerText = storeConfig.brandSlogan;
+
+      // Cập nhật link MXH vào các vị trí trên website
+      const fbUrl = storeConfig.socials?.facebookUrl || 'https://facebook.com';
+      const tiktokUrl = storeConfig.socials?.tiktokUrl || 'https://tiktok.com';
+      const kakaoId = storeConfig.socials?.kakaoId || 'minhanh_kr';
+      const hotline = storeConfig.socials?.hotline || '010-8888-9999';
+
+      // Hero
+      const heroFb = document.getElementById('heroFbLink');
+      const heroTiktok = document.getElementById('heroTiktokLink');
+      if (heroFb) heroFb.href = fbUrl;
+      if (heroTiktok) heroTiktok.href = tiktokUrl;
+
+      // Footer
+      const footerFb = document.getElementById('footerFbLink');
+      const footerTiktok = document.getElementById('footerTiktokLink');
+      const footerKakaoText = document.getElementById('footerKakaoText');
+      const footerHotline = document.getElementById('footerHotlineLink');
+
+      if (footerFb) footerFb.href = fbUrl;
+      if (footerTiktok) footerTiktok.href = tiktokUrl;
+      if (footerKakaoText) footerKakaoText.innerText = kakaoId;
+      if (footerHotline) {
+        footerHotline.href = `tel:${hotline}`;
+        footerHotline.innerText = hotline;
+      }
+
+      // Nút hỗ trợ nổi (Floating)
+      const floatFb = document.getElementById('floatFbLink');
+      const floatTiktok = document.getElementById('floatTiktokLink');
+      const floatKakaoSub = document.getElementById('floatKakaoSubText');
+      const floatHotline = document.getElementById('floatHotlineLink');
+      const floatHotlineSub = document.getElementById('floatHotlineSubText');
+
+      if (floatFb) floatFb.href = fbUrl;
+      if (floatTiktok) floatTiktok.href = tiktokUrl;
+      if (floatKakaoSub) floatKakaoSub.innerText = `ID: ${kakaoId}`;
+      if (floatHotline) floatHotline.href = `tel:${hotline}`;
+      if (floatHotlineSub) floatHotlineSub.innerText = hotline;
     }
 
     async function testTelegramNotification() {
@@ -2086,7 +2403,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chat_id: chatId,
-            text: `🔔 *TEST KẾT NỐI TỪ ĐIỆN THOẠI THÀNH CÔNG!*\n\nWebsite *${storeConfig.brandName}* đã được tối ưu hóa giao diện di động!`,
+            text: `🔔 *TEST KẾT NỐI HỖ TRỢ THÀNH CÔNG!*\n\nWebsite *${storeConfig.brandName}* đã bổ sung kênh hỗ trợ Facebook & TikTok hoàn tất!`,
             parse_mode: 'Markdown'
           })
         });
